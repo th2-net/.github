@@ -1,0 +1,19 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        repository: github.com/bop0hz/ci-action
+        ref: main
+        token: ${{ secrets.PAT_CI_ACTION }}
+    - name: Run the action
+      uses: ./
+      with:
+        who-to-greet: "Mona the Octocat"
