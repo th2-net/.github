@@ -10,10 +10,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        repository: github.com/bop0hz/ci-action
-        ref: main
+        repository: github.com/exactpro-th2/ci-github-action
+        ref: test
         token: ${{ secrets.PAT_CI_ACTION }}
     - name: Run the action
       uses: ./
       with:
-        who-to-greet: "Mona the Octocat"
+        ref: ${{ github.ref }}
