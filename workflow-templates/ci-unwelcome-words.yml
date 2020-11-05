@@ -9,11 +9,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Checkout tool
+      uses: actions/checkout@v2
       with:
-        repository: github.com/exactpro-th2/ci-github-action
+        repository: exactpro-th2/ci-github-action
         ref: test
         token: ${{ secrets.PAT_CI_ACTION }}
-    - name: Run the action
-      uses: ./
+        path: ci-github-action
+    - name: Run CI action
+      uses: ./ci-github-action
       with:
         ref: ${{ github.ref }}
