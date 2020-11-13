@@ -1,0 +1,35 @@
+name: Build and publish Python distributions to PyPI
+
+on: push
+
+jobs:
+  build-n-publish:
+    name: Build and Python distributions to PyPI
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@master
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: My first step
+      uses: docker://ghcr.io/th2-net/th2-python-service-generator:1.1.1
+      with:
+        entrypoint: /home/service/bin/service
+        args:  -p /github/workspace/src/main/proto/th2_grpc_common -w PythonServiceWriter -o /github/workspace/src/gen/main/python/th2_grpc_common          
+    - name: Build
+      run: |    
+        pip install -r requirements.txt
+        python setup.py generate
+        python setup.py sdist
+    - name: Publish distribution to Test PyPI
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.TEST_PYPI_PASSWORD }}
+        repository_url: https://test.pypi.org/legacy/
+#     - name: Publish distribution to PyPI
+#       if: startsWith(github.ref, 'refs/tags')
+#       uses: pypa/gh-action-pypi-publish@master
+#       with:
+#         password: ${{ secrets.PYPI_PASSWORD }}

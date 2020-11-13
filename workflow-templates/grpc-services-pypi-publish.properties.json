@@ -1,0 +1,5 @@
+{
+    "name": "Generate Python services",
+    "description": "Generate Python services from GRPC proto and publish to Pypi",
+    "iconName": "example-icon"
+}
