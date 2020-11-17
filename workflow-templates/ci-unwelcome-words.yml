@@ -1,12 +1,15 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  pull_request:
 
 jobs:
   test:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.sha }}
     - name: Checkout tool
       uses: actions/checkout@v2
       with:
@@ -17,4 +20,4 @@ jobs:
     - name: Run CI action
       uses: ./ci-github-action
       with:
-        ref: ${{ github.ref }}
+        ref: ${{ github.sha }}
