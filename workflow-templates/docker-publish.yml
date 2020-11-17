@@ -1,6 +1,12 @@
 name: Build and publish Docker distributions to Github Container Registry ghcr.io
 
-on: push
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - gradle.properties
+    - package_info.json  
 
 jobs:
   build:
