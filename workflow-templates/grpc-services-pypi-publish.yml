@@ -1,13 +1,24 @@
 name: Build and publish Python distributions to PyPI
 
-on: push
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - package_info.json
 
 jobs:
   build-n-publish:
     name: Build and Python distributions to PyPI
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
+    - name: Get package version
+      id: version
+      uses: notiz-dev/github-action-json-property@release
+      with: 
+        path: package_info.json
+        prop_path: package_name
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
       with:
@@ -16,9 +27,10 @@ jobs:
       uses: docker://ghcr.io/th2-net/th2-python-service-generator:1.1.1
       with:
         entrypoint: /home/service/bin/service
-        args: -p /github/workspace/src/main/proto/th2_grpc_common -w PythonServiceWriter -o /github/workspace/src/gen/main/python/th2_grpc_common          
+        args: |
+          -p /github/workspace/src/main/proto/${{steps.version.outputs.prop}} -w PythonServiceWriter -o /github/workspace/src/gen/main/python/${{steps.version.outputs.prop}}
     - name: Build package
-      run: |    
+      run: |
         pip install -r requirements.txt
         python setup.py generate
         python setup.py sdist
@@ -29,7 +41,8 @@ jobs:
         password: ${{ secrets.TEST_PYPI_PASSWORD }}
         repository_url: https://test.pypi.org/legacy/
 #     - name: Publish distribution to PyPI
-#       if: startsWith(github.ref, 'refs/tags')
 #       uses: pypa/gh-action-pypi-publish@master
 #       with:
+#         user: __token__
 #         password: ${{ secrets.PYPI_PASSWORD }}
+#         repository_url: https://pypi.org/legacy/
