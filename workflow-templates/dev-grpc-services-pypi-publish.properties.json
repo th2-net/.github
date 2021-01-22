@@ -1,0 +1,5 @@
+{
+    "name": "Generate Python services with custom ver",
+    "description": "Generate Python services in NOT master branch from GRPC proto and publish to Pypi",
+    "iconName": "example-icon"
+}
