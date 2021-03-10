@@ -1,0 +1,5 @@
+{
+    "name": "Publish python artifacts to Pypi with custom ver",
+    "description": "Publish python artifacts to Pypi from NON master branch",
+    "iconName": "example-icon"
+}
