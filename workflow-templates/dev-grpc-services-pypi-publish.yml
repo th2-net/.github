@@ -20,6 +20,12 @@ jobs:
       with: 
         path: package_info.json
         prop_path: package_version
+    - name: Get package name
+      id: pack_name
+      uses: notiz-dev/github-action-json-property@release
+      with:
+        path: package_info.json
+        prop_path: package_name
     - name: Build custom package version
       id: release_ver
       run: echo ::set-output name=value::"${{ steps.pack_ver.outputs.prop }}.dev${{ github.run_id }}"
@@ -37,13 +43,13 @@ jobs:
       with:
         python-version: 3.7
     - name: Create output folder
-      run: mkdir -p src/gen/main/python/${{steps.release_ver.outputs.value}}
+      run: mkdir -p src/gen/main/python/${{steps.pack_name.outputs.prop}}
     - name: Run codegen
       uses: docker://ghcr.io/th2-net/th2-python-service-generator:1.1.1
       with:
         entrypoint: /home/service/bin/service
         args: |
-          -p /github/workspace/src/main/proto/${{steps.release_ver.outputs.value}} -w PythonServiceWriter -o /github/workspace/src/gen/main/python/${{steps.release_ver.outputs.value}}
+          -p /github/workspace/src/main/proto/${{steps.pack_name.outputs.prop}} -w PythonServiceWriter -o /github/workspace/src/gen/main/python/${{steps.pack_name.outputs.prop}}
     - name: Build package
       run: |
         pip install -r requirements.txt
