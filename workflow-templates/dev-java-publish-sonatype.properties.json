@@ -1,0 +1,5 @@
+{
+    "name": "Publish java artifacts to Sonatype with custom ver",
+    "description": "Publish java artifacts to Sonatype from NOT master branch",
+    "iconName": "example-icon"
+}
