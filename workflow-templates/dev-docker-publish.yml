@@ -17,6 +17,9 @@ jobs:
     - name: Get branch name
       id: branch
       run: echo ::set-output name=branch_name::${GITHUB_REF#refs/*/}
+    - name: Get SHA of the commit
+      id: sha
+      run: echo ::set-output name=sha_short::$(git rev-parse --short HEAD)
     - name: Get release_version
       id: ver
       uses: christian-draeger/read-properties@1.0.1
@@ -25,7 +28,7 @@ jobs:
         property: release_version
     - name: Build custom release version
       id: release_ver
-      run: echo ::set-output name=value::"${{ steps.ver.outputs.value }}-${{ steps.branch.outputs.branch_name }}-${{ github.run_id }}"
+      run: echo ::set-output name=value::"${{ steps.ver.outputs.value }}-${{ steps.branch.outputs.branch_name }}-${{ github.run_id }}-${{ steps.sha.outputs.sha_short }}"
     - name: Show custom release version
       run: echo ${{ steps.release_ver.outputs.value }}
 # Build and publish image
