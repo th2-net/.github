@@ -1,0 +1,29 @@
+name: Trivy scan for vulnerable dependencies and publish results to secutity tab
+
+on:
+  workflow_call:
+    inputs:
+      image-path:
+        required: true
+        type: string
+
+jobs:
+  trivy-scan-job:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Show scanning target
+        run: echo ${{ inputs.image-path }}
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ inputs.image-path }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          exit-code: '0'
+          ignore-unfixed: false
+          vuln-type: 'os,library'
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
