@@ -6,6 +6,10 @@ on:
       docker-username:
         required: true
         type: string
+    outputs:
+      version:
+        description: "Generated version of the image"
+        value: ${{ jobs.build.outputs.version }}
     secrets:
       CR_PAT:
         required: true
