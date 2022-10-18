@@ -6,10 +6,9 @@ on:
       docker-username:
         required: true
         type: string
-      docker-password:
+    secrets:
+      CR_PAT:
         required: true
-        type: string
-
 
 jobs:
   build:
@@ -43,7 +42,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ inputs.docker-username }}
-          password: ${{ inputs.docker-password }}
+          password: ${{ secrets.CR_PAT }}
       - run: echo "::set-output name=REPOSITORY_NAME::$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')"
         id: meta
       - name: Build and push
