@@ -8,6 +8,7 @@ on:
         type: string
       vuln-type:
         required: false
+        type: string
         default: 'os,library'
         description: 'What Trivy will scan: image, library or both'
 
