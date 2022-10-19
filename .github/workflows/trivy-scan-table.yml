@@ -22,7 +22,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ inputs.image-path }}
-        format: 'table'
-        exit-code: '0'
-        ignore-unfixed: false
-        vuln-type: ${{ inputs.vuln-type }}
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: false
+          vuln-type: ${{ inputs.vuln-type }}
