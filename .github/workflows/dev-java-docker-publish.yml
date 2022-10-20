@@ -1,4 +1,4 @@
-name:workflows Dev build and publish Docker distributions to Github Container Registry ghcr.io
+name: Dev build and publish Docker distributions to Github Container Registry ghcr.io
 on:
   workflow_call:
     inputs:
