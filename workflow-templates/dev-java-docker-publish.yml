@@ -7,6 +7,6 @@ on:
 
 jobs:
   build-job:
-    uses: th2-net/.github/.github/workflows/dev-java-docker-publish.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/dev-java-docker-publish.yml@main
     secrets:
       CR_PAT: ${{ secrets.CR_PAT }}

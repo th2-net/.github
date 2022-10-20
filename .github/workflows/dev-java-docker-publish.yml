@@ -7,13 +7,13 @@ on:
 
 jobs:
   build-job:
-    uses: th2-net/.github/.github/workflows/dev-docker-publish.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/dev-docker-publish.yml@main
     with:
       docker-username: ${{ github.repository_owner }}
     secrets:
       CR_PAT: ${{ secrets.CR_PAT }}
   trivy-scan-job:
-    uses: th2-net/.github/.github/workflows/trivy-scan-table.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/trivy-scan-table.yml@main
     needs: [build-job]
     with:
       image-path: ghcr.io/${{ github.repository }}:${{ needs.build-job.outputs.version }}
