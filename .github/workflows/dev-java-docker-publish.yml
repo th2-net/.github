@@ -1,4 +1,4 @@
-name: Dev build and publish Docker distributions to Github Container Registry ghcr.io
+name:workflows Dev build and publish Docker distributions to Github Container Registry ghcr.io
 on:
   workflow_call:
     inputs:
@@ -11,18 +11,18 @@ on:
 
 jobs:
   build-job:
-    uses: th2-net/.github/.github/workflows/steps/java/dev-docker-publish.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/dev-docker-publish.yml@th2-4135-trivy-workflow
     with:
       docker-username: ${{ inputs.docker-username }}
     secrets:
       CR_PAT: ${{ secrets.CR_PAT }}
   #  trivy-scan-job:
-  #    uses: th2-net/.github/.github/workflows/steps/common/trivy/trivy-scan-github.yml@th2-4135-trivy-workflow
+  #    uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@th2-4135-trivy-workflow
   #    needs: [ build-job ]
   #    with:
   #      image-path: ghcr.io/${{ github.repository }}:${{ needs.build-job.outputs.version }}
   trivy-scan-job:
-    uses: th2-net/.github/.github/workflows/steps/common/trivy/trivy-scan-table.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/trivy-scan-table.yml@th2-4135-trivy-workflow
     needs: [build-job]
     with:
       image-path: ghcr.io/${{ github.repository }}:${{ needs.build-job.outputs.version }}
