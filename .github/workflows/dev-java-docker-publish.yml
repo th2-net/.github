@@ -16,11 +16,6 @@ jobs:
       docker-username: ${{ inputs.docker-username }}
     secrets:
       CR_PAT: ${{ secrets.CR_PAT }}
-  #  trivy-scan-job:
-  #    uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@th2-4135-trivy-workflow
-  #    needs: [ build-job ]
-  #    with:
-  #      image-path: ghcr.io/${{ github.repository }}:${{ needs.build-job.outputs.version }}
   trivy-scan-job:
     uses: th2-net/.github/.github/workflows/trivy-scan-table.yml@th2-4135-trivy-workflow
     needs: [build-job]

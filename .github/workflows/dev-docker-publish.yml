@@ -24,10 +24,10 @@ jobs:
       # Prepare custom build version
       - name: Get branch name
         id: branch
-        run: echo "{branch_name}={${GITHUB_REF#refs/*/}}" >> $GITHUB_OUTPUT
+        run: echo ::set-output name=branch_name::${GITHUB_REF#refs/*/}
       - name: Get SHA of the commit
         id: sha
-        run: echo "{sha_short}={$(git rev-parse --short HEAD)}" >> $GITHUB_OUTPUT
+        run: echo ::set-output name=sha_short::$(git rev-parse --short HEAD)
       - name: Get release_version
         id: ver
         uses: christian-draeger/read-properties@1.0.1
