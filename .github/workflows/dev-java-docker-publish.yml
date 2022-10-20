@@ -1,13 +1,9 @@
 name: Dev build and publish Docker distributions to Github Container Registry ghcr.io
 on:
   workflow_call:
-    inputs:
-      docker-username:
-        required: true
-        type: string
-    secrets:
-      CR_PAT:
-        required: true
+#    secrets:
+#      CR_PAT:
+#        required: true
 
 jobs:
   build-job:
