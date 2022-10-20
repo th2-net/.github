@@ -1,0 +1,5 @@
+{
+    "name": "Publish Java artifacts to Docker with scanning",
+    "description": "Publish Docker images to Github Container registry from NOT master branch. Performs Trivy vulnerabilities scanning",
+    "iconName": "example-icon"
+}
