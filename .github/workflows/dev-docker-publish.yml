@@ -17,6 +17,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    permissions:
+      packages: write
     outputs:
       version: ${{ steps.release_ver.outputs.value }}
     steps:
