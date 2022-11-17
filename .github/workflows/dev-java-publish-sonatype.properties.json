@@ -1,0 +1,5 @@
+{
+  "name": "Dev build sonatype publish",
+  "description": "Dev build and publish Java distributions to sonatype snapshot repository",
+  "iconName": "example-icon"
+}
