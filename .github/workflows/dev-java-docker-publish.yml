@@ -1,17 +1,22 @@
 name: Dev build and publish Docker distributions to Github Container Registry ghcr.io
 on:
   workflow_call:
+    inputs:
+      docker-username:
+        required: false
+        type: string
+        default: ${{ github.repository_owner }}
     secrets:
-      CR_PAT:
+      docker-password:
         required: true
 
 jobs:
   build-job:
-    uses: th2-net/.github/.github/workflows/dev-docker-publish.yml@main
+    uses: th2-net/.github/.github/workflows/dev-docker-publish.yml@th2-4253-jar-publishing
     with:
-      docker-username: ${{ github.repository_owner }}
+      docker-username: ${{ inputs.docker-username }}
     secrets:
-      CR_PAT: ${{ secrets.CR_PAT }}
+      CR_PAT: ${{ secrets.docker-password }}
   trivy-scan-job:
     uses: th2-net/.github/.github/workflows/trivy-scan-table.yml@main
     needs: [build-job]

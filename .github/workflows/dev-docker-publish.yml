@@ -11,14 +11,13 @@ on:
         description: "Generated version of the image"
         value: ${{ jobs.build.outputs.version }}
     secrets:
-      CR_PAT:
+      docker-password:
         required: true
 
 jobs:
   build:
     runs-on: ubuntu-20.04
-    permissions:
-      packages: write
+
     outputs:
       version: ${{ steps.release_ver.outputs.value }}
     steps:
@@ -48,7 +47,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ inputs.docker-username }}
-          password: ${{ secrets.CR_PAT }}
+          password: ${{ secrets.docker-password }}
       - run: echo "::set-output name=REPOSITORY_NAME::$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')"
         id: meta
       - name: Build and push
