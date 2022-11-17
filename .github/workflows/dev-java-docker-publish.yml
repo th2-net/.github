@@ -16,7 +16,7 @@ jobs:
     with:
       docker-username: ${{ inputs.docker-username }}
     secrets:
-      CR_PAT: ${{ secrets.docker-password }}
+      docker-password: ${{ secrets.docker-password }}
   trivy-scan-job:
     uses: th2-net/.github/.github/workflows/trivy-scan-table.yml@main
     needs: [build-job]
