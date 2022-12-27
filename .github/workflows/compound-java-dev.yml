@@ -46,6 +46,8 @@ jobs:
     runs-on: ubuntu-20.04
     outputs:
       version: ${{ steps.release_ver.outputs.value }}
+      versionNumber: ${{ steps.ver.outputs.release_version }}
+
     steps:
       - uses: actions/checkout@v3
       - name: Get branch name
@@ -69,7 +71,7 @@ jobs:
 
 # if Docker
   docker-push:
-    if: contains(inputs.build-target, 'Docker')
+    if: contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')
     needs: [build-job]
     runs-on: ubuntu-20.04
     steps:
@@ -88,13 +90,13 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ steps.release_ver.outputs.value }}
-          labels: com.exactpro.th2.${{ steps.meta.outputs.REPOSITORY_NAME }}=${{ steps.ver.outputs.value }}
+          tags: ghcr.io/${{ github.repository }}:${{ needs.build-job.outputs.version }}
+          labels: com.exactpro.th2.${{ steps.meta.outputs.REPOSITORY_NAME }}=${{ needs.build-job.outputs.versionNumber }}
 
 
 # if Sonatype
   sonatype-push:
-    if: contains(inputs.build-target, 'Sonatype')
+    if: contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')
     needs: [build-job]
     runs-on: ubuntu-20.04
     steps:
