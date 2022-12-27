@@ -69,7 +69,7 @@ jobs:
 
 # if Docker
   docker-push:
-    if: contains(${{inputs.build-target}}, 'Docker')
+    if: contains(inputs.build-target, 'Docker')
     needs: [build-job]
     runs-on: ubuntu-20.04
     steps:
@@ -94,7 +94,7 @@ jobs:
 
 # if Sonatype
   sonatype-push:
-    if: contains(${{inputs.build-target}}, 'Sonatype')
+    if: contains(inputs.build-target, 'Sonatype')
     needs: [build-job]
     runs-on: ubuntu-20.04
     steps:
