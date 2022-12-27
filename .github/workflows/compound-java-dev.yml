@@ -42,7 +42,7 @@ on:
         required: false
 
 jobs:
-  build:
+  build-job:
     runs-on: ubuntu-20.04
     outputs:
       version: ${{ steps.release_ver.outputs.value }}
@@ -53,7 +53,8 @@ jobs:
         run: echo "branch_name=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
       - name: Get SHA of the commit
         id: sha
-        run: echo ::set-output name=sha_short::$(git rev-parse --short HEAD)
+#        run: echo ::set-output name=sha_short::$(git rev-parse --short HEAD)
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Get release_version
         id: ver
         uses: christian-draeger/read-properties@1.1.1
@@ -66,21 +67,23 @@ jobs:
       - name: Show custom release version
         run: echo ${{ steps.release_ver.outputs.value }}
 
-#        if Docker
+# if Docker
+  docker-push:
+    if: contains(${{inputs.build-target}}, 'Docker')
+    needs: [build-job]
+    runs-on: ubuntu-20.04
+    steps:
       - name: Set up Docker Buildx
-        if: contains(${{inputs.build-target}}, 'Docker')
         uses: docker/setup-buildx-action@v2
       - uses: docker/login-action@v2
-        if: contains(${{inputs.build-target}}, 'Docker')
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_OUTPUT
-        if: contains(${{inputs.build-target}}, 'Docker')
+      - name: Get repository name
+        run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_OUTPUT
         id: meta
       - name: Build and push
-        if: contains(${{inputs.build-target}}, 'Docker')
         id: docker_build
         uses: docker/build-push-action@v3
         with:
@@ -89,14 +92,16 @@ jobs:
           labels: com.exactpro.th2.${{ steps.meta.outputs.REPOSITORY_NAME }}=${{ steps.ver.outputs.value }}
 
 
-#        if Sonatype
+# if Sonatype
+  sonatype-push:
+    needs: [build-job]
+    if: contains(${{inputs.build-target}}, 'Sonatype')
+    steps:
       - name: Set up JDK 11
-        if: contains(${{inputs.build-target}}, 'Sonatype')
         uses: actions/setup-java@v1
         with:
           java-version: '11'
       - name: Build with Gradle
-        if: contains(${{inputs.build-target}}, 'Sonatype')
         run: ./gradlew --info clean build publish
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
