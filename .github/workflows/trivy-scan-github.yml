@@ -6,6 +6,16 @@ on:
       image-path:
         required: true
         type: string
+      target:
+        required: false
+        type: string
+        default: 'os,library'
+        description: 'What Trivy will scan: image, library or both'
+      sensitivity:
+        required: false
+        type: string
+        default: 'CRITICAL,HIGH,MEDIUM'
+        description: 'Adjusting the Scanner Sensitivity'
 
 jobs:
   trivy-scan-job:
@@ -19,10 +29,10 @@ jobs:
           image-ref: ${{ inputs.image-path }}
           format: 'sarif'
           output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH,MEDIUM'
+          severity: ${{ inputs.sensitivity }}
           exit-code: '0'
           ignore-unfixed: false
-          vuln-type: 'os,library'
+          vuln-type: ${{ inputs.target }}
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:

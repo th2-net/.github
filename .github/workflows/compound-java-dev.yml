@@ -92,6 +92,14 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository }}:${{ needs.build-job.outputs.version }}
           labels: com.exactpro.th2.${{ steps.meta.outputs.REPOSITORY_NAME }}=${{ needs.build-job.outputs.versionNumber }}
+  trivy-docker-scan:
+    if: inputs.trivy-enabled
+    needs: [docker-push, build-job]
+    uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@th2-4135-trivy-workflow
+    with:
+      image-path: ghcr.io/${{ github.repository }}:${{ needs.build-job.outputs.version }}
+      target: ${{ inputs.trivy-target }}
+      sensitivity: ${{ inputs.trivy-sensitivity }}
 
 
 # if Sonatype
