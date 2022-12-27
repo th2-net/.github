@@ -32,7 +32,6 @@ on:
         default: 'CRITICAL,HIGH,MEDIUM'
         description: 'Adjusting the Scanner Sensitivity'
 
-
     outputs:
       version:
         description: "Generated version of the image"
@@ -65,7 +64,7 @@ jobs:
           properties: release_version
       - name: Build custom release version
         id: release_ver
-        run: echo ::set-output name=value::"${{ steps.ver.outputs.release_version }}-${{ steps.branch.outputs.branch_name }}-${{ github.run_id }}-${{ steps.sha.outputs.sha_short }}"
+        run: echo "value="${{ steps.ver.outputs.release_version }}-${{ steps.branch.outputs.branch_name }}-${{ github.run_id }}-${{ steps.sha.outputs.sha_short }}"" >> $GITHUB_OUTPUT
       - name: Show custom release version
         run: echo ${{ steps.release_ver.outputs.value }}
 
