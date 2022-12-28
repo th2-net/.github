@@ -70,7 +70,7 @@ jobs:
 
 
       - name: Build with Gradle
-        run: ./gradlew --info clean build publish
+        run: ./gradlew --info clean build
       - name: Test anchore local scanner
         uses: anchore/scan-action@v3
         with:
