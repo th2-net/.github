@@ -67,6 +67,10 @@ jobs:
         run: echo "value="${{ steps.ver.outputs.release_version }}-${{ steps.branch.outputs.branch_name }}-${{ github.run_id }}-${{ steps.sha.outputs.sha_short }}"" >> $GITHUB_OUTPUT
       - name: Show custom release version
         run: echo ${{ steps.release_ver.outputs.value }}
+
+
+      - name: Build with Gradle
+        run: ./gradlew --info clean build publish
       - name: Test anchore local scanner
         uses: anchore/scan-action@v3
         with:
