@@ -105,8 +105,9 @@ jobs:
   sonatype-push:
     if: contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')
     needs: [build-job]
-    runs-on: ubuntu-20.04
+    runs-on: ${{ inputs.runsOn }}
     steps:
+      - uses: actions/checkout@v3
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
@@ -120,7 +121,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SONATYPE_SIGNING_PASSWORD }}
   anchore-local-scan:
     if: inputs.scanner-enabled
-    needs: [build-job, sonatype-push]
+    needs: [sonatype-push ]
     runs-on: ubuntu-20.04
     steps:
       - name: Test anchore local scanner
