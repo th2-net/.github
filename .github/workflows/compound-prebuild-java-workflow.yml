@@ -1,0 +1,33 @@
+name: Prebuild Compound Java Workflow
+
+
+on:
+  workflow_call:
+    inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-20.04'
+
+    outputs:
+      version:
+        description: "Generated version of the image"
+        value: ${{ jobs.prebuild-job.outputs.version }}
+
+jobs:
+  prebuild-job:
+    runs-on: ${{ inputs.runsOn }}
+    outputs:
+      version: ${{ steps.ver.outputs.release_version }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get release_version
+        id: ver
+        uses: christian-draeger/read-properties@1.1.1
+        with:
+          path: gradle.properties
+          properties: release_version
+      - name: Show release version
+        run: echo ${{ steps.ver.outputs.release_version }}
+
