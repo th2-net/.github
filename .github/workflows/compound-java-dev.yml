@@ -39,6 +39,14 @@ on:
     secrets:
       docker-password:
         required: false
+      sonatypeUsername:
+        required: false
+      sonatypePassword:
+        required: false
+      sonatypeSigningKey:
+        required: false
+      sonatypeSigningPassword:
+        required: false
 
 jobs:
   build-job:
@@ -79,8 +87,8 @@ jobs:
       - uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secrets.docker-username }}
+          password: ${{ secrets.docker-password }}
       - name: Get repository name
         run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_OUTPUT
         id: meta
@@ -115,10 +123,10 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew --info clean build publish
         env:
-          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
-          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SONATYPE_GPG_ARMORED_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SONATYPE_SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatypeSigningKey }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
   anchore-local-scan:
     if: inputs.scanner-enabled
     needs: [sonatype-push ]
