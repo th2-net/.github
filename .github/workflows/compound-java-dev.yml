@@ -81,11 +81,14 @@ jobs:
 #        with:
 #          path: "."
 #          output-format: "table"
-      - name: Run Trivy vulnerability scanner in fs mode
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          format: 'table'
+      - name: Trivy repo scanning
+        run: trivy repo --commit ${{ steps.sha.outputs.sha_short }} https://github.com/th2-net/${{ github.repository }}
+
+#      - name: Run Trivy vulnerability scanner in fs mode
+#        uses: aquasecurity/trivy-action@master
+#        with:
+#          scan-type: 'fs'
+#          format: 'table'
 
 # if Docker
   docker-push:
