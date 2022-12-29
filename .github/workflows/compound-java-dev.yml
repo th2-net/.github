@@ -16,7 +16,7 @@ on:
         type: string
         default: 'ubuntu-20.04'
 # Trivy block
-      trivy-enabled:
+      scanner-enabled:
         required: false
         type: boolean
         default: true
@@ -30,7 +30,12 @@ on:
         required: false
         type: string
         default: 'CRITICAL,HIGH,MEDIUM'
-        description: 'Adjusting the Scanner Sensitivity'
+        description: 'Adjusting the Trivy Scanner Sensitivity'
+#      anchore-sensitivity:
+#        required: false
+#        type: string
+#        default: 'CRITICAL,HIGH,MEDIUM'
+#        description: 'Adjusting the Anchore Scanner Sensitivity'
 
     outputs:
       version:
@@ -71,11 +76,17 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew --info clean build
-      - name: Test anchore local scanner
-        uses: anchore/scan-action@v3
+#      - name: Test anchore local scanner
+#        uses: anchore/scan-action@v3
+#        with:
+#          path: "."
+#          output-format: "table"
+      - name: Run Trivy vulnerability scanner in fs mode
+        uses: aquasecurity/trivy-action@master
         with:
-          path: "."
-          output-format: "table"
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
 
 # if Docker
   docker-push:
