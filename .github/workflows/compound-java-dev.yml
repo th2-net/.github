@@ -76,6 +76,14 @@ jobs:
       - name: Show custom release version
         run: echo ${{ steps.release_ver.outputs.value }}
 
+      - name: Test anchore local scanner
+        id: scan
+        uses: anchore/scan-action@v3
+        with:
+          path: "."
+          fail-build: false
+          output-format: 'table'
+
 # if Docker
   docker-push:
     if: contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')
