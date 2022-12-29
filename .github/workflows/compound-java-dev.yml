@@ -10,7 +10,7 @@ on:
       build-target:
         required: true
         type: string
-        description: 'Use values Docker or Sonatype'
+        description: 'Use values Docker or Sonatype or both'
       runsOn:
         required: false
         type: string
@@ -62,7 +62,6 @@ jobs:
         run: echo "branch_name=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
       - name: Get SHA of the commit
         id: sha
-#        run: echo ::set-output name=sha_short::$(git rev-parse --short HEAD)
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Get release_version
         id: ver
@@ -75,15 +74,6 @@ jobs:
         run: echo "value="${{ steps.ver.outputs.release_version }}-${{ steps.branch.outputs.branch_name }}-${{ github.run_id }}-${{ steps.sha.outputs.sha_short }}"" >> $GITHUB_OUTPUT
       - name: Show custom release version
         run: echo ${{ steps.release_ver.outputs.value }}
-      - name: Build with Gradle
-        run: ./gradlew --info clean build
-      - name: Test anchore local scanner
-        id: scan
-        uses: anchore/scan-action@v3
-        with:
-          path: "."
-          fail-build: false
-          output-format: 'table'
 
 # if Docker
   docker-push:
@@ -96,7 +86,7 @@ jobs:
       - uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ secrets.docker-username }}
+          username: ${{ inputs.docker-username }}
           password: ${{ secrets.docker-password }}
       - name: Get repository name
         run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_OUTPUT
@@ -136,27 +126,3 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatypeSigningKey }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
-      - name: Test anchore local scanner
-        id: scan
-        uses: anchore/scan-action@v3
-        with:
-          path: "."
-          fail-build: false
-          output-format: 'table'
-#  anchore-local-scan:
-#    if: inputs.scanner-enabled
-#    needs: [sonatype-push ]
-#    runs-on: ubuntu-20.04
-#    steps:
-#      - name: Test anchore local scanner
-#        id: scan
-#        uses: anchore/scan-action@v3
-#        with:
-#          path: "."
-#          fail-build: false
-#          output-format: 'table'
-#      - name: Upload Anchore scan SARIF report
-#        uses: github/codeql-action/upload-sarif@v2
-#        with:
-#          sarif_file: ${{ steps.scan.outputs.sarif }}
-
