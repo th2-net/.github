@@ -1,4 +1,4 @@
-name: Compound Dev Java build and Docker/Sonatype publish
+name: Compound Java build and Docker/Sonatype publish
 
 
 on:
@@ -50,11 +50,22 @@ on:
 
 jobs:
   prebuild-job:
-    uses: th2-net/.github/.github/workflows/compound-prebuild-java-dev-workflow.yml@th2-4135-trivy-workflow
-    with:
-      runsOn: ${{ inputs.runsOn }}
+    runs-on: ${{ inputs.runsOn }}
+    outputs:
+      version: ${{ steps.ver.outputs.release_version }}
 
-  # if Docker
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get release_version
+        id: ver
+        uses: christian-draeger/read-properties@1.1.1
+        with:
+          path: gradle.properties
+          properties: release_version
+      - name: Show release version
+        run: echo ${{ steps.ver.outputs.release_version }}
+
+# if Docker
   docker-push:
     if: contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')
     needs: [prebuild-job]
@@ -76,7 +87,7 @@ jobs:
         with:
           push: true
           tags: ghcr.io/${{ github.repository }}:${{ needs.prebuild-job.outputs.version }}
-          labels: com.exactpro.th2.${{ steps.meta.outputs.REPOSITORY_NAME }}=${{ needs.prebuild-job.outputs.versionNumber }}
+          labels: com.exactpro.th2.${{ steps.meta.outputs.REPOSITORY_NAME }}=${{ needs.prebuild-job.outputs.version }}
   trivy-docker-scan:
     if: inputs.scanner-enabled
     needs: [docker-push, prebuild-job]
@@ -99,7 +110,7 @@ jobs:
         with:
           java-version: '11'
       - name: Build with Gradle
-        run: ./gradlew --info clean build publish
+        run: ./gradlew --info clean build publish closeAndReleaseSonatypeStagingRepository
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}

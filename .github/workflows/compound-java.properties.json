@@ -1,5 +1,5 @@
 {
-  "name": "Compound Java Dev Build",
+  "name": "Compound Java Build",
   "description": "Build and publish Java to Sonatype or Docker",
   "iconName": "example-icon"
 }
