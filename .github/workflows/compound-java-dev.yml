@@ -31,11 +31,6 @@ on:
         type: string
         default: 'CRITICAL,HIGH,MEDIUM'
         description: 'Adjusting the Trivy Scanner Sensitivity'
-#      anchore-sensitivity:
-#        required: false
-#        type: string
-#        default: 'CRITICAL,HIGH,MEDIUM'
-#        description: 'Adjusting the Anchore Scanner Sensitivity'
 
     outputs:
       version:
@@ -47,7 +42,7 @@ on:
 
 jobs:
   build-job:
-    runs-on: ubuntu-20.04
+    runs-on: ${{ inputs.runsOn }}
     outputs:
       version: ${{ steps.release_ver.outputs.value }}
       versionNumber: ${{ steps.ver.outputs.release_version }}
@@ -73,25 +68,11 @@ jobs:
       - name: Show custom release version
         run: echo ${{ steps.release_ver.outputs.value }}
 
-
-#      - name: Build with Gradle
-#        run: ./gradlew --info clean build
-#      - name: Test anchore local scanner
-#        uses: anchore/scan-action@v3
-#        with:
-#          path: "."
-#          output-format: "table"
-      - name: Run Trivy vulnerability scanner in fs mode
-        uses: aquasecurity/trivy-action@master
-        run: trivy repo --commit ${{ steps.sha.outputs.sha_short }} https://github.com/th2-net/${{ github.repository }}
-
-
-
 # if Docker
   docker-push:
     if: contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')
     needs: [build-job]
-    runs-on: ubuntu-20.04
+    runs-on: ${{ inputs.runsOn }}
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -111,7 +92,7 @@ jobs:
           tags: ghcr.io/${{ github.repository }}:${{ needs.build-job.outputs.version }}
           labels: com.exactpro.th2.${{ steps.meta.outputs.REPOSITORY_NAME }}=${{ needs.build-job.outputs.versionNumber }}
   trivy-docker-scan:
-    if: inputs.trivy-enabled
+    if: inputs.scanner-enabled
     needs: [docker-push, build-job]
     uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@th2-4135-trivy-workflow
     with:
@@ -124,7 +105,7 @@ jobs:
   sonatype-push:
     if: contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')
     needs: [build-job]
-    runs-on: ubuntu-20.04
+    runs-on: ${{ inputs.runsOn }}
     steps:
       - name: Set up JDK 11
         uses: actions/setup-java@v1
@@ -137,3 +118,19 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SONATYPE_GPG_ARMORED_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SONATYPE_SIGNING_PASSWORD }}
+  anchore-local-scan:
+    if: inputs.scanner-enabled
+    needs: [build-job, sonatype-push]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Test anchore local scanner
+        id: scan
+        uses: anchore/scan-action@v3
+        with:
+          path: "."
+          fail-build: false
+      - name: Upload Anchore scan SARIF report
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ${{ steps.scan.outputs.sarif }}
+
