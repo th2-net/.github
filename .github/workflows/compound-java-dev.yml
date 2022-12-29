@@ -127,11 +127,6 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatypeSigningKey }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
-  anchore-local-scan:
-    if: inputs.scanner-enabled
-    needs: [sonatype-push ]
-    runs-on: ubuntu-20.04
-    steps:
       - name: Test anchore local scanner
         id: scan
         uses: anchore/scan-action@v3
@@ -139,6 +134,18 @@ jobs:
           path: "."
           fail-build: false
           output-format: 'table'
+#  anchore-local-scan:
+#    if: inputs.scanner-enabled
+#    needs: [sonatype-push ]
+#    runs-on: ubuntu-20.04
+#    steps:
+#      - name: Test anchore local scanner
+#        id: scan
+#        uses: anchore/scan-action@v3
+#        with:
+#          path: "."
+#          fail-build: false
+#          output-format: 'table'
 #      - name: Upload Anchore scan SARIF report
 #        uses: github/codeql-action/upload-sarif@v2
 #        with:
