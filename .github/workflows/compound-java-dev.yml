@@ -50,12 +50,14 @@ on:
 
 jobs:
   prebuild-job:
+    name: Prebuild Job
     uses: th2-net/.github/.github/workflows/compound-prebuild-java-dev-workflow.yml@th2-4135-trivy-workflow
     with:
       runsOn: ${{ inputs.runsOn }}
 
   # if Docker
   docker-push:
+    name: Build Docker image and push to ghcr.io
     if: contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')
     needs: [prebuild-job]
     runs-on: ${{ inputs.runsOn }}
@@ -80,6 +82,7 @@ jobs:
           tags: ghcr.io/${{ github.repository }}:${{ needs.prebuild-job.outputs.version }}
           labels: com.exactpro.th2.${{ steps.meta.outputs.REPOSITORY_NAME }}=${{ needs.prebuild-job.outputs.versionNumber }}
   trivy-docker-scan:
+    name: Scan Docker image for vulnerabilities
     if: inputs.scanner-enabled
     needs: [docker-push, prebuild-job]
     uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@th2-4135-trivy-workflow
@@ -92,6 +95,7 @@ jobs:
 # if Sonatype
   sonatype-push:
     if: contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')
+    name: Build and Push Jar to Sonatype
     needs: [prebuild-job]
     runs-on: ${{ inputs.runsOn }}
     steps:
@@ -116,6 +120,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Generate lockfile
+        run: ./gradlew dependencies --write-locks
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@master
         with:
@@ -123,7 +129,7 @@ jobs:
           ignore-unfixed: true
           format: 'sarif'
           output: 'trivy-results.sarif'
-          severity: 'CRITICAL'
+          severity: ${{ inputs.trivy-sensitivity }}
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
