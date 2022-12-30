@@ -109,3 +109,23 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatypeSigningKey }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
+  jar-scanning:
+    name: Jar Vulnerabilities Scanning
+    needs: [sonatype-push]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Run Trivy vulnerability scanner in repo mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
