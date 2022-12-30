@@ -1,4 +1,4 @@
-name: Trivy scan for vulnerable dependencies and publish results to secutity tab
+name: Trivy scan Docker image for vulnerable dependencies and publish results to secutity tab
 
 on:
   workflow_call:

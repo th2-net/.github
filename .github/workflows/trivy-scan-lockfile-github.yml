@@ -1,0 +1,31 @@
+name: Trivy scan gradle.lockfile for vulnerable dependencies and publish results to secutity tab
+
+on:
+  workflow_call:
+    inputs:
+      sensitivity:
+        required: false
+        type: string
+        default: 'CRITICAL,HIGH,MEDIUM'
+        description: 'Adjusting the Scanner Sensitivity'
+
+jobs:
+  trivy-scan-job:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Generate lockfile
+        run: ./gradlew dependencies --write-locks
+      - name: Run Trivy vulnerability scanner in repo mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: ${{ inputs.trivy-sensitivity }}
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
