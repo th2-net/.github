@@ -114,8 +114,8 @@ jobs:
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
   trivy-gradle-scanning:
     name: Gradle Vulnerabilities Scanning
+    if: inputs.scanner-enabled
     needs: [sonatype-push]
-    runs-on: ${{ inputs.runsOn }}
     uses: th2-net/.github/.github/workflows/trivy-scan-lockfile-github.yml@th2-4135-trivy-workflow
     with:
       sensitivity: ${{ inputs.trivy-sensitivity }}
