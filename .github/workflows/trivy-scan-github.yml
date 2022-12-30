@@ -16,6 +16,16 @@ on:
         type: string
         default: 'CRITICAL,HIGH,MEDIUM'
         description: 'Adjusting the Scanner Sensitivity'
+      exitCode:
+        required: false
+        type: string
+        default: '0'
+        description: 'Exit code when specified vulnerabilities are found (1 for fail, 0 for ignore)'
+      ignoreUnfixed:
+        required: false
+        type: boolean
+        default: false
+        description: 'Ignore vulnerabilities that are impossible to fix at the moment'
 
 jobs:
   trivy-scan-job:
@@ -30,8 +40,8 @@ jobs:
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: ${{ inputs.sensitivity }}
-          exit-code: '0'
-          ignore-unfixed: false
+          exit-code: ${{ inputs.exitCode }}
+          ignore-unfixed: ${{ inputs.ignoreUnfixed }}
           vuln-type: ${{ inputs.target }}
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2

@@ -50,12 +50,14 @@ on:
 
 jobs:
   prebuild-job:
+    name: Prebuild Job
     uses: th2-net/.github/.github/workflows/compound-prebuild-java-workflow.yml@th2-4135-trivy-workflow
     with:
       runsOn: ${{ inputs.runsOn }}
 
 # if Docker
   docker-push:
+    name: Build Docker image and push to ghcr.io
     if: contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')
     needs: [prebuild-job]
     runs-on: ${{ inputs.runsOn }}
@@ -80,6 +82,7 @@ jobs:
           tags: ghcr.io/${{ github.repository }}:${{ needs.prebuild-job.outputs.version }}
           labels: com.exactpro.th2.${{ steps.meta.outputs.REPOSITORY_NAME }}=${{ needs.prebuild-job.outputs.version }}
   trivy-docker-scan:
+    name: Scan Docker image for vulnerabilities
     if: inputs.scanner-enabled
     needs: [docker-push, prebuild-job]
     uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@th2-4135-trivy-workflow
@@ -91,6 +94,7 @@ jobs:
 
 # if Sonatype
   sonatype-push:
+    name: Build and Push Jar to Sonatype
     if: contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')
     needs: [prebuild-job]
     runs-on: ${{ inputs.runsOn }}
@@ -109,3 +113,10 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatypeSigningKey }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
+  trivy-gradle-scanning:
+    name: Gradle Vulnerabilities Scanning
+    if: inputs.scanner-enabled
+    needs: [ sonatype-push ]
+    uses: th2-net/.github/.github/workflows/trivy-scan-lockfile-github.yml@th2-4135-trivy-workflow
+    with:
+      sensitivity: ${{ inputs.trivy-sensitivity }}

@@ -8,6 +8,17 @@ on:
         type: string
         default: 'CRITICAL,HIGH,MEDIUM'
         description: 'Adjusting the Scanner Sensitivity'
+      exitCode:
+        required: false
+        type: string
+        default: '0'
+        description: 'Exit code when specified vulnerabilities are found (1 for fail, 0 for ignore)'
+      ignoreUnfixed:
+        required: false
+        type: boolean
+        default: false
+        description: 'Ignore vulnerabilities that are impossible to fix at the moment'
+
 
 jobs:
   trivy-scan-job:
@@ -21,10 +32,11 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
-          ignore-unfixed: true
+          ignore-unfixed: ${{ inputs.ignoreUnfixed }}
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: ${{ inputs.trivy-sensitivity }}
+          exit-code: ${{ inputs.exitCode }}
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
