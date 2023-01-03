@@ -53,7 +53,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
       - name: Dev Build with Gradle
         if: ${{ !inputs.closeAndRelease }}
-        run: ./gradlew --info -Pversion=${{ inputs.version }} clean build publish
+        run: ./gradlew --info clean build -Pversion=${{ inputs.version }} publish
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
