@@ -51,7 +51,7 @@ on:
 jobs:
   prebuild-job:
     name: Prebuild Job
-    uses: th2-net/.github/.github/workflows/compound-prebuild-java-workflow.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/compound-prebuild-java-workflow.yml@main
     with:
       runsOn: ${{ inputs.runsOn }}
 
@@ -60,7 +60,7 @@ jobs:
     name: Build Docker image and push to ghcr.io
     if: contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')
     needs: [prebuild-job]
-    uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
       docker-username: ${{ inputs.docker-username }}
       runsOn: ${{ inputs.runsOn }}
@@ -72,7 +72,7 @@ jobs:
     name: Scan Docker image for vulnerabilities
     if: inputs.scanner-enabled
     needs: [docker-push, prebuild-job]
-    uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@main
     with:
       image-path: ghcr.io/${{ github.repository }}:${{ needs.prebuild-job.outputs.version }}
       target: ${{ inputs.trivy-target }}
@@ -84,7 +84,7 @@ jobs:
     if: contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')
     name: Build and Push Jar to Sonatype
     needs: [ prebuild-job ]
-    uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
     with:
       runsOn: ${{ inputs.runsOn }}
       closeAndRelease: true
@@ -98,6 +98,6 @@ jobs:
     name: Gradle Vulnerabilities Scanning
     if: inputs.scanner-enabled
     needs: [ sonatype-push ]
-    uses: th2-net/.github/.github/workflows/trivy-scan-lockfile-github.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/trivy-scan-lockfile-github.yml@main
     with:
       sensitivity: ${{ inputs.trivy-sensitivity }}
