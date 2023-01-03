@@ -30,7 +30,7 @@ jobs:
   sonatype-push:
     runs-on: ${{ inputs.runsOn }}
     steps:
-      - uses: actions/checkout@v3
+#      - uses: actions/checkout@v3
       - name: Show version
         if: ${{ inputs.version != '' }}
         run: echo ${{ inputs.version }}
