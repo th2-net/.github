@@ -24,7 +24,7 @@ on:
 
 
 jobs:
-  sonatype-push:
+  docker-push:
     runs-on: ${{ inputs.runsOn }}
     steps:
       - name: Show custom release version
