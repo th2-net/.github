@@ -51,7 +51,7 @@ on:
 jobs:
   prebuild-job:
     name: Prebuild Job
-    uses: th2-net/.github/.github/workflows/compound-prebuild-java-workflow.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/compound-prebuild-java-workflow.yml@main
     with:
       runsOn: ${{ inputs.runsOn }}
 
@@ -85,7 +85,7 @@ jobs:
     name: Scan Docker image for vulnerabilities
     if: inputs.scanner-enabled
     needs: [docker-push, prebuild-job]
-    uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@main
     with:
       image-path: ghcr.io/${{ github.repository }}:${{ needs.prebuild-job.outputs.version }}
       target: ${{ inputs.trivy-target }}
@@ -118,6 +118,6 @@ jobs:
     name: Gradle Vulnerabilities Scanning
     if: inputs.scanner-enabled
     needs: [ sonatype-push ]
-    uses: th2-net/.github/.github/workflows/trivy-scan-lockfile-github.yml@th2-4135-trivy-workflow
+    uses: th2-net/.github/.github/workflows/trivy-scan-lockfile-github.yml@main
     with:
       sensitivity: ${{ inputs.trivy-sensitivity }}
