@@ -1,0 +1,5 @@
+{
+  "name": "Prebuild Java workflow",
+  "description": "Reads properties and generate version of the build",
+  "iconName": "example-icon"
+}

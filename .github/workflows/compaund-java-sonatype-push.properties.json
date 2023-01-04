@@ -1,0 +1,5 @@
+{
+  "name": "Build and publush Gradle project to Sonatype",
+  "description": "Build and publish Java to Sonatype",
+  "iconName": "example-icon"
+}

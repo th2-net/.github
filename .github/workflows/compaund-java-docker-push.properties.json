@@ -1,0 +1,5 @@
+{
+  "name": "Build and publish Docker image to ghcr.io",
+  "description": "Build and publish Docker image to ghcr.io",
+  "iconName": "example-icon"
+}

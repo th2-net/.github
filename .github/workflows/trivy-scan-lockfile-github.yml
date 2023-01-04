@@ -1,16 +1,8 @@
-name: Trivy scan Docker image for vulnerable dependencies and publish results to secutity tab
+name: Trivy scan gradle.lockfile for vulnerable dependencies and publish results to secutity tab
 
 on:
   workflow_call:
     inputs:
-      image-path:
-        required: true
-        type: string
-      target:
-        required: false
-        type: string
-        default: 'os,library'
-        description: 'What Trivy will scan: image, library or both'
       sensitivity:
         required: false
         type: string
@@ -27,22 +19,24 @@ on:
         default: false
         description: 'Ignore vulnerabilities that are impossible to fix at the moment'
 
+
 jobs:
   trivy-scan-job:
     runs-on: ubuntu-20.04
     steps:
-      - name: Show scanning target
-        run: echo ${{ inputs.image-path }}
-      - name: Run Trivy vulnerability scanner
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Generate lockfile
+        run: ./gradlew dependencies --write-locks
+      - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ${{ inputs.image-path }}
+          scan-type: 'fs'
+          ignore-unfixed: ${{ inputs.ignoreUnfixed }}
           format: 'sarif'
           output: 'trivy-results.sarif'
-          severity: ${{ inputs.sensitivity }}
+          severity: ${{ inputs.trivy-sensitivity }}
           exit-code: ${{ inputs.exitCode }}
-          ignore-unfixed: ${{ inputs.ignoreUnfixed }}
-          vuln-type: ${{ inputs.target }}
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
