@@ -30,6 +30,11 @@ on:
         type: string
         default: 'CRITICAL,HIGH,MEDIUM'
         description: 'Adjusting the Trivy Scanner Sensitivity'
+      gradleVersion:
+        required: false
+        type: string
+        default: '7'
+
 
     outputs:
       version:
@@ -100,3 +105,4 @@ jobs:
     uses: th2-net/.github/.github/workflows/trivy-scan-lockfile-github.yml@main
     with:
       sensitivity: ${{ inputs.trivy-sensitivity }}
+      gradleVersion: ${{ inputs.gradleVersion }}
