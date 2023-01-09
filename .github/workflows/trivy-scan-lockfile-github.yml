@@ -33,7 +33,7 @@ jobs:
       - name: Generate lockfile
         run: ./gradlew dependencies --write-locks
       - name: Move lockfile
-        if: ${{ inputs.gradleVersion == '6' }}
+        if: contains('123456', inputs.build-target)
         run: mv gradle/dependency-locks/compileClasspath.lockfile gradle.lockfile
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@master
