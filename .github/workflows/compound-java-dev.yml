@@ -30,6 +30,11 @@ on:
         type: string
         default: 'CRITICAL,HIGH,MEDIUM'
         description: 'Adjusting the Trivy Scanner Sensitivity'
+      gradleVersion:
+        required: false
+        type: string
+        default: '6'
+
 
     outputs:
       version:
@@ -97,6 +102,7 @@ jobs:
     name: Gradle Vulnerabilities Scanning
     if: inputs.scanner-enabled
     needs: [sonatype-push]
-    uses: th2-net/.github/.github/workflows/trivy-scan-lockfile-github.yml@main
+    uses: th2-net/.github/.github/workflows/trivy-scan-lockfile-github.yml@th2-4135-multiple-gradle-versions
     with:
       sensitivity: ${{ inputs.trivy-sensitivity }}
+      gradleVersion: ${{ inputs.gradleVersion }}
