@@ -1,0 +1,17 @@
+name: OWASP scan GitHub
+
+on:
+  workflow_call:
+
+jobs:
+  trivy-scan-job:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Run OWASP scanning
+        run: ./gradlew dependencyCheckAnalyze
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: './build/reports/dependency-check-report.sarif'
