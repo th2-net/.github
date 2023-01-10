@@ -34,7 +34,7 @@ jobs:
         run: ./gradlew dependencies --write-locks
       - name: Show gradle version
         run: echo ${{ inputs.gradleVersion }}
-      - name: Move lockfile
+      - name: Move lockfile if Gradle version less than 7
         if: inputs.gradleVersion == '6' || inputs.gradleVersion == '5' || inputs.gradleVersion == '4' || inputs.gradleVersion == '3'
         run: mv gradle/dependency-locks/compileClasspath.lockfile gradle.lockfile
       - name: Run Trivy vulnerability scanner in repo mode
