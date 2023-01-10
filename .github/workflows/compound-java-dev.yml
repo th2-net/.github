@@ -88,7 +88,7 @@ jobs:
     if: contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')
     name: Build and Push Jar to Sonatype
     needs: [prebuild-job]
-    uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@th2-4566-gradle-owasp-scan
+    uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
     with:
       runsOn: ${{ inputs.runsOn }}
       closeAndRelease: false
