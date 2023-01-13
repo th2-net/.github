@@ -38,8 +38,12 @@ jobs:
     runs-on: ${{ inputs.runsOn }}
     steps:
       - uses: actions/checkout@v3
-      - name: Show version
+      - name: Show release version
+        if: ${{ inputs.closeAndRelease }}
         run: echo ${{ inputs.version }}
+      - name: Show dev version
+        if: ${{ !inputs.closeAndRelease }}
+        run: echo ${{ format('{0}-SNAPSHOT', inputs.version) }}
       - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
         uses: actions/setup-java@v3
         with:
