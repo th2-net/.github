@@ -38,8 +38,12 @@ jobs:
     runs-on: ${{ inputs.runsOn }}
     steps:
       - uses: actions/checkout@v3
-      - name: Show version
+      - name: Show release version
+        if: ${{ inputs.closeAndRelease }}
         run: echo ${{ inputs.version }}
+      - name: Show dev version
+        if: ${{ !inputs.closeAndRelease }}
+        run: echo ${{ format('{0}-SNAPSHOT', inputs.version) }}
       - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
         uses: actions/setup-java@v3
         with:
@@ -55,7 +59,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
       - name: Dev Build with Gradle
         if: ${{ !inputs.closeAndRelease }}
-        run: ./gradlew --info clean build -Prelease_version=${{ inputs.version }} publish
+        run: ./gradlew --info clean build -Prelease_version=${{ format('{0}-SNAPSHOT', inputs.version) }} publish
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
