@@ -76,7 +76,7 @@ jobs:
     name: Scan Docker image for vulnerabilities
     if: inputs.scanner-enabled
     needs: [ docker-push, prebuild-job ]
-    uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@main
+    uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@th2-4135-matrix-workflow
     with:
       image-path: ghcr.io/th2-net/th2-${{ inputs.projectName }}:${{ needs.prebuild-job.outputs.version }}
       target: ${{ inputs.trivy-target }}
