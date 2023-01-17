@@ -43,6 +43,7 @@ jobs:
           exit-code: ${{ inputs.exitCode }}
           ignore-unfixed: ${{ inputs.ignoreUnfixed }}
           vuln-type: ${{ inputs.target }}
+          timeout: 20m0s
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:

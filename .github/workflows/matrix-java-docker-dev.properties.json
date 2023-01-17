@@ -1,0 +1,5 @@
+{
+  "name": "Dev Java Docker publish for matrix builds",
+  "description": "Dev Java Docker matrix builds publishing with vulnerabilities scanning",
+  "iconName": "example-icon"
+}
