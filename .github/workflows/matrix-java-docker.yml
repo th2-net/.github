@@ -1,4 +1,4 @@
-name: Java Docker publish for matrix builds
+name: Docker publish for matrix builds
 
 
 on:
