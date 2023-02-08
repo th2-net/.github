@@ -34,10 +34,10 @@ jobs:
       - name: Version construction
         id: devPostfix
         run: |
-          if [[ "${{ github.event.inputs.devRelease }}" == "true" ]]; then
+          if [[ "${{ inputs.devRelease }}" == "true" ]]; then
               echo "value="${{ steps.ver.outputs.release_version }}-dev"" >> $GITHUB_OUTPUT
           fi
-          if [[ "${{ github.event.inputs.devRelease }}" == "false" ]]; then
+          if [[ "${{ inputs.devRelease }}" == "false" ]]; then
               echo "value="${{ steps.ver.outputs.release_version }}"" >> $GITHUB_OUTPUT
           fi
       - name: Show release version
