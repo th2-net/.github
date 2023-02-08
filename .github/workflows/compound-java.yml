@@ -27,6 +27,10 @@ on:
         required: false
         type: string
         default: 'zulu'
+      devRelease:
+        required: false
+        type: boolean
+        default: false
 # Trivy block
       scanner-enabled:
         required: false
@@ -63,56 +67,57 @@ on:
 jobs:
   prebuild-job:
     name: Prebuild Job
-    uses: th2-net/.github/.github/workflows/compound-prebuild-java-workflow.yml@main
+    uses: th2-net/.github/.github/workflows/compound-prebuild-java-workflow.yml@th2-4735-dev-release
     with:
       runsOn: ${{ inputs.runsOn }}
+      devRelease: ${{ inputs.devRelease }}
 
-# if Docker
-  docker-push:
-    name: Build Docker image and push to ghcr.io
-    if: contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')
-    needs: [prebuild-job]
-    uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
-    with:
-      docker-username: ${{ inputs.docker-username }}
-      runsOn: ${{ inputs.runsOn }}
-      version: ${{ needs.prebuild-job.outputs.version }}
-      versionNumber: ${{ needs.prebuild-job.outputs.version }}
-    secrets:
-      docker-password: ${{ secrets.docker-password }}
-  trivy-docker-scan:
-    name: Scan Docker image for vulnerabilities
-    if: inputs.scanner-enabled
-    needs: [docker-push, prebuild-job]
-    uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@main
-    with:
-      image-path: ghcr.io/${{ github.repository }}:${{ needs.prebuild-job.outputs.version }}
-      target: ${{ inputs.trivy-target }}
-      sensitivity: ${{ inputs.trivy-sensitivity }}
-
-
-# if Sonatype
-  sonatype-push:
-    if: contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')
-    name: Build and Push Jar to Sonatype
-    needs: [ prebuild-job ]
-    uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
-    with:
-      runsOn: ${{ inputs.runsOn }}
-      closeAndRelease: true
-      version: ${{ needs.prebuild-job.outputs.version }}
-      javaVersion: ${{ inputs.javaVersion }}
-      javaVendor: ${{ inputs.javaVendor }}
-    secrets:
-      sonatypeUsername: ${{ secrets.sonatypeUsername }}
-      sonatypePassword: ${{ secrets.sonatypePassword }}
-      sonatypeSigningKey: ${{ secrets.sonatypeSigningKey }}
-      sonatypeSigningPassword: ${{ secrets.sonatypeSigningPassword }}
-  trivy-gradle-scanning:
-    name: Gradle Vulnerabilities Scanning
-    if: inputs.scanner-enabled
-    needs: [ sonatype-push ]
-    uses: th2-net/.github/.github/workflows/trivy-scan-lockfile-github.yml@main
-    with:
-      sensitivity: ${{ inputs.trivy-sensitivity }}
-      gradleVersion: ${{ inputs.gradleVersion }}
+## if Docker
+#  docker-push:
+#    name: Build Docker image and push to ghcr.io
+#    if: contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')
+#    needs: [prebuild-job]
+#    uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
+#    with:
+#      docker-username: ${{ inputs.docker-username }}
+#      runsOn: ${{ inputs.runsOn }}
+#      version: ${{ needs.prebuild-job.outputs.version }}
+#      versionNumber: ${{ needs.prebuild-job.outputs.version }}
+#    secrets:
+#      docker-password: ${{ secrets.docker-password }}
+#  trivy-docker-scan:
+#    name: Scan Docker image for vulnerabilities
+#    if: inputs.scanner-enabled
+#    needs: [docker-push, prebuild-job]
+#    uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@main
+#    with:
+#      image-path: ghcr.io/${{ github.repository }}:${{ needs.prebuild-job.outputs.version }}
+#      target: ${{ inputs.trivy-target }}
+#      sensitivity: ${{ inputs.trivy-sensitivity }}
+#
+#
+## if Sonatype
+#  sonatype-push:
+#    if: contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')
+#    name: Build and Push Jar to Sonatype
+#    needs: [ prebuild-job ]
+#    uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
+#    with:
+#      runsOn: ${{ inputs.runsOn }}
+#      closeAndRelease: true
+#      version: ${{ needs.prebuild-job.outputs.version }}
+#      javaVersion: ${{ inputs.javaVersion }}
+#      javaVendor: ${{ inputs.javaVendor }}
+#    secrets:
+#      sonatypeUsername: ${{ secrets.sonatypeUsername }}
+#      sonatypePassword: ${{ secrets.sonatypePassword }}
+#      sonatypeSigningKey: ${{ secrets.sonatypeSigningKey }}
+#      sonatypeSigningPassword: ${{ secrets.sonatypeSigningPassword }}
+#  trivy-gradle-scanning:
+#    name: Gradle Vulnerabilities Scanning
+#    if: inputs.scanner-enabled
+#    needs: [ sonatype-push ]
+#    uses: th2-net/.github/.github/workflows/trivy-scan-lockfile-github.yml@main
+#    with:
+#      sensitivity: ${{ inputs.trivy-sensitivity }}
+#      gradleVersion: ${{ inputs.gradleVersion }}

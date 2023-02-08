@@ -8,7 +8,10 @@ on:
         required: false
         type: string
         default: 'ubuntu-20.04'
-
+      devRelease:
+        required: false
+        type: boolean
+        default: false
     outputs:
       version:
         description: "Generated version of the image"
@@ -28,6 +31,15 @@ jobs:
         with:
           path: gradle.properties
           properties: release_version
+      - name: Version construction
+        id: devPostfix
+        run: |
+          if [[ "${{ github.event.inputs.devRelease }}" == "true" ]]; then
+              echo "value="${{ steps.ver.outputs.release_version }}-dev"" >> $GITHUB_OUTPUT
+          fi
+          if [[ "${{ github.event.inputs.devRelease }}" == "false" ]]; then
+              echo "value="${{ steps.ver.outputs.release_version }}"" >> $GITHUB_OUTPUT
+          fi
       - name: Show release version
-        run: echo ${{ steps.ver.outputs.release_version }}
+        run: echo ${{ steps.devPostfix.outputs.value }}
 
