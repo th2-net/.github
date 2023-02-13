@@ -21,6 +21,11 @@ on:
         required: false
         type: string
         default: 'zulu'
+      projectPath:
+        required: false
+        type: string
+        default: '.'
+        description: "path to the Gradle module. Root directory by default"
     secrets:
       docker-password:
         required: false
@@ -51,7 +56,7 @@ jobs:
           java-version: ${{ inputs.javaVersion }}
       - name: Release Build with Gradle
         if: ${{ inputs.closeAndRelease }}
-        run: ./gradlew --info clean build -Prelease_version=${{ inputs.version }} publish closeAndReleaseSonatypeStagingRepository
+        run: ./gradlew -p ${{ inputs.projectPath }} --info clean build -Prelease_version=${{ inputs.version }} publish closeAndReleaseSonatypeStagingRepository
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
@@ -59,7 +64,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
       - name: Dev Build with Gradle
         if: ${{ !inputs.closeAndRelease }}
-        run: ./gradlew --info clean build -Prelease_version=${{ format('{0}-SNAPSHOT', inputs.version) }} publish
+        run: ./gradlew -p ${{ inputs.projectPath }} --info clean build -Prelease_version=${{ format('{0}-SNAPSHOT', inputs.version) }} publish
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
