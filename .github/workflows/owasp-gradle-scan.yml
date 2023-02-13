@@ -2,6 +2,12 @@ name: OWASP scan GitHub
 
 on:
   workflow_call:
+    inputs:
+      multiproject:
+        required: false
+        type: boolean
+        default: false
+        description: 'false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
 
 jobs:
   owasp-scan-job:
@@ -9,8 +15,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Run OWASP scanning
+      - name: Run OWASP single-project scanning
+        if: ${{ !inputs.multiproject }}
         run: ./gradlew dependencyCheckAnalyze
+      - name: Run OWASP multi-project scanning
+        if: ${{ inputs.multiproject }}
+        run: ./gradlew dependencyCheckAggregate
       - name: Upload OWASP scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
