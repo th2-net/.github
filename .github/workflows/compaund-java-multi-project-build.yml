@@ -1,0 +1,68 @@
+name: Building module in multi-project
+
+on:
+  workflow_call:
+    inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-20.04'
+      versionSuffix:
+        required: false
+        type: string
+        default: ''
+        description: "version suffix for module's final version"
+      javaVersion:
+        required: false
+        type: string
+        default: '11'
+      javaVendor:
+        required: false
+        type: string
+        default: 'zulu'
+      projectPath:
+        required: false
+        type: string
+        default: '.'
+        description: "path to the Gradle module. Root directory by default"
+      additionalTasks:
+        required: false
+        type: string
+        default: '[]'
+        description: "list of additional tasks to execute in JSON format"
+    secrets:
+      sonatypeUsername:
+        required: false
+      sonatypePassword:
+        required: false
+      sonatypeSigningKey:
+        required: false
+      sonatypeSigningPassword:
+        required: false
+
+jobs:
+  build-gradle:
+    runs-on: ${{ inputs.runsOn }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Needs publication
+        id: check_publish
+        run: echo enabled="${{ contains(fromJson(inputs.additionalTasks), 'publish') }}" >> $GITHUB_OUTPUT
+      - name: Release publication
+        id: close_release
+        if: !contains(inputs.versionSuffix, '-SNAPSHOT') && steps.check_publish.enabled == 'true'
+        run: echo "task=closeAndReleaseSonatypeStagingRepository" >> $GITHUB_OUTPUT
+      - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: ${{ inputs.javaVendor }}
+          java-version: ${{ inputs.javaVersion }}
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: Build with Gradle
+        run: ./gradlew -p ${{ inputs.projectPath }} --info -Pversion_suffix=${{ inputs.versionSuffix }} ${{ join(fromJSON(inputs.additionalTasks), ' ') }} ${{ steps.close_release.task }}
+        env:
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatypeSigningKey }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
