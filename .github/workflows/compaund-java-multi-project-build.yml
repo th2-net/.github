@@ -51,7 +51,7 @@ jobs:
         run: echo enabled="${{ contains(fromJson(inputs.additionalTasks), 'publish') }}" >> $GITHUB_OUTPUT
       - name: Release publication
         id: close_release
-        if: !contains(inputs.versionSuffix, '-SNAPSHOT') && steps.check_publish.enabled == 'true'
+        if: ${{ !contains(inputs.versionSuffix, '-SNAPSHOT') && steps.check_publish.enabled == 'true' }}
         run: echo "task=closeAndReleaseSonatypeStagingRepository" >> $GITHUB_OUTPUT
       - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
         uses: actions/setup-java@v3
