@@ -61,7 +61,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Build with Gradle
-        run: ./gradlew -p ${{ inputs.projectPath }} --info -Pversion_suffix=${{ inputs.versionSuffix }} clean build ${{ join(fromJSON(inputs.additionalTasks), ' ') }} ${{ steps.close_release.task }}
+        run: ./gradlew -p ${{ inputs.projectPath }} --info -Pversion_suffix=${{ inputs.versionSuffix }} clean build ${{ join(fromJSON(inputs.additionalTasks), ' ') }} ${{ steps.close_release.outputs.task }}
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
