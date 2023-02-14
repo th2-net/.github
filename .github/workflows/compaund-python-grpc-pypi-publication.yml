@@ -1,0 +1,68 @@
+name: Build and publish Python
+
+on:
+  workflow_call:
+    inputs:
+      custom-version:
+        required: false
+        type: string
+        default: ''
+        description: 'version to override one in package_info.json file'
+      project-path:
+        required: false
+        type: string
+        default: '.'
+        description: 'path to the Gradle project with python publication'
+      java-version:
+        required: false
+        type: string
+        default: '11'
+      java-vendor:
+        required: false
+        type: string
+        default: 'zulu'
+      python-version:
+        required: false
+        type: string
+        default: '3.7'
+    secrets:
+      pypi_password:
+        required: true
+
+jobs:
+  build-and-publish:
+    name: Build and publish Python distributions to PyPI
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set version for current build in package_info.json
+        if: ${{ inputs.custom-version != '' }}
+        uses: MerthinTechnologies/edit-json-action@v1
+        with:
+          filename: 'grpc/package_info.json'
+          key: 'package_version'
+          value: ${{ inputs.custom-version }}
+      - name: Set up Python ${{ inputs.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ inputs.python-version }}
+      - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: ${{ inputs.javaVendor }}
+          java-version: ${{ inputs.javaVersion }}
+      - name: Build with Gradle
+        run: ./gradlew -p ${{ inputs.project-path }} clean build
+      - name: Build package
+        working-directory: ${{ inputs.project-path }}
+        run: |
+          pip install -r requirements.txt
+          python setup.py generate -s
+          python setup.py sdist
+      - name: Publish distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_password }}
+          repository_url: https://upload.pypi.org/legacy/
+          packages_dir: ${{ inputs.project-path }}/dist/
