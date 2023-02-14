@@ -42,6 +42,7 @@ on:
 
 jobs:
   build-gradle:
+    name: Build Gradle module ${{ inputs.projectPath }}
     runs-on: ${{ inputs.runsOn }}
     steps:
       - uses: actions/checkout@v3
