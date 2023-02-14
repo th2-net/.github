@@ -44,6 +44,8 @@ jobs:
     steps:
       - name: Show custom release version
         run: echo ${{ inputs.version }}
+      - uses: actions/checkout@v3
+        if: inputs.gradleParameters != '[]'
       - name: Setup Gradle
         if: inputs.gradleParameters != '[]'
         uses: gradle/gradle-build-action@v2
