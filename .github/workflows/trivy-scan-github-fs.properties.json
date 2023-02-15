@@ -1,0 +1,5 @@
+{
+  "name": "Trivy scan github",
+  "description": "Trivy scan for vulnerable dependencies in fs mode and publish results to secutity tab",
+  "iconName": "example-icon"
+}
