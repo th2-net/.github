@@ -12,6 +12,11 @@ on:
         required: false
         type: boolean
         default: false
+      project-path:
+        required: false
+        type: string
+        default: '.'
+        description: 'relative path to the project to extract version'
     outputs:
       version:
         description: "Generated version of the image"
@@ -19,6 +24,7 @@ on:
 
 jobs:
   prebuild-job:
+    name: Pre-build steps for project ${{ inputs.project-path }}
     runs-on: ${{ inputs.runsOn }}
     outputs:
       version: ${{ steps.ver.outputs.release_version }}
@@ -29,7 +35,7 @@ jobs:
         id: ver
         uses: christian-draeger/read-properties@1.1.1
         with:
-          path: gradle.properties
+          path: ${{ inputs.project-path }}/gradle.properties
           properties: release_version
       - name: Version construction
         id: devPostfix
