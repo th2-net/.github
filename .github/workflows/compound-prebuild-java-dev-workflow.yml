@@ -8,6 +8,11 @@ on:
         required: false
         type: string
         default: 'ubuntu-20.04'
+      project-path:
+        required: false
+        type: string
+        default: '.'
+        description: 'relative path to the project to extract version'
 
     outputs:
       version:
@@ -16,13 +21,18 @@ on:
       versionNumber:
         description: "Number of the version"
         value: ${{ jobs.prebuild-job.outputs.versionNumber }}
+      versionSuffix:
+        description: "The suffix for the version with current branch, commit hash and SNAPSHOT suffix"
+        value: ${{ jobs.prebuild-job.outputs.versionSuffix }}
 
 jobs:
   prebuild-job:
+    name: Pre-build steps for project ${{ inputs.project-path }}
     runs-on: ${{ inputs.runsOn }}
     outputs:
       version: ${{ steps.release_ver.outputs.value }}
       versionNumber: ${{ steps.ver.outputs.release_version }}
+      versionSuffix: ${{ steps.version_suffix.outputs.value }}
 
     steps:
       - uses: actions/checkout@v3
@@ -36,11 +46,16 @@ jobs:
         id: ver
         uses: christian-draeger/read-properties@1.1.1
         with:
-          path: gradle.properties
+          path: ${{ inputs.project-path }}/gradle.properties
           properties: release_version
       - name: Build custom release version
         id: release_ver
         run: echo "value="${{ steps.ver.outputs.release_version }}-${{ steps.branch.outputs.branch_name }}-${{ github.run_id }}-${{ steps.sha.outputs.sha_short }}"" >> $GITHUB_OUTPUT
       - name: Show custom release version
         run: echo ${{ steps.release_ver.outputs.value }}
+      - name: Build version suffix
+        id: version_suffix
+        run: echo value="${{ steps.branch.outputs.branch_name }}-${{ github.run_id }}-${{ steps.sha.outputs.sha_short }}-SNAPSHOT" >> $GITHUB_OUTPUT
+      - name: Show version suffix
+        run: echo ${{ steps.version_suffix.outputs.value }}
 
