@@ -55,7 +55,7 @@ jobs:
         run: echo ${{ steps.release_ver.outputs.value }}
       - name: Build version suffix
         id: version_suffix
-        run: echo value="${{ steps.branch.outputs.branch_name }}-${{ github.run_id }}-${{ steps.sha.outputs.sha_short }}-SNAPSHOT" >> $GITHUB_OUTPUT"
+        run: echo value="${{ steps.branch.outputs.branch_name }}-${{ github.run_id }}-${{ steps.sha.outputs.sha_short }}-SNAPSHOT" >> $GITHUB_OUTPUT
       - name: Show version suffix
         run: echo ${{ steps.version_suffix.outputs.value }}
 
