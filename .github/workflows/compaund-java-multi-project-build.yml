@@ -7,11 +7,11 @@ on:
         required: false
         type: string
         default: 'ubuntu-20.04'
-      versionSuffix:
+      release:
         required: false
-        type: string
-        default: ''
-        description: "version suffix for module's final version"
+        type: boolean
+        default: false
+        description: "indicates whether this is a release build or not. If it is not the 'version_suffix' will be generated"
       javaVersion:
         required: false
         type: string
@@ -51,8 +51,20 @@ jobs:
         run: echo enabled="${{ contains(fromJson(inputs.additionalTasks), 'publish') }}" >> $GITHUB_OUTPUT
       - name: Release publication
         id: close_release
-        if: steps.check_publish.outputs.enabled == 'true' && !contains(inputs.versionSuffix, '-SNAPSHOT')
+        if: steps.check_publish.outputs.enabled == 'true' && inputs.release
         run: echo "task=closeAndReleaseSonatypeStagingRepository" >> $GITHUB_OUTPUT
+      - name: Get branch name
+        if: ${{ !inputs.release }}
+        id: branch
+        run: echo "branch_name=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+      - name: Get SHA of the commit
+        if: ${{ !inputs.release }}
+        id: sha
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Compute version suffix
+        if: ${{ !inputs.release }}
+        id: suffix
+        run: echo "value=${{ steps.branch.outputs.branch_name }}-${{ steps.sha.outputs.sha_short }}-SNAPSHOT" >> $GITHUB_OUTPUT
       - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
         uses: actions/setup-java@v3
         with:
@@ -61,7 +73,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Build with Gradle
-        run: ./gradlew -p ${{ inputs.projectPath }} --info -Pversion_suffix=${{ inputs.versionSuffix }} clean build ${{ join(fromJSON(inputs.additionalTasks), ' ') }} ${{ steps.close_release.outputs.task }}
+        run: ./gradlew -p ${{ inputs.projectPath }} --info -Pversion_suffix=${{ steps.suffix.outputs.value }} clean build ${{ join(fromJSON(inputs.additionalTasks), ' ') }} ${{ steps.close_release.outputs.task }}
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
