@@ -1,0 +1,5 @@
+{
+  "name": "Build and publishes gRPC python to PyPi",
+  "description": "Build and publish gRPC python",
+  "iconName": "example-icon"
+}
