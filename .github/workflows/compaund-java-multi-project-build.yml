@@ -1,0 +1,81 @@
+name: Building module in multi-project
+
+on:
+  workflow_call:
+    inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-20.04'
+      release:
+        required: false
+        type: boolean
+        default: false
+        description: "indicates whether this is a release build or not. If it is not the 'version_suffix' will be generated"
+      javaVersion:
+        required: false
+        type: string
+        default: '11'
+      javaVendor:
+        required: false
+        type: string
+        default: 'zulu'
+      projectPath:
+        required: false
+        type: string
+        default: '.'
+        description: "path to the Gradle module. Root directory by default"
+      additionalTasks:
+        required: false
+        type: string
+        default: '[]'
+        description: "list of additional tasks to execute in JSON format"
+    secrets:
+      sonatypeUsername:
+        required: false
+      sonatypePassword:
+        required: false
+      sonatypeSigningKey:
+        required: false
+      sonatypeSigningPassword:
+        required: false
+
+jobs:
+  build-gradle:
+    name: Build Gradle module ${{ inputs.projectPath }}
+    runs-on: ${{ inputs.runsOn }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Needs publication
+        id: check_publish
+        run: echo enabled="${{ contains(fromJson(inputs.additionalTasks), 'publish') }}" >> $GITHUB_OUTPUT
+      - name: Release publication
+        id: close_release
+        if: steps.check_publish.outputs.enabled == 'true' && inputs.release
+        run: echo "task=closeAndReleaseSonatypeStagingRepository" >> $GITHUB_OUTPUT
+      - name: Get branch name
+        if: ${{ !inputs.release }}
+        id: branch
+        run: echo "branch_name=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+      - name: Get SHA of the commit
+        if: ${{ !inputs.release }}
+        id: sha
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Compute version suffix
+        if: ${{ !inputs.release }}
+        id: suffix
+        run: echo "value=${{ steps.branch.outputs.branch_name }}-${{ steps.sha.outputs.sha_short }}-SNAPSHOT" >> $GITHUB_OUTPUT
+      - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: ${{ inputs.javaVendor }}
+          java-version: ${{ inputs.javaVersion }}
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: Build with Gradle
+        run: ./gradlew -p ${{ inputs.projectPath }} --info -Pversion_suffix=${{ steps.suffix.outputs.value }} clean build ${{ join(fromJSON(inputs.additionalTasks), ' ') }} ${{ steps.close_release.outputs.task }}
+        env:
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatypeSigningKey }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}

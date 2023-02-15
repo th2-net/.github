@@ -1,0 +1,5 @@
+{
+  "name": "Build module in Gradle multi-project",
+  "description": "Executes specified tasks for the specified project module. Adds 'version_suffix' property with specified version suffix",
+  "iconName": "example-icon"
+}
