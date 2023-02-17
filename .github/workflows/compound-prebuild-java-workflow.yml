@@ -27,7 +27,7 @@ jobs:
     name: Pre-build steps for project ${{ inputs.project-path }}
     runs-on: ${{ inputs.runsOn }}
     outputs:
-      version: ${{ steps.ver.outputs.release_version }}
+      version: ${{ steps.devPostfix.outputs.value }}
 
     steps:
       - uses: actions/checkout@v3
