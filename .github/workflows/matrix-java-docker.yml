@@ -19,6 +19,10 @@ on:
       projectName:
         required: true
         type: string
+      devRelease:
+        required: false
+        type: boolean
+        default: false
       # Trivy block
       scanner-enabled:
         required: false
@@ -45,6 +49,7 @@ jobs:
     uses: th2-net/.github/.github/workflows/compound-prebuild-java-workflow.yml@main
     with:
       runsOn: ${{ inputs.runsOn }}
+      devRelease: ${{ inputs.devRelease }}
 
   # if Docker
   docker-push:
