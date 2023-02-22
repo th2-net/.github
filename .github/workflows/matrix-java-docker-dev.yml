@@ -81,3 +81,7 @@ jobs:
       image-path: ghcr.io/th2-net/th2-${{ inputs.projectName }}:${{ needs.prebuild-job.outputs.version }}
       target: ${{ inputs.trivy-target }}
       sensitivity: ${{ inputs.trivy-sensitivity }}
+
+  owasp-scan:
+    if: inputs.scanner-enabled
+    uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@main
