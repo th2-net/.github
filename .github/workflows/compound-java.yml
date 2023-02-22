@@ -121,3 +121,7 @@ jobs:
     with:
       sensitivity: ${{ inputs.trivy-sensitivity }}
       gradleVersion: ${{ inputs.gradleVersion }}
+
+  owasp-scan:
+    if: inputs.scanner-enabled
+    uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@main
