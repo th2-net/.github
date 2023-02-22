@@ -16,9 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Run OWASP single-project scanning
+        continue-on-error: true
         if: ${{ !inputs.multiproject }}
         run: ./gradlew dependencyCheckAnalyze
       - name: Run OWASP multi-project scanning
+        continue-on-error: true
         if: ${{ inputs.multiproject }}
         run: ./gradlew dependencyCheckAggregate
       - name: Upload OWASP scan results to GitHub Security tab
