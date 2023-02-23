@@ -4,8 +4,6 @@ name: Python vulnerabilities scanning
 on:
   workflow_call:
 
-env:
-  DEP_PATH: src/requirements.txt
 
 jobs:
   build:
