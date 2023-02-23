@@ -4,6 +4,8 @@ name: Python vulnerabilities scanning
 on:
   workflow_call:
 
+env:
+  DEP_PATH: ../../requirements.txt
 
 jobs:
   build:
@@ -12,5 +14,6 @@ jobs:
       - name: Check out master
         uses: actions/checkout@master
       - run: ls
+      - run: ls ../../
       - name: Security vulnerabilities scan
         uses: aufdenpunkt/python-safety-check@master
