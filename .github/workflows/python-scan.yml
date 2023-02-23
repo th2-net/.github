@@ -14,6 +14,9 @@ jobs:
       - name: Check out master
         uses: actions/checkout@master
       - run: ls
+      - run: ls ../
       - run: ls ../../
+      - run: ls ../../../
+      - run: ls ../../../../
       - name: Security vulnerabilities scan
         uses: aufdenpunkt/python-safety-check@master
