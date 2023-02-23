@@ -5,7 +5,8 @@ on:
   workflow_call:
 
 env:
-  DEP_PATH: ../../requirements.txt
+  REQUIREMENTS_PATH: ./requirements.txt
+  DEP_PATH: None
 
 jobs:
   build:
@@ -13,13 +14,7 @@ jobs:
     steps:
       - name: Check out master
         uses: actions/checkout@master
-      - run: ls
-      - run: ls ../
-      - run: ls ../../
-      - run: ls ../../../
-      - run: ls ../../../../
-      - run: ls ../../../../../
-      - run: ls ../../../../../../
-      - run: ls ../../../../../../../
+      - name: Requiremets path to production branch
+        run: echo "DEP_PATH=REQUIREMENTS_PATH" >> $GITHUB_ENV
       - name: Security vulnerabilities scan
         uses: aufdenpunkt/python-safety-check@master
