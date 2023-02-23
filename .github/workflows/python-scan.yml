@@ -11,6 +11,6 @@ jobs:
     steps:
       - name: Check out master
         uses: actions/checkout@master
-
+      - run: ls
       - name: Security vulnerabilities scan
         uses: aufdenpunkt/python-safety-check@master
