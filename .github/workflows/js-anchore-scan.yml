@@ -11,8 +11,9 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: Scan current project
-        continue-on-error: true
         uses: anchore/scan-action@v3
         with:
           path: "."
           output-format: table
+          fail-build: true
+          severity-cutoff: medium
