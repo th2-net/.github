@@ -19,6 +19,14 @@ on:
       projectName:
         required: true
         type: string
+      javaVersion:
+        required: false
+        type: string
+        default: '11'
+      javaVendor:
+        required: false
+        type: string
+        default: 'zulu'
       # Trivy block
       scanner-enabled:
         required: false
@@ -87,3 +95,5 @@ jobs:
     uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@main
     with:
       multiproject: true
+      javaVersion: ${{ inputs.javaVersion }}
+      javaVendor: ${{ inputs.javaVendor }}

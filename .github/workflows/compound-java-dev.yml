@@ -26,7 +26,7 @@ on:
         required: false
         type: string
         default: 'zulu'
-# Trivy block
+# Vulnerability scanning
       scanner-enabled:
         required: false
         type: boolean
@@ -42,6 +42,11 @@ on:
         type: string
         default: 'CRITICAL,HIGH,MEDIUM'
         description: 'Adjusting the Trivy Scanner Sensitivity'
+      multiproject:
+        required: false
+        type: boolean
+        default: false
+        description: 'false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
 
     outputs:
       version:
@@ -120,5 +125,6 @@ jobs:
     if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@owasp-java-version
     with:
+      multiproject: ${{ inputs.multiproject }}
       javaVersion: ${{ inputs.javaVersion }}
       javaVendor: ${{ inputs.javaVendor }}
