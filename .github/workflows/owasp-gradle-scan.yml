@@ -8,6 +8,14 @@ on:
         type: boolean
         default: false
         description: 'false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
+      javaVersion:
+        required: false
+        type: string
+        default: '11'
+      javaVendor:
+        required: false
+        type: string
+        default: 'zulu'
 
 jobs:
   owasp-scan-job:
@@ -15,6 +23,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: ${{ inputs.javaVendor }}
+          java-version: ${{ inputs.javaVersion }}
       - name: Run OWASP single-project scanning
         continue-on-error: true
         if: ${{ !inputs.multiproject }}
