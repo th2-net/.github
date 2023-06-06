@@ -51,7 +51,7 @@ on:
     outputs:
       version:
         description: "Generated version of the image"
-        value: ${{ jobs.build.outputs.version }}
+        value: ${{ jobs.prebuild-job.outputs.version }}
     secrets:
       docker-password:
         required: false
