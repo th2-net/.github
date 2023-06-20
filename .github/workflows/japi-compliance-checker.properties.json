@@ -1,0 +1,5 @@
+{
+  "name": "Check backward compatibility for java libraries",
+  "description": "Use japi-compliance-checker to check generate backward compatibility report for java libraries. Will compare current jav with the target version.",
+  "iconName": "example-icon"
+}
