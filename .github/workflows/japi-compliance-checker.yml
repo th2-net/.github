@@ -1,0 +1,95 @@
+name: Check API compatibility between two jars
+
+on:
+  workflow_call:
+    inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-20.04'
+      javaVersion:
+        required: false
+        type: string
+        default: '11'
+      javaVendor:
+        required: false
+        type: string
+        default: 'zulu'
+      targetJarUrl:
+        required: true
+        type: string
+        default: ""
+        description: 'url to the target api version jar file.'
+      projectPath:
+        required: false
+        type: string
+        default: '.'
+        description: "path to the Gradle module. Root directory by default"
+      gradlePropertiesPath:
+        required: false
+        type: string
+        default: '.'
+        description: "path to the Gradle module. Root directory by default"
+      libsFolderPath:
+        required: false
+        type: string
+        default: '.'
+        description: "custom path to the library. Same as projectPath/build/libs by default"
+      continueOnError:
+        required: false
+        type: boolean
+        default: false
+        description: "flag to ignore errors in compliance check step. default is false"
+
+
+
+jobs:
+  japi-compliance-check:
+    runs-on: ${{ inputs.runsOn }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get release_version
+        id: ver
+        uses: christian-draeger/read-properties@1.1.1
+        with:
+          path: ${{ inputs.gradlePropertiesPath }}/gradle.properties
+          properties: release_version
+
+      - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: ${{ inputs.javaVendor }}
+          java-version: ${{ inputs.javaVersion }}
+
+      - name: install japi-compliance-checker
+        run: sudo apt-get update && sudo apt-get install -y japi-compliance-checker
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Download target jar
+        run: curl -o targetVersion.jar -L ${{ inputs.targetJarUrl }}
+
+      - name: Build with Gradle
+        run: ./gradlew -p ${{ inputs.projectPath }} --info clean build -Prelease_version=${{ steps.ver.outputs.release_version }}
+
+      - name: Get current jar full name
+        id: jar_name
+        run: |
+          if [[ ${{ inputs.libsFolderPath }} != '.' ]]; then
+            echo value=$(ls ${{ inputs.libsFolderPath }} | grep "${{ steps.ver.outputs.release_version }}.jar") >> $GITHUB_OUTPUT
+          else
+            echo value=$(ls ${{ inputs.projectPath }}/build/libs/ | grep "${{ steps.ver.outputs.release_version }}.jar") >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run japi-compliance-checker
+        continue-on-error: ${{ inputs.continueOnError }}
+        run: japi-compliance-checker --lib=${{ steps.jar_name.outputs.value }} -o report.html targetVersion.jar ${{ inputs.projectPath }}/build/libs/${{ steps.jar_name.outputs.value }}
+
+      - name: Upload compatibility report
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: japi-compatibility-report
+          path: compat_reports
