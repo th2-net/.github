@@ -84,12 +84,7 @@ jobs:
           fi
 
       - name: Run japi-compliance-checker
-        if: ${{ inputs.continueOnError }}
-        continue-on-error: true
-        run: japi-compliance-checker --lib=${{ steps.jar_name.outputs.value }} -o report.html targetVersion.jar ${{ inputs.projectPath }}/build/libs/${{ steps.jar_name.outputs.value }}
-
-      - name: Run japi-compliance-
-        if: ${{ !inputs.continueOnError }}
+        continue-on-error: ${{ inputs.continueOnError }}
         run: japi-compliance-checker --lib=${{ steps.jar_name.outputs.value }} -o report.html targetVersion.jar ${{ inputs.projectPath }}/build/libs/${{ steps.jar_name.outputs.value }}
 
       - name: Upload compatibility report
