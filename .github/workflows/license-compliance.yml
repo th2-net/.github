@@ -1,7 +1,7 @@
 name: Check license compliance
 
 on:
-  workflow-call:
+  workflow_call:
 
 jobs:
   LicenseFinder:
