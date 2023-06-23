@@ -1,6 +1,7 @@
 name: Check license compliance
 
-on: [push]
+on:
+  workflow-call:
 
 jobs:
   LicenseFinder:
