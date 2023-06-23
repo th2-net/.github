@@ -47,6 +47,12 @@ on:
         type: string
         default: 'CRITICAL,HIGH,MEDIUM'
         description: 'Adjusting the Trivy Scanner Sensitivity'
+      # License scanning
+      license-scanner-enabled:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether scanning for licenses is enabled'
       multiproject:
         required: false
         type: boolean
@@ -90,6 +96,7 @@ jobs:
       versionNumber: ${{ needs.prebuild-job.outputs.version }}
     secrets:
       docker-password: ${{ secrets.docker-password }}
+
   trivy-docker-scan:
     name: Scan Docker image for vulnerabilities
     if: inputs.scanner-enabled
@@ -118,6 +125,7 @@ jobs:
       sonatypePassword: ${{ secrets.sonatypePassword }}
       sonatypeSigningKey: ${{ secrets.sonatypeSigningKey }}
       sonatypeSigningPassword: ${{ secrets.sonatypeSigningPassword }}
+
   trivy-gradle-scanning:
     name: Gradle Vulnerabilities Scanning
     if: inputs.scanner-enabled
@@ -126,6 +134,12 @@ jobs:
     with:
       sensitivity: ${{ inputs.trivy-sensitivity }}
       gradleVersion: ${{ inputs.gradleVersion }}
+  
+  license-scan:
+    name: License scanning
+    if: inputs.license-scanner-enabled
+    needs: [sonatype-push]
+    uses: th2-net/.github/workflow-templates/license-compliance.yml@main
 
   owasp-scan:
     if: inputs.scanner-enabled
