@@ -1,0 +1,5 @@
+{
+    "name": "Check license compliance",
+    "description": "To use with Java projects add 'com.github.hierynomus.license' version '0.15.0' plugin into build.gradle file",
+    "iconName": "example-icon"
+}
