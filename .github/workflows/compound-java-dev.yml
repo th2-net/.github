@@ -132,7 +132,7 @@ jobs:
     name: License scanning
     if: inputs.license-scanner-enabled
     needs: [sonatype-push]
-    uses: th2-net/.github/.github/workflows/license-compliance.yml@license-scan
+    uses: th2-net/.github/.github/workflows/license-compliance-java.yml@license-scan
 
   owasp-scan:
     if: inputs.scanner-enabled
