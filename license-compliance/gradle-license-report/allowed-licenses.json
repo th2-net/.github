@@ -1,6 +1,10 @@
 {
     "allowedLicenses": [
       {
+        "moduleName": "^com\\.exactpro\\.th2:.*",
+        "mvnRepositoryLicense": "Apache-2.0"
+      },
+      {
         "moduleName": "com.datastax.oss:java-driver-bom",
         "moduleVersion": "^4\\.[\\d\\.]*$",
         "mvnRepositoryLicense": "Apache-2.0"
