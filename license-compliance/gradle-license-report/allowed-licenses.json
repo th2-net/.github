@@ -1,0 +1,63 @@
+{
+    "allowedLicenses": [
+      {
+        "moduleName": "com.datastax.oss:java-driver-bom",
+        "moduleVersion": "^4\\.[\\d\\.]*$",
+        "mvnRepositoryLicense": "Apache-2.0"
+      },
+      {
+        "moduleName": "com.fasterxml.jackson:jackson-bom",
+        "moduleVersion": "^2\\.[\\d\\.]*$",
+        "mvnRepositoryLicense": "Apache-2.0"
+      },
+      {
+        "moduleName": "io.grpc:grpc-bom",
+        "moduleVersion": "^1\\.[\\d\\.]*$",
+        "mvnRepositoryLicense": "Apache-2.0"
+      },
+      {
+        "moduleName": "io.netty:netty-bom",
+        "moduleVersion": "^4\\.[\\d\\.]*\\.Final$",
+        "mvnRepositoryLicense": "Apache-2.0"
+      },
+      {
+        "moduleName": "org.jetbrains.kotlin:kotlin-bom",
+        "moduleVersion": "^1\\.[\\d\\.]*$",
+        "mvnRepositoryLicense": "Apache-2.0"
+      },
+      {
+        "moduleName": "com.squareup.okio:okio",
+        "moduleVersion": "^3\\.[\\d\\.]*$",
+        "mvnRepositoryLicense": "Apache-2.0"
+      },
+      {
+        "moduleName": "io.github.microutils:kotlin-logging",
+        "moduleVersion": "^3\\.[\\d\\.]*$",
+        "mvnRepositoryLicense": "Apache-2.0"
+      },
+      {
+        "moduleLicense": "^MIT$"
+      },
+      {
+        "moduleLicense": "^LGPL-2.1$"
+      },
+      {
+        "moduleLicense": "^EPL-2.0$"
+      },
+      {
+        "moduleLicense": "^BSD-3-Clause$"
+      },
+      {
+        "moduleLicense": "^BSD-2-Clause$"
+      },
+      {
+        "moduleLicense": "^CC0-1.0$"
+      },
+      {
+        "moduleLicense": "^CDDL-1.0$"
+      },
+      {
+        "moduleLicense": "^Apache-2.0$"
+      }
+    ]
+  }
