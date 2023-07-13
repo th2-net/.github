@@ -22,7 +22,7 @@ on:
         required: false
         type: string
         description: 'Docker context that will be passed to the docker build. The Git Context is used by default'
-        default: "{{defaultContext}}"
+        default: '.'
       gradleProjectPath:
         required: false
         type: string
@@ -48,7 +48,7 @@ jobs:
       - name: Show custom release version
         run: echo ${{ inputs.version }}
       - uses: actions/checkout@v3
-        if: inputs.gradleParameters != '[]'
+        if: inputs.dockerContext != '{{defaultContext}}'
       - name: Setup Gradle
         if: inputs.gradleParameters != '[]'
         uses: gradle/gradle-build-action@v2
