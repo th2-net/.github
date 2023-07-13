@@ -42,6 +42,9 @@ jobs:
   docker-push:
     runs-on: ${{ inputs.runsOn }}
     steps:
+      - name: Show work directory
+        id: show
+        run: ls -al
       - name: Show custom release version
         run: echo ${{ inputs.version }}
       - uses: actions/checkout@v3
