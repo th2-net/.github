@@ -21,16 +21,6 @@
         "licenseUrl": "https://www.eclipse.org/org/documents/edl-v10.php"
       },
       {
-        "bundleName": "afl2.1-bsd",
-        "licenseName": "AFL-2.1 | BSD",
-        "licenseUrl": "https://spdx.org/licenses/AFL-2.1.html | "
-      },
-      {
-        "bundleName": "bsd",
-        "licenseName": "BSD",
-        "licenseUrl": ""
-      },
-      {
         "bundleName": "bsd-0",
         "licenseName": "0BSD",
         "licenseUrl": "https://spdx.org/licenses/0BSD.html"
@@ -104,11 +94,6 @@
         "bundleName": "lgpl2.1-or-later",
         "licenseName": "LGPL-2.1+",
         "licenseUrl": "https://spdx.org/licenses/LGPL-2.1+.html"
-      },
-      {
-        "bundleName": "pd",
-        "licenseName": "PD",
-        "licenseUrl": ""
       },
       {
         "bundleName": "apache2",
@@ -281,26 +266,6 @@
       {
         "bundleName": "epl1.0",
         "licenseNamePattern": "^Eclipse Distribution License v\\. 1\\.0$"
-      },
-      {
-        "bundleName": "afl2.1-bsd",
-        "licenseNamePattern": "^AFLv2\\.1.*BSD$"
-      },
-      {
-        "bundleName": "bsd",
-        "licenseNamePattern": "^BSD-like$"
-      },
-      {
-        "bundleName": "bsd",
-        "licenseNamePattern": "^BSD License$"
-      },
-      {
-        "bundleName": "bsd",
-        "licenseNamePattern": "^BSD$"
-      },
-      {
-        "bundleName": "bsd",
-        "licenseNamePattern": "^New BSD$"
       },
       {
         "bundleName": "bsd3clause",
