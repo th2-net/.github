@@ -51,6 +51,7 @@ jobs:
         with:
           distribution: ${{ inputs.java-vendor }}
           java-version: ${{ inputs.java-version }}
+          cache: 'gradle'
       - name: Build with Gradle
         run: ./gradlew -p ${{ inputs.project-path }} clean build
       - name: Build package

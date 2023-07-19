@@ -28,6 +28,7 @@ jobs:
         with:
           distribution: ${{ inputs.javaVendor }}
           java-version: ${{ inputs.javaVersion }}
+          cache: 'gradle'
       - name: Run OWASP single-project scanning
         # continue-on-error: true
         if: ${{ !inputs.multiproject }}

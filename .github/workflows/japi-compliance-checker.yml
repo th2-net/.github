@@ -61,7 +61,7 @@ jobs:
         with:
           distribution: ${{ inputs.javaVendor }}
           java-version: ${{ inputs.javaVersion }}
-
+          cache: 'gradle'
       - name: install japi-compliance-checker
         run: sudo apt-get update && sudo apt-get install -y japi-compliance-checker
 

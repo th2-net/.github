@@ -70,6 +70,7 @@ jobs:
         with:
           distribution: ${{ inputs.javaVendor }}
           java-version: ${{ inputs.javaVersion }}
+          cache: 'gradle'
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Build with Gradle
