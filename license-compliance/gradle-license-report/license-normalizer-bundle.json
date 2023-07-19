@@ -1,6 +1,116 @@
 {
     "bundles": [
       {
+        "bundleName": "upl1.0",
+        "licenseName": "UPL-1.0",
+        "licenseUrl": "https://spdx.org/licenses/UPL-1.0.html"
+      },
+      {
+        "bundleName": "epl1.0",
+        "licenseName": "EPL-1.0",
+        "licenseUrl": "https://www.eclipse.org/legal/epl-v10.html"
+      },
+      {
+        "bundleName": "mpl2.0",
+        "licenseName": "MPL-2.0",
+        "licenseUrl": "https://www.mozilla.org/en-US/MPL/2.0/"
+      },
+      {
+        "bundleName": "edl1.0",
+        "licenseName": "EDL-1.0",
+        "licenseUrl": "https://www.eclipse.org/org/documents/edl-v10.php"
+      },
+      {
+        "bundleName": "afl2.1-bsd",
+        "licenseName": "AFL-2.1 | BSD",
+        "licenseUrl": "https://spdx.org/licenses/AFL-2.1.html | "
+      },
+      {
+        "bundleName": "bsd",
+        "licenseName": "BSD",
+        "licenseUrl": ""
+      },
+      {
+        "bundleName": "bsd-0",
+        "licenseName": "0BSD",
+        "licenseUrl": "https://spdx.org/licenses/0BSD.html"
+      },
+      {
+        "bundleName": "isc",
+        "licenseName": "ISC",
+        "licenseUrl": "https://spdx.org/licenses/ISC.html"
+      },
+      {
+        "bundleName": "unlicense",
+        "licenseName": "Unlicense",
+        "licenseUrl": "https://spdx.org/licenses/Unlicense.html"
+      },
+      {
+        "bundleName": "cc-by-3.0-mit",
+        "licenseName": "CC-BY-3.0 | MIT",
+        "licenseUrl": "https://spdx.org/licenses/CC-BY-3.0.html | https://spdx.org/licenses/MIT.html"
+      },
+      {
+        "bundleName": "cc-by-3.0",
+        "licenseName": "CC-BY-3.0",
+        "licenseUrl": "https://spdx.org/licenses/CC-BY-3.0.html"
+      },
+      {
+        "bundleName": "cc-by-4.0",
+        "licenseName": "CC-BY-4.0",
+        "licenseUrl": "https://spdx.org/licenses/CC-BY-4.0.html"
+      },
+      {
+        "bundleName": "bsd3-mit",
+        "licenseName": "BSD-3-Clause | MIT",
+        "licenseUrl": "https://spdx.org/licenses/BSD-3-Clause.html | https://spdx.org/licenses/MIT.html"
+      },
+      {
+        "bundleName": "bsd3-gpl2.0",
+        "licenseName": "BSD-3-Clause | GPL-2.0",
+        "licenseUrl": "https://spdx.org/licenses/BSD-3-Clause.html | https://spdx.org/licenses/GPL-2.0-only.html"
+      },
+      {
+        "bundleName": "apache2-mpl11",
+        "licenseName": "Apache-2.0 | MPL-1.1",
+        "licenseUrl": "https://spdx.org/licenses/Apache-2.0.html | https://spdx.org/licenses/MPL-1.1.html"
+      },
+      {
+        "bundleName": "apache2-mit",
+        "licenseName": "Apache-2.0 | MIT",
+        "licenseUrl": "https://spdx.org/licenses/Apache-2.0.html | https://spdx.org/licenses/MIT.html"
+      },
+      {
+        "bundleName": "zlib-mit",
+        "licenseName": "MIT | Zlib",
+        "licenseUrl": "https://spdx.org/licenses/MIT.html | https://spdx.org/licenses/Zlib.html"
+      },
+      {
+        "bundleName": "lpgl20-mit",
+        "licenseName": "LGPL-2.0 | MIT",
+        "licenseUrl": "https://spdx.org/licenses/LGPL-2.0-only.html | https://spdx.org/licenses/MIT.html"
+      },
+      {
+        "bundleName": "cc0-1-mit",
+        "licenseName": "MIT | CC0-1.0",
+        "licenseUrl": "https://spdx.org/licenses/MIT.html | https://spdx.org/licenses/CC0-1.0.html"
+      },
+      {
+        "bundleName": "mit-0",
+        "licenseName": "MIT-0",
+        "licenseUrl": "https://spdx.org/licenses/MIT-0.html"
+      },
+      {
+        "bundleName": "lgpl2.1-or-later",
+        "licenseName": "LGPL-2.1+",
+        "licenseUrl": "https://spdx.org/licenses/LGPL-2.1+.html"
+      },
+      {
+        "bundleName": "pd",
+        "licenseName": "PD",
+        "licenseUrl": ""
+      },
+      {
         "bundleName": "apache2",
         "licenseName": "Apache-2.0",
         "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.txt"
@@ -151,6 +261,150 @@
       {
         "bundleName": "mpl1.1",
         "licenseUrlPattern": "^https://www.mozilla.org/MPL/MPL-1\\.1\\.txt$"
+      },
+      {
+        "bundleName": "mpl2.0",
+        "licenseNamePattern": "^Mozilla Public License Version 2\\.0$"
+      },
+      {
+        "bundleName": "upl1.0",
+        "licenseNamePattern": "^UPL-1\\.0"
+      },
+      {
+        "bundleName": "edl1.0",
+        "licenseNamePattern": "^Eclipse Distribution License \\(New BSD License\\)$"
+      },
+      {
+        "bundleName": "epl1.0",
+        "licenseNamePattern": "^Eclipse Public License v1\\.0$"
+      },
+      {
+        "bundleName": "epl1.0",
+        "licenseNamePattern": "^Eclipse Distribution License v\\. 1\\.0$"
+      },
+      {
+        "bundleName": "afl2.1-bsd",
+        "licenseNamePattern": "^AFLv2\\.1.*BSD$"
+      },
+      {
+        "bundleName": "bsd",
+        "licenseNamePattern": "^BSD-like$"
+      },
+      {
+        "bundleName": "bsd",
+        "licenseNamePattern": "^BSD License$"
+      },
+      {
+        "bundleName": "bsd",
+        "licenseNamePattern": "^BSD$"
+      },
+      {
+        "bundleName": "bsd",
+        "licenseNamePattern": "^New BSD$"
+      },
+      {
+        "bundleName": "bsd3clause",
+        "licenseNamePattern": "^BSD-3-Clause$"
+      },
+      {
+        "bundleName": "bsd-0",
+        "licenseNamePattern": "^BSD Zero Clause License$"
+      },
+      {
+        "bundleName": "isc",
+        "licenseNamePattern": "^ISC$"
+      },
+      {
+        "bundleName": "bsd2clause",
+        "licenseNamePattern": "^Simplified BSD$"
+      },
+      {
+        "bundleName": "Unlicense",
+        "licenseNamePattern": "^Unlicense$"
+      },
+      {
+        "bundleName": "cc-by-3.0-mit",
+        "licenseNamePattern": "^\\(MIT AND CC-BY-3\\.0\\)$"
+      },
+      {
+        "bundleName": "cc-by-3.0",
+        "licenseNamePattern": "^CC-BY-3\\.0$"
+      },
+      {
+        "bundleName": "cc-by-4.0",
+        "licenseNamePattern": "^CC-BY-4\\.0$"
+      },
+      {
+        "bundleName": "mit",
+        "licenseNamePattern": "^\\(WTFPL OR MIT\\)$"
+      },
+      {
+        "bundleName": "bsd3-mit",
+        "licenseNamePattern": "^BSD-3-Clause OR MIT$"
+      },
+      {
+        "bundleName": "bsd3-mit",
+        "licenseNamePattern": "^\\(MIT AND BSD-3-Clause\\)$"
+      },
+      {
+        "bundleName": "bsd3-gpl2.0",
+        "licenseNamePattern": "^\\(BSD-3-Clause OR GPL-2\\.0\\)$"
+      },
+      {
+        "bundleName": "pd",
+        "licenseNamePattern": "^Public Domain$"
+      },
+      {
+        "bundleName": "apache2-mpl11",
+        "licenseNamePattern": "^\\(Apache-2\\.0 OR MPL-1\\.1\\)$"
+      },
+      {
+        "bundleName": "apache2-mit",
+        "licenseNamePattern": "^\\(MIT OR Apache-2\\.0\\)$"
+      },
+      {
+        "bundleName": "zlib-mit",
+        "licenseNamePattern": "^\\(MIT AND Zlib\\)$"
+      },
+      {
+        "bundleName": "cc0-1-mit",
+        "licenseNamePattern": "^\\(MIT OR CC0-1\\.0\\)$"
+      },
+      {
+        "bundleName": "lpgl20-mit",
+        "licenseNamePattern": "^\\(LGPL-2\\.0 or MIT\\)$"
+      },
+      {
+        "bundleName": "apache2",
+        "licenseNamePattern": "^ASL 2\\.0$"
+      },
+      {
+        "bundleName": "mit",
+        "licenseNamePattern": "^MIT$"
+      },
+      {
+        "bundleName": "mit-0",
+        "licenseNamePattern": "^MIT-0$"
+      },
+      {
+        "bundleName": "lgpl2.1-or-later",
+        "licenseNamePattern": "^GNU Library General Public License v2\\.1 or later$"
+      },
+      {
+        "bundleName": "cc0-1",
+        "licenseNamePattern": "^CC0 1\\.0 Universal$"
+      },
+      {
+        "bundleName": "cc0-1",
+        "licenseNamePattern": "^CC0-1\\.0$"
+      },
+      {
+        "bundleName": "cc0-1",
+        "licenseNamePattern": "^Public Domain, per Creative Commons CC0$"
+      },
+      {
+        "bundleName": "epl2",
+        "licenseNamePattern": "^EPL 2\\.0$"
       }
     ]
   }
