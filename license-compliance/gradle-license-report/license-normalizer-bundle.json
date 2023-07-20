@@ -264,7 +264,7 @@
         "licenseNamePattern": "^Eclipse Public License v1\\.0$"
       },
       {
-        "bundleName": "epl1.0",
+        "bundleName": "edl1.0",
         "licenseNamePattern": "^Eclipse Distribution License v\\. 1\\.0$"
       },
       {
@@ -278,10 +278,6 @@
       {
         "bundleName": "isc",
         "licenseNamePattern": "^ISC$"
-      },
-      {
-        "bundleName": "bsd2clause",
-        "licenseNamePattern": "^Simplified BSD$"
       },
       {
         "bundleName": "Unlicense",
