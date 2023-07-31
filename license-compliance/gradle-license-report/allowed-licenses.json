@@ -377,6 +377,7 @@
         },
       {
         "moduleName": "^com\\.exactpro\\.th2:.*",
+	"moduleVersion": "^\\d+.*",
         "mvnRepositoryLicense": "Apache-2.0"
       },
       {
