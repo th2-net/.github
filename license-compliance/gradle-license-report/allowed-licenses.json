@@ -1,533 +1,533 @@
 {
-    "allowedLicenses": [
-      {
-        "moduleName": "com.amazonaws:aws-java-sdk-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "com.azure:azure-sdk-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "MIT"
-        },
-      {
-        "moduleName": "com.datastax.oss:java-driver-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "com.datastax.oss:java-driver-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "com.fasterxml.jackson:jackson-bom",
-        "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "com.fasterxml.jackson:jackson-bom",
-        "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "com.google.protobuf:protobuf-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "BSD-3-Clause"
-        },
-      {
-        "moduleName": "com.oracle.coherence.ce:coherence-bom",
-        "moduleVersion": "^22\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "UPL-1.0"
-        },
-      {
-        "moduleName": "com.squareup.okio:okio",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.github.microutils:kotlin-logging",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.grpc:grpc-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.grpc:grpc-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.aws:micronaut-aws-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.azure:micronaut-azure-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.beanvalidation:micronaut-hibernate-validator-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.cache:micronaut-cache-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.coherence:micronaut-coherence-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.crac:micronaut-crac-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.data:micronaut-data-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.email:micronaut-email-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.flyway:micronaut-flyway-bom",
-        "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.gcp:micronaut-gcp-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.groovy:micronaut-groovy-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.grpc:micronaut-grpc-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.jaxrs:micronaut-jaxrs-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.jmx:micronaut-jmx-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.kafka:micronaut-kafka-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.kotlin:micronaut-kotlin-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.kubernetes:micronaut-kubernetes-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.liquibase:micronaut-liquibase-bom",
-        "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.micrometer:micronaut-micrometer-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.microstream:micronaut-microstream-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.mongodb:micronaut-mongo-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.mqtt:micronaut-mqtt-bom",
-        "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.objectstorage:micronaut-object-storage-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.openapi:micronaut-openapi-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.oraclecloud:micronaut-oraclecloud-bom",
-        "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.picocli:micronaut-picocli-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.problem:micronaut-problem-json-bom",
-        "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.r2dbc:micronaut-r2dbc-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.rabbitmq:micronaut-rabbitmq-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.reactor:micronaut-reactor-bom",
-        "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.redis:micronaut-redis-bom",
-        "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.rxjava2:micronaut-rxjava2-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.rxjava3:micronaut-rxjava3-bom",
-        "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.security:micronaut-security-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.serde:micronaut-serde-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.servlet:micronaut-servlet-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.spring:micronaut-spring-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.sql:micronaut-sql-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.test:micronaut-test-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.testresources:micronaut-test-resources-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.tracing:micronaut-tracing-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.micronaut.views:micronaut-views-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.netty:netty-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.netty:netty-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.netty:netty-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.netty:netty-bom",
-        "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.opentelemetry:opentelemetry-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.opentelemetry:opentelemetry-bom-alpha",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "io.rest-assured:rest-assured-bom",
-        "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "org.apache.logging.log4j:log4j-bom",
-        "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "org.codehaus.groovy:groovy-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "org.jdbi:jdbi3-bom",
-        "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "org.jetbrains.kotlin:kotlin-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "org.jetbrains.kotlinx:kotlinx-coroutines-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-core",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "org.junit:junit-bom",
-        "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "EPL 2.0"
-        },
-      {
-        "moduleName": "org.junit:junit-bom",
-        "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "EPL 2.0"
-        },
-      {
-        "moduleName": "org.spockframework:spock-bom",
-        "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "org.springframework:spring-framework-bom",
-        "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "org.testcontainers:testcontainers-bom",
-        "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "MIT"
-        },
-      {
-        "moduleName": "software.amazon.awssdk:bom",
-        "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
-        "mvnRepositoryLicense": "Apache 2.0"
-        },
-      {
-        "moduleName": "^com\\.exactpro\\.th2:.*",
-	"moduleVersion": "^\\d+.*",
-        "mvnRepositoryLicense": "Apache-2.0"
-      },
-      {
-        "moduleName": "com.datastax.oss:java-driver-bom",
-        "moduleVersion": "^4\\.[\\d\\.]*$",
-        "mvnRepositoryLicense": "Apache-2.0"
-      },
-      {
-        "moduleName": "com.fasterxml.jackson:jackson-bom",
-        "moduleVersion": "^2\\.[\\d\\.]*$",
-        "mvnRepositoryLicense": "Apache-2.0"
-      },
-      {
-        "moduleName": "io.grpc:grpc-bom",
-        "moduleVersion": "^1\\.[\\d\\.]*$",
-        "mvnRepositoryLicense": "Apache-2.0"
-      },
-      {
-        "moduleName": "io.netty:netty-bom",
-        "moduleVersion": "^4\\.[\\d\\.]*\\.Final$",
-        "mvnRepositoryLicense": "Apache-2.0"
-      },
-      {
-        "moduleName": "org.jetbrains.kotlin:kotlin-bom",
-        "moduleVersion": "^1\\.[\\d\\.]*$",
-        "mvnRepositoryLicense": "Apache-2.0"
-      },
-      {
-        "moduleName": "com.squareup.okio:okio",
-        "moduleVersion": "^3\\.[\\d\\.]*$",
-        "mvnRepositoryLicense": "Apache-2.0"
-      },
-      {
-        "moduleName": "io.github.microutils:kotlin-logging",
-        "moduleVersion": "^3\\.[\\d\\.]*$",
-        "mvnRepositoryLicense": "Apache-2.0"
-      },
-      {
-        "moduleLicense": "^MIT$"
-      },
-      {
-        "moduleLicense": "^LGPL-2.1$"
-      },
-      {
-        "moduleLicense": "^EPL-2.0$"
-      },
-      {
-        "moduleLicense": "^BSD-3-Clause$"
-      },
-      {
-        "moduleLicense": "^BSD-2-Clause$"
-      },
-      {
-        "moduleLicense": "^CC0-1.0$"
-      },
-      {
-        "moduleLicense": "^CDDL-1.0$"
-      },
-      {
-        "moduleLicense": "^Apache-2.0$"
-      },
-      {
-        "moduleLicense": "^MIT-0$"
-        },
-      {
-        "moduleLicense": "^ISC$"
-        },
-      {
-        "moduleLicense": "^Unlicense$"
-        },
-      {
-        "moduleLicense": "^0BSD$"
-        },
-      {
-        "moduleLicense": "^MPL-2\\.0$"
-        },
-      {
-        "moduleLicense": "^PSF-2\\.0$"
-        },
-      {
-        "moduleLicense": "^PSF$"
-        },
-      {
-        "moduleLicense": "^HPND$"
-        },
-      {
-        "moduleLicense": "^Public Domain$"
-        },
-      {
-        "moduleLicense": "^LGPL v3$"
-        },
-      {
-        "moduleLicense": "^CDDL-1\\.1$"
-        },
-      {
-        "moduleLicense": "^CC-BY-2\\.5$"
-        },
-      {
-        "moduleLicense": "^LGPL-2\\.1-or-later$"
-        },
-      {
-        "moduleLicense": "^EPL-1\\.0$"
-        },
-      {
-        "moduleLicense": "^EDL-1\\.0$"
-        },
-      {
-        "moduleLicense": "^BSD$"
-        },
-      {
-        "moduleLicense": "^LGPL-2\\.0$"
-        },
-      {
-        "moduleLicense": "^unicode-icu-58$"
-        },
-      {
-        "moduleLicense": "^MPL-1\\.1$"
-        },
-      {
-        "moduleLicense": "^UPL-1\\.0$"
-        },
-      {
-        "moduleLicense": "^GPL-2\\.0-with-classpath-exception$"
-        },
-      {
-        "moduleLicense": "^CC0-1\\.0 | Apache-2\\.0$"
-        },
-      {
-        "moduleLicense": "^CC0-1\\.0 | BSD-2-Clause$"
-        },
-      {
-        "moduleLicense": "^Apache-2\\.0 | MIT$"
-        },
-      {
-        "moduleLicense": "^BSD-3-Clause | Apache 2\\.0$"
-        },
-      {
-        "moduleLicense": "^BSD-2-Clause | Apache-2\\.0$"
-        },
-      {
-        "moduleLicense": "^Apache-2\\.0 | EPL-2\\.0$"
-        },
-      {
-        "moduleLicense": "^Apache-2\\.0 | EPL-1\\.0$"
-        },
-      {
-        "moduleLicense": "^Apache-2\\.0 | MPL-2\\.0$"
-        },
-      {
-	"moduleLicense": "^Apache-2\\.0 | BSD-3-Clause$"
-      }
-    ]
+  "allowedLicenses": [
+    {
+      "moduleName": "com.amazonaws:aws-java-sdk-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "com.azure:azure-sdk-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "MIT"
+    },
+    {
+      "moduleName": "com.datastax.oss:java-driver-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "com.datastax.oss:java-driver-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "com.fasterxml.jackson:jackson-bom",
+      "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "com.fasterxml.jackson:jackson-bom",
+      "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "com.google.protobuf:protobuf-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "BSD-3-Clause"
+    },
+    {
+      "moduleName": "com.oracle.coherence.ce:coherence-bom",
+      "moduleVersion": "^22\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "UPL-1.0"
+    },
+    {
+      "moduleName": "com.squareup.okio:okio",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.github.microutils:kotlin-logging",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.grpc:grpc-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.grpc:grpc-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.aws:micronaut-aws-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.azure:micronaut-azure-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.beanvalidation:micronaut-hibernate-validator-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.cache:micronaut-cache-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.coherence:micronaut-coherence-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.crac:micronaut-crac-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.data:micronaut-data-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.email:micronaut-email-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.flyway:micronaut-flyway-bom",
+      "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.gcp:micronaut-gcp-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.groovy:micronaut-groovy-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.grpc:micronaut-grpc-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.jaxrs:micronaut-jaxrs-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.jmx:micronaut-jmx-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.kafka:micronaut-kafka-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.kotlin:micronaut-kotlin-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.kubernetes:micronaut-kubernetes-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.liquibase:micronaut-liquibase-bom",
+      "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.micrometer:micronaut-micrometer-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.microstream:micronaut-microstream-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.mongodb:micronaut-mongo-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.mqtt:micronaut-mqtt-bom",
+      "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.objectstorage:micronaut-object-storage-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.openapi:micronaut-openapi-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.oraclecloud:micronaut-oraclecloud-bom",
+      "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.picocli:micronaut-picocli-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.problem:micronaut-problem-json-bom",
+      "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.r2dbc:micronaut-r2dbc-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.rabbitmq:micronaut-rabbitmq-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.reactor:micronaut-reactor-bom",
+      "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.redis:micronaut-redis-bom",
+      "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.rxjava2:micronaut-rxjava2-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.rxjava3:micronaut-rxjava3-bom",
+      "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.security:micronaut-security-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.serde:micronaut-serde-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.servlet:micronaut-servlet-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.spring:micronaut-spring-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.sql:micronaut-sql-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.test:micronaut-test-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.testresources:micronaut-test-resources-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.tracing:micronaut-tracing-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.micronaut.views:micronaut-views-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.netty:netty-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.netty:netty-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.netty:netty-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.netty:netty-bom",
+      "moduleVersion": "^4\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.opentelemetry:opentelemetry-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.opentelemetry:opentelemetry-bom-alpha",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "io.rest-assured:rest-assured-bom",
+      "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "org.apache.logging.log4j:log4j-bom",
+      "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "org.codehaus.groovy:groovy-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "org.jdbi:jdbi3-bom",
+      "moduleVersion": "^3\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "org.jetbrains.kotlin:kotlin-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "org.jetbrains.kotlinx:kotlinx-coroutines-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-core",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "org.junit:junit-bom",
+      "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "EPL 2.0"
+    },
+    {
+      "moduleName": "org.junit:junit-bom",
+      "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "EPL 2.0"
+    },
+    {
+      "moduleName": "org.spockframework:spock-bom",
+      "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "org.springframework:spring-framework-bom",
+      "moduleVersion": "^5\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "org.testcontainers:testcontainers-bom",
+      "moduleVersion": "^1\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "MIT"
+    },
+    {
+      "moduleName": "software.amazon.awssdk:bom",
+      "moduleVersion": "^2\\.\\d+.*\\.\\d+.*",
+      "mvnRepositoryLicense": "Apache 2.0"
+    },
+    {
+      "moduleName": "^com\\.exactpro\\.th2:.*",
+      "moduleVersion": "^\\d+.*",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
+      "moduleName": "com.datastax.oss:java-driver-bom",
+      "moduleVersion": "^4\\.[\\d\\.]*$",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
+      "moduleName": "com.fasterxml.jackson:jackson-bom",
+      "moduleVersion": "^2\\.[\\d\\.]*$",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
+      "moduleName": "io.grpc:grpc-bom",
+      "moduleVersion": "^1\\.[\\d\\.]*$",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
+      "moduleName": "io.netty:netty-bom",
+      "moduleVersion": "^4\\.[\\d\\.]*\\.Final$",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
+      "moduleName": "org.jetbrains.kotlin:kotlin-bom",
+      "moduleVersion": "^1\\.[\\d\\.]*$",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
+      "moduleName": "com.squareup.okio:okio",
+      "moduleVersion": "^3\\.[\\d\\.]*$",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
+      "moduleName": "io.github.microutils:kotlin-logging",
+      "moduleVersion": "^3\\.[\\d\\.]*$",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
+      "moduleLicense": "^MIT$"
+    },
+    {
+      "moduleLicense": "^LGPL-2.1$"
+    },
+    {
+      "moduleLicense": "^EPL-2.0$"
+    },
+    {
+      "moduleLicense": "^BSD-3-Clause$"
+    },
+    {
+      "moduleLicense": "^BSD-2-Clause$"
+    },
+    {
+      "moduleLicense": "^CC0-1.0$"
+    },
+    {
+      "moduleLicense": "^CDDL-1.0$"
+    },
+    {
+      "moduleLicense": "^Apache-2.0$"
+    },
+    {
+      "moduleLicense": "^MIT-0$"
+    },
+    {
+      "moduleLicense": "^ISC$"
+    },
+    {
+      "moduleLicense": "^Unlicense$"
+    },
+    {
+      "moduleLicense": "^0BSD$"
+    },
+    {
+      "moduleLicense": "^MPL-2\\.0$"
+    },
+    {
+      "moduleLicense": "^PSF-2\\.0$"
+    },
+    {
+      "moduleLicense": "^PSF$"
+    },
+    {
+      "moduleLicense": "^HPND$"
+    },
+    {
+      "moduleLicense": "^Public Domain$"
+    },
+    {
+      "moduleLicense": "^LGPL v3$"
+    },
+    {
+      "moduleLicense": "^CDDL-1\\.1$"
+    },
+    {
+      "moduleLicense": "^CC-BY-2\\.5$"
+    },
+    {
+      "moduleLicense": "^LGPL-2\\.1-or-later$"
+    },
+    {
+      "moduleLicense": "^EPL-1\\.0$"
+    },
+    {
+      "moduleLicense": "^EDL-1\\.0$"
+    },
+    {
+      "moduleLicense": "^BSD$"
+    },
+    {
+      "moduleLicense": "^LGPL-2\\.0$"
+    },
+    {
+      "moduleLicense": "^unicode-icu-58$"
+    },
+    {
+      "moduleLicense": "^MPL-1\\.1$"
+    },
+    {
+      "moduleLicense": "^UPL-1\\.0$"
+    },
+    {
+      "moduleLicense": "^GPL-2\\.0-with-classpath-exception$"
+    },
+    {
+      "moduleLicense": "^CC0-1\\.0 | Apache-2\\.0$"
+    },
+    {
+      "moduleLicense": "^CC0-1\\.0 | BSD-2-Clause$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 | MIT$"
+    },
+    {
+      "moduleLicense": "^BSD-3-Clause | Apache 2\\.0$"
+    },
+    {
+      "moduleLicense": "^BSD-2-Clause | Apache-2\\.0$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 | EPL-2\\.0$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 | EPL-1\\.0$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 | MPL-2\\.0$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 | BSD-3-Clause$"
+    }
+  ]
 }
