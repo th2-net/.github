@@ -5,12 +5,93 @@ if [ -z "$1" ];then
 	exit 2
 fi
 
-dir="check_license"
+#*******Params*******
+dir="licenses_check"
 lic_file="$dir/licenses.json"
+
+link_allowed_licenses="https://raw.githubusercontent.com/th2-net/.github/th2-1836-json-files-update/license-compliance/gradle-license-report/allowed-licenses.json"
+link_license_normalizer_bundle="https://raw.githubusercontent.com/th2-net/.github/th2-1836-json-files-update/license-compliance/gradle-license-report/license-normalizer-bundle.json"
+allowed_licenses="$dir/allowed-licenses.json"
+unknown_license=""
+warnings="$dir/warnings.csv"
+
+temp_res="$dir/temp_res"
+res_lic="$dir/res.lic"
+report_before_check="$dir/report.csv_before_check"
+failed_licenses="$dir/failed_licenses.csv"
+passed_licenses="$dir/passed_licenses.csv"
+final_report="$dir/licenses_report.csv"
+head="Testing tool name,Open Source Code Library Name (contained within the Testing Tool),Version,Associated Open Source License,Comment"
+echo $head > $final_report
+
+convert_allow_lic="$dir/convert_allow_lic.csv"
+convert_bom_lic="$dir/convert_bom_lic.csv"
+#******end Params*****
+
+
 rm -rf $dir
 mkdir -p $dir
 
+#Function to download file
+download_file(){
+	local link=$1
+	local output_file=$2
+	echo "Download file from $link"
+	wget -q -O $output_file $link
+	if [ $? -eq 0 ]; then
+	        echo "Download - Completed"
+	else
+	        echo "ERROR: download file problem"
+	        echo "Link = $link"
+	        exit 2
+	fi
+}
 
+#Function to normalize license names
+normalize(){
+	local file=$1
+	cp $file $file"_bkp"
+	local regexp_file="$dir/regexp_file"
+	local normalizer_file="$dir/license-normalizer-bundle.json"
+	local reg_sed="$dir/sed_commands_list"
+	download_file "$link_license_normalizer_bundle" "$normalizer_file"
+
+	#Prepare regexp file format bundleName,regexp
+	/home/exp.exactpro.com/andrey.shulika/DEVOPS/work/soft/jq/jq-linux64 -r '.transformationRules[] | .lic = (.licenseNamePattern // .licenseUrlPattern) | [ .bundleName, .lic ] | @csv' $normalizer_file > $regexp_file
+
+	#Prepare sed commands to apply to initial file to replace known pattern to normal license name
+	while IFS= read -r line
+	do
+		local bundleName=`echo $line | awk -F "\",\"" '{print $1}' | sed 's/"//g'`
+		local exp=`echo $line | awk -F "\",\"" '{print $2}' | sed 's/"//g'`
+		local mod_exp=`echo $exp | sed 's/\\\//g' | sed 's/\^/"/g' | sed 's/\\$/"/g'`
+		#Find lic name that need to be applied instead of text
+		local lic=`/home/exp.exactpro.com/andrey.shulika/DEVOPS/work/soft/jq/jq-linux64 -r '.bundles[] | select (.bundleName == "'$bundleName'") | .licenseName' $normalizer_file | sed 's/^/"/g' | sed 's/$/"/g'`
+		#echo "Exp = $exp"
+		#echo "Mod_exp = $mod_exp"
+                #echo "BundleName = $bundleName"
+		#echo "Lic = $lic"
+		if  [[  -z $lic  ]]; then
+			echo "***************WARNING***************"
+		        echo "YOU HAVE UNDEFINED TRANSFORMATION RULE in $normalizer_file"
+			echo "Regexp = $exp"
+			echo "Bundle name = $bundleName"
+			echo "The rule is skipped."
+			echo "Undefined transformation rule,bundleName=$bundleName,regexp=$exp" >> $warnings
+			echo "*************************************"
+		else
+			echo "s#${mod_exp}#${lic}#g" >> $reg_sed
+		fi
+	done < $regexp_file
+	#Apply sed commands replace patterns
+	sed -f $reg_sed -i $file
+#	rm $reg_sed $regexp_file
+}
+
+
+
+
+#Define mode and reformat files before checking
 case $1 in
 
 	java|JAVA|Java)
@@ -28,9 +109,10 @@ case $1 in
 	pip-licenses --format=json --output-file=pyth_licenses.json
 	#Reformat to common
 	cat pyth_licenses.json | sed 's/^\[/\{ "dependencies": \[/g' | sed 's/^\]/\] \}/g' > p_temp
-	cat p_temp | sed 's/"Name"/"moduleName"/g' | sed 's/"Version"/"moduleVersion"/g' | sed 's/\("License":\)\( ".*"\)/"moduleLicenses": \[ \{ "moduleLicense": \2 \} \]/g' > $lic_file
+	cat p_temp | sed 's/"Name"/"moduleName"/g' | sed 's/"Version"/"moduleVersion"/g' | sed 's/\("License":\)\( ".*"\)/"moduleLicenses": \[ \{ "moduleLicense": \2 \} \]/g' > pyth_licenses.json
 	rm p_temp
-	rm pyth_licenses.json
+	mv pyth_licenses.json $lic_file
+	normalize "$lic_file"
 	echo "Running pip-licenses - completed"
 	;;
 
@@ -97,14 +179,15 @@ echo "Forming completed"
 
 #Download allowed-licenses.json
 echo "Download allowed-licenses file"
-wget -q -O $allowed_licenses $link_allowed_licenses
-if [ $? -eq 0 ]; then
-	echo "Download - Completed"
-else
-	echo "ERROR: download file problem"
-	echo "Link = $link_allowed_licenses"
-	exit 2
-fi
+download_file "$link_allowed_licenses" "$allowed_licenses"
+#wget -q -O $allowed_licenses $link_allowed_licenses
+#if [ $? -eq 0 ]; then
+#	echo "Download - Completed"
+#else
+#	echo "ERROR: download file problem"
+#	echo "Link = $link_allowed_licenses"
+#	exit 2
+#fi
 
 
 #simple text
