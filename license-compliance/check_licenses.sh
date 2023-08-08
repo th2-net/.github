@@ -6,6 +6,7 @@ if [ -z "$1" ];then
 fi
 
 #*******Params*******
+jq_path="/home/exp.exactpro.com/andrey.shulika/DEVOPS/work/soft/jq/jq-linux64"
 dir="licenses_check"
 lic_file="$dir/licenses.json"
 
@@ -57,7 +58,7 @@ normalize(){
 	download_file "$link_license_normalizer_bundle" "$normalizer_file"
 
 	#Prepare regexp file format bundleName,regexp
-	/home/exp.exactpro.com/andrey.shulika/DEVOPS/work/soft/jq/jq-linux64 -r '.transformationRules[] | .lic = (.licenseNamePattern // .licenseUrlPattern) | [ .bundleName, .lic ] | @csv' $normalizer_file > $regexp_file
+	$jq_path -r '.transformationRules[] | .lic = (.licenseNamePattern // .licenseUrlPattern) | [ .bundleName, .lic ] | @csv' $normalizer_file > $regexp_file
 
 	#Prepare sed commands to apply to initial file to replace known pattern to normal license name
 	while IFS= read -r line
@@ -66,7 +67,7 @@ normalize(){
 		local exp=`echo $line | awk -F "\",\"" '{print $2}' | sed 's/"//g'`
 		local mod_exp=`echo $exp | sed 's/\\\//g' | sed 's/\^/"/g' | sed 's/\\$/"/g'`
 		#Find lic name that need to be applied instead of text
-		local lic=`/home/exp.exactpro.com/andrey.shulika/DEVOPS/work/soft/jq/jq-linux64 -r '.bundles[] | select (.bundleName == "'$bundleName'") | .licenseName' $normalizer_file | sed 's/^/"/g' | sed 's/$/"/g'`
+		local lic=`$jq_path -r '.bundles[] | select (.bundleName == "'$bundleName'") | .licenseName' $normalizer_file | sed 's/^/"/g' | sed 's/$/"/g'`
 		#echo "Exp = $exp"
 		#echo "Mod_exp = $mod_exp"
                 #echo "BundleName = $bundleName"
@@ -144,7 +145,7 @@ convert_bom_lic="$dir/convert_bom_lic.csv"
 echo "Parsing file $lic_file"
 
 #Make report prior to check
-/home/exp.exactpro.com/andrey.shulika/DEVOPS/work/soft/jq/jq-linux64 -r '.dependencies[] | .licenses = try (.moduleLicenses[].moduleLicense) catch "null" | [.moduleName, .moduleVersion, .licenses ] | @csv' $lic_file | sort -u > $temp_res
+$jq_path -r '.dependencies[] | .licenses = try (.moduleLicenses[].moduleLicense) catch "null" | [.moduleName, .moduleVersion, .licenses ] | @csv' $lic_file | sort -u > $temp_res
 
 echo "Forming report"
 
@@ -180,14 +181,6 @@ echo "Forming completed"
 #Download allowed-licenses.json
 echo "Download allowed-licenses file"
 download_file "$link_allowed_licenses" "$allowed_licenses"
-#wget -q -O $allowed_licenses $link_allowed_licenses
-#if [ $? -eq 0 ]; then
-#	echo "Download - Completed"
-#else
-#	echo "ERROR: download file problem"
-#	echo "Link = $link_allowed_licenses"
-#	exit 2
-#fi
 
 
 #simple text
@@ -195,9 +188,9 @@ download_file "$link_allowed_licenses" "$allowed_licenses"
 #/home/exp.exactpro.com/andrey.shulika/DEVOPS/work/soft/jq/jq-linux64 -r '.allowedLicenses[] | .moduleLicense' $allowed_licenses | sed 's/\^//g' | sed 's/\$//g' | sed 's/\\//g' | grep -v null | sort -u > $convert_allow_lic
 
 #regular expressions
-/home/exp.exactpro.com/andrey.shulika/DEVOPS/work/soft/jq/jq-linux64 -r '.allowedLicenses[] | .moduleLicense' $allowed_licenses | grep -v null | sort -u > $convert_allow_lic
+$jq_path -r '.allowedLicenses[] | .moduleLicense' $allowed_licenses | grep -v null | sort -u > $convert_allow_lic
 
-/home/exp.exactpro.com/andrey.shulika/DEVOPS/work/soft/jq/jq-linux64 -r '.allowedLicenses[] | .licenses = try (.mvnRepositoryLicense) catch "null" | [.moduleName, .moduleVersion, .licenses ] | @csv' $allowed_licenses | sort -u | grep -v ",," | sed 's/"//g' > $convert_bom_lic
+$jq_path -r '.allowedLicenses[] | .licenses = try (.mvnRepositoryLicense) catch "null" | [.moduleName, .moduleVersion, .licenses ] | @csv' $allowed_licenses | sort -u | grep -v ",," | sed 's/"//g' > $convert_bom_lic
 
 
 #Check license based on regular expressions in allowed-licenses.json file
@@ -265,7 +258,10 @@ echo "Passed report = $passed_licenses"
 echo "Failed report = $failed_licenses"
 echo "Final report = $final_report"
 
-#Old code
+
+
+
+#Old code - comparing based on text
 #Check license
 #echo "Checking licenses"
 #for line in `cat $report_before_check | tr ' ' ';'`
