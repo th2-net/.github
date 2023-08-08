@@ -1,12 +1,6 @@
 {
   "bundles": [
     {
-      "bundleName": "upl1.0",
-      "licenseName": "UPL-1.0",
-      "licenseUrl": "https://spdx.org/licenses/UPL-1.0.html",
-      "licenseCategory": ""
-    },
-    {
       "bundleName": "epl1.0",
       "licenseName": "EPL-1.0",
       "licenseUrl": "https://www.eclipse.org/legal/epl-v10.html",
@@ -173,6 +167,12 @@
       "licenseName": "MPL-1.1",
       "licenseUrl": "https://spdx.org/licenses/MPL-1.1.html",
       "licenseCategory": ""
+    },
+    {
+      "bundleName": "upl1.0",
+      "licenseName": "UPL-1.0",
+      "licenseUrl": "https://spdx.org/licenses/UPL-1.0.html",
+      "licenseCategory": ""
     }
   ],
   "transformationRules": [
@@ -221,6 +221,10 @@
       "licenseUrlPattern": "^https://www.apache.org/licenses/LICENSE-2\\.0$"
     },
     {
+      "bundleName": "apache2",
+      "licenseNamePattern": "^ASL 2\\.0$"
+    },
+    {
       "bundleName": "bsd2clause",
       "licenseNamePattern": "^The 2-Clause BSD License$"
     },
@@ -231,6 +235,10 @@
     {
       "bundleName": "bsd3clause",
       "licenseNamePattern": "^BSD-3-Clause;link=https://asm\\.ow2\\.io/LICENSE\\.txt$"
+    },
+    {
+      "bundleName": "bsd3clause",
+      "licenseNamePattern": "^BSD-3-Clause$"
     },
     {
       "bundleName": "cc0-1",
@@ -245,12 +253,28 @@
       "licenseUrlPattern": "^http://creativecommons.org/publicdomain/zero/1.0/"
     },
     {
+      "bundleName": "cc0-1",
+      "licenseNamePattern": "^CC0 1\\.0 Universal$"
+    },
+    {
+      "bundleName": "cc0-1",
+      "licenseNamePattern": "^CC0-1\\.0$"
+    },
+    {
+      "bundleName": "cc0-1",
+      "licenseNamePattern": "^Public Domain, per Creative Commons CC0$"
+    },
+    {
       "bundleName": "cddl1",
       "licenseNamePattern": "^COMMON DEVELOPMENT AND DISTRIBUTION LICENSE \\(CDDL\\) Version 1\\.0$"
     },
     {
       "bundleName": "epl2",
       "licenseNamePattern": "^Eclipse Public License - v 2\\.0$"
+    },
+    {
+      "bundleName": "epl2",
+      "licenseNamePattern": "^EPL 2\\.0$"
     },
     {
       "bundleName": "gpl2.0",
@@ -267,6 +291,14 @@
     {
       "bundleName": "mit",
       "licenseNamePattern": "^The MIT License$"
+    },
+    {
+      "bundleName": "mit",
+      "licenseNamePattern": "^\\(WTFPL OR MIT\\)$"
+    },
+    {
+      "bundleName": "mit",
+      "licenseNamePattern": "^MIT$"
     },
     {
       "bundleName": "mpl1.1",
@@ -289,16 +321,12 @@
       "licenseNamePattern": "^Eclipse Distribution License \\(New BSD License\\)$"
     },
     {
-      "bundleName": "epl1.0",
-      "licenseNamePattern": "^Eclipse Public License v1\\.0$"
-    },
-    {
       "bundleName": "edl1.0",
       "licenseNamePattern": "^Eclipse Distribution License v\\. 1\\.0$"
     },
     {
-      "bundleName": "bsd3clause",
-      "licenseNamePattern": "^BSD-3-Clause$"
+      "bundleName": "epl1.0",
+      "licenseNamePattern": "^Eclipse Public License v1\\.0$"
     },
     {
       "bundleName": "bsd-0",
@@ -323,10 +351,6 @@
     {
       "bundleName": "cc-by-4.0",
       "licenseNamePattern": "^CC-BY-4\\.0$"
-    },
-    {
-      "bundleName": "mit",
-      "licenseNamePattern": "^\\(WTFPL OR MIT\\)$"
     },
     {
       "bundleName": "bsd3-mit",
@@ -365,36 +389,12 @@
       "licenseNamePattern": "^\\(LGPL-2\\.0 or MIT\\)$"
     },
     {
-      "bundleName": "apache2",
-      "licenseNamePattern": "^ASL 2\\.0$"
-    },
-    {
-      "bundleName": "mit",
-      "licenseNamePattern": "^MIT$"
-    },
-    {
       "bundleName": "mit-0",
       "licenseNamePattern": "^MIT-0$"
     },
     {
       "bundleName": "lgpl2.1-or-later",
       "licenseNamePattern": "^GNU Library General Public License v2\\.1 or later$"
-    },
-    {
-      "bundleName": "cc0-1",
-      "licenseNamePattern": "^CC0 1\\.0 Universal$"
-    },
-    {
-      "bundleName": "cc0-1",
-      "licenseNamePattern": "^CC0-1\\.0$"
-    },
-    {
-      "bundleName": "cc0-1",
-      "licenseNamePattern": "^Public Domain, per Creative Commons CC0$"
-    },
-    {
-      "bundleName": "epl2",
-      "licenseNamePattern": "^EPL 2\\.0$"
     }
   ]
 }
