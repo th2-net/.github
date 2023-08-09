@@ -8,6 +8,8 @@ fi
 #*******Params*******
 jq_path="/home/exp.exactpro.com/andrey.shulika/DEVOPS/work/soft/jq/jq-linux64"
 dir="licenses_check"
+mkdir -p $dir
+#rm -rf $dir
 lic_file="$dir/licenses.json"
 
 link_allowed_licenses="https://raw.githubusercontent.com/th2-net/.github/th2-1836-json-files-update/license-compliance/gradle-license-report/allowed-licenses.json"
@@ -28,10 +30,6 @@ echo $head > $final_report
 convert_allow_lic="$dir/convert_allow_lic.csv"
 convert_bom_lic="$dir/convert_bom_lic.csv"
 #******end Params*****
-
-
-rm -rf $dir
-mkdir -p $dir
 
 #Function to download file
 download_file(){
