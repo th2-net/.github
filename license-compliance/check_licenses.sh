@@ -6,7 +6,7 @@ if [ -z "$1" ];then
 fi
 
 #*******Params*******
-jq_path="/home/exp.exactpro.com/andrey.shulika/DEVOPS/work/soft/jq/jq-linux64"
+jq_path="jq"
 dir="licenses_check"
 cur_loc=`pwd`
 mkdir -p $dir
