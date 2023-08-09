@@ -8,9 +8,10 @@ fi
 #*******Params*******
 jq_path="/home/exp.exactpro.com/andrey.shulika/DEVOPS/work/soft/jq/jq-linux64"
 dir="licenses_check"
+cur_loc=`pwd`
 mkdir -p $dir
 #rm -rf $dir
-lic_file="$dir/licenses.json"
+lic_file="$cur_loc/$dir/licenses.json"
 
 link_allowed_licenses="https://raw.githubusercontent.com/th2-net/.github/th2-1836-json-files-update/license-compliance/gradle-license-report/allowed-licenses.json"
 link_license_normalizer_bundle="https://raw.githubusercontent.com/th2-net/.github/th2-1836-json-files-update/license-compliance/gradle-license-report/license-normalizer-bundle.json"
