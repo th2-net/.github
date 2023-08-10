@@ -463,6 +463,9 @@
     },
     {
       "moduleLicense": "^Apache-2\\.0 | BSD-3-Clause$"
+    },
+    {
+      "moduleLicense": "^BSD-2-Clause | CC0-1\\.0$"
     }
   ]
 }
