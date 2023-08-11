@@ -38,8 +38,8 @@
     },
     {
       "bundleName": "cc-by-3.0-mit",
-      "licenseName": "CC-BY-3.0 | MIT",
-      "licenseUrl": "https://spdx.org/licenses/CC-BY-3.0.html | https://spdx.org/licenses/MIT.html",
+      "licenseName": "CC-BY-3.0 OR MIT",
+      "licenseUrl": "https://spdx.org/licenses/CC-BY-3.0.html OR https://spdx.org/licenses/MIT.html",
       "licenseCategory": ""
     },
     {
@@ -56,44 +56,44 @@
     },
     {
       "bundleName": "bsd3-mit",
-      "licenseName": "BSD-3-Clause | MIT",
-      "licenseUrl": "https://spdx.org/licenses/BSD-3-Clause.html | https://spdx.org/licenses/MIT.html",
+      "licenseName": "BSD-3-Clause OR MIT",
+      "licenseUrl": "https://spdx.org/licenses/BSD-3-Clause.html OR https://spdx.org/licenses/MIT.html",
       "licenseCategory": ""
     },
     {
       "bundleName": "bsd3-gpl2.0",
-      "licenseName": "BSD-3-Clause | GPL-2.0",
-      "licenseUrl": "https://spdx.org/licenses/BSD-3-Clause.html | https://spdx.org/licenses/GPL-2.0-only.html",
+      "licenseName": "BSD-3-Clause OR GPL-2.0",
+      "licenseUrl": "https://spdx.org/licenses/BSD-3-Clause.html OR https://spdx.org/licenses/GPL-2.0-only.html",
       "licenseCategory": ""
     },
     {
       "bundleName": "apache2-mpl11",
-      "licenseName": "Apache-2.0 | MPL-1.1",
-      "licenseUrl": "https://spdx.org/licenses/Apache-2.0.html | https://spdx.org/licenses/MPL-1.1.html",
+      "licenseName": "Apache-2.0 OR MPL-1.1",
+      "licenseUrl": "https://spdx.org/licenses/Apache-2.0.html OR https://spdx.org/licenses/MPL-1.1.html",
       "licenseCategory": ""
     },
     {
       "bundleName": "apache2-mit",
-      "licenseName": "Apache-2.0 | MIT",
-      "licenseUrl": "https://spdx.org/licenses/Apache-2.0.html | https://spdx.org/licenses/MIT.html",
+      "licenseName": "Apache-2.0 OR MIT",
+      "licenseUrl": "https://spdx.org/licenses/Apache-2.0.html OR https://spdx.org/licenses/MIT.html",
       "licenseCategory": "Permissive"
     },
     {
       "bundleName": "zlib-mit",
-      "licenseName": "MIT | Zlib",
-      "licenseUrl": "https://spdx.org/licenses/MIT.html | https://spdx.org/licenses/Zlib.html",
+      "licenseName": "MIT OR Zlib",
+      "licenseUrl": "https://spdx.org/licenses/MIT.html OR https://spdx.org/licenses/Zlib.html",
       "licenseCategory": ""
     },
     {
       "bundleName": "lpgl20-mit",
-      "licenseName": "LGPL-2.0 | MIT",
-      "licenseUrl": "https://spdx.org/licenses/LGPL-2.0-only.html | https://spdx.org/licenses/MIT.html",
+      "licenseName": "LGPL-2.0 OR MIT",
+      "licenseUrl": "https://spdx.org/licenses/LGPL-2.0-only.html OR https://spdx.org/licenses/MIT.html",
       "licenseCategory": ""
     },
     {
       "bundleName": "cc0-1-mit",
-      "licenseName": "MIT | CC0-1.0",
-      "licenseUrl": "https://spdx.org/licenses/MIT.html | https://spdx.org/licenses/CC0-1.0.html",
+      "licenseName": "MIT OR CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/MIT.html OR https://spdx.org/licenses/CC0-1.0.html",
       "licenseCategory": ""
     },
     {
