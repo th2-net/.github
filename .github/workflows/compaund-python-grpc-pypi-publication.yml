@@ -39,7 +39,7 @@ jobs:
         if: ${{ inputs.custom-version != '' }}
         uses: MerthinTechnologies/edit-json-action@v1
         with:
-          filename: 'grpc/package_info.json'
+          filename: "${{ inputs.project-path }}/package_info.json"
           key: 'package_version'
           value: ${{ inputs.custom-version }}
       - name: Set up Python ${{ inputs.python-version }}
