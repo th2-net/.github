@@ -6,10 +6,10 @@ if [ -z "$1" ];then
 fi
 
 #*******Params*******
-jq_path="jq"
+#jq_path="jq"
 cur_loc=`pwd`
 dir="$cur_loc/licenses_check"
-rm -rf $dir
+#rm -rf $dir
 mkdir -p $dir
 lic_file="$dir/licenses.json"
 
@@ -34,8 +34,10 @@ convert_bom_lic="$dir/convert_bom_lic.csv"
 
 project_name=`cat .git/config | grep "url = git@github.com:th2-net" | awk -F '/' '{print $2}' | sed 's/.git//g'`
 branch=`cat .git/HEAD | awk -F '/' '{print $3}'`
+echo "*****************************"
 echo "Project name = $project_name"
 echo "Branch name = $branch"
+echo "*****************************"
 #******end Params*****
 
 #Function to download file
@@ -226,10 +228,7 @@ echo "--------------------------------------"
 
 while IFS=, read -r name version license url
 do
-	#echo "Name = $name"
-	#echo "Version = $version"
-	#echo "License = $license"
-	#echo "Url = $lic_url"
+	lic_category=""
 	known_license=0 #0 = false
 	mod_license=`echo $license | sed 's/"//g'`
 
@@ -267,18 +266,27 @@ do
 	fi
 
 
+	#Getting info about license category
+	lic_category=`$jq_path --argjson n "$license" '.bundles[] | select (.licenseName == $n) | .licenseCategory' $normalizer_file`
+
+	#echo "Project name = $project_name"
+	#echo "Branch = $branch"
+        #echo "Name = $name"
+        #echo "Version = $version"
+        #echo "License = $license"
+        #echo "Url = $url"
+        #echo "licenseCategory = $lic_category"
+
         if [ "$known_license" -eq 0 ]; then
                echo "Line = $name,$version,$license"
                echo "Result = ***FAILED***"
-	       echo "Lic = $license"
-	       echo "Url = $url"
-               echo "\"$project_name/$branch\",$name,$version,$license,$url" >> $failed_licenses
+               echo "\"$project_name/$branch\",$name,$version,$license,$url,$lic_category" >> $failed_licenses
                echo "--------------------------------------"
         else
-               echo "\"$project_name/$branch\",$name,$version,$license,$url" >> $passed_licenses
+               echo "\"$project_name/$branch\",$name,$version,$license,$url,$lic_category" >> $passed_licenses
 	       #echo "Result = *PASSED*"
         fi
-	`echo "\"$project_name/$branch\",$name,$version,$license,$url" >> $final_report`
+	`echo "\"$project_name/$branch\",$name,$version,$license,$url,$lic_category" >> $final_report`
 	#echo "--------------------------------------------------------------"
 
 done < $report_before_check
@@ -288,3 +296,4 @@ echo "Folder = $dir"
 echo "Passed report = $passed_licenses"
 echo "Failed report = $failed_licenses"
 echo "Final report = $final_report"
+
