@@ -6,10 +6,10 @@ if [ -z "$1" ];then
 fi
 
 #*******Params*******
-#jq_path="jq"
+jq_path="jq"
 cur_loc=`pwd`
 dir="$cur_loc/licenses_check"
-#rm -rf $dir
+rm -rf $dir
 mkdir -p $dir
 lic_file="$dir/licenses.json"
 
@@ -32,8 +32,9 @@ echo $head > $final_report
 convert_allow_lic="$dir/convert_allow_lic.csv"
 convert_bom_lic="$dir/convert_bom_lic.csv"
 
-project_name=`cat .git/config | grep "url = git@github.com:th2-net" | awk -F '/' '{print $2}' | sed 's/.git//g'`
-branch=`cat .git/HEAD | awk -F '/' '{print $3}'`
+project_name=`cat .git/config | grep "url = git@" | sed 's/\.git$//g' | awk -F "/" '{print $NF}'`
+#branch=`cat .git/HEAD | awk -F '/' '{print $3}'`
+branch=`git branch 2> /dev/null | egrep "\* " | sed -e 's/^* //g' | awk '{print $NF}' | sed 's/)//g'`
 echo "*****************************"
 echo "Project name = $project_name"
 echo "Branch name = $branch"
