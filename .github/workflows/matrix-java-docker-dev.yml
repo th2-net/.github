@@ -43,11 +43,6 @@ on:
         type: string
         default: 'CRITICAL,HIGH,MEDIUM'
         description: 'Adjusting the Trivy Scanner Sensitivity'
-      dockerContext:
-        required: false
-        type: string
-        description: 'Docker context that will be passed to the docker build. The local context is used by default'
-        default: '.'
     secrets:
       docker-password:
         required: false
