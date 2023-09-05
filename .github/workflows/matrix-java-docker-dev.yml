@@ -60,6 +60,8 @@ jobs:
     needs: [prebuild-job]
     runs-on: ${{ inputs.runsOn }}
     steps:
+      - name: Show custom release version
+        run: echo ${{ needs.prebuild-job.outputs.version }}
       - uses: actions/checkout@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -68,9 +70,6 @@ jobs:
           registry: ghcr.io
           username: ${{ inputs.docker-username }}
           password: ${{ secrets.docker-password }}
-      - name: Get repository name
-        run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_OUTPUT
-        id: meta
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v3
@@ -78,6 +77,7 @@ jobs:
           build-args: |
             project_name=${{ inputs.projectName }}
           push: true
+          context: .
           tags: ghcr.io/th2-net/th2-${{ inputs.projectName }}:${{ needs.prebuild-job.outputs.version }}
           labels: com.exactpro.th2.th2-${{ inputs.projectName }}=${{ needs.prebuild-job.outputs.versionNumber }}
   trivy-docker-scan:
