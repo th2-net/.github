@@ -1,7 +1,17 @@
 #!/bin/bash
+#Designed by LLC Exactprosystems 
+#24.10.2023
+#DevOps Engineer
+#Andrei Shulika
+#andrey.shulika@exactprosystems.com
+
+log_date_time(){
+	local dt=`date '+%Y-%m-%d %H:%M:%S'`
+	echo ${dt}
+}
 
 if [ -z "$1" ];then
-	echo "ERROR: Param 1 is empty - which mode to use? (java or python)"
+	echo "`log_date_time`: ERROR: Param 1 is empty - which mode to use? (java or python)"
 	exit 2
 fi
 
@@ -36,8 +46,8 @@ project_name=`cat .git/config | grep "url = git@" | sed 's/\.git$//g' | awk -F "
 #branch=`cat .git/HEAD | awk -F '/' '{print $3}'`
 branch=`git branch 2> /dev/null | egrep "\* " | sed -e 's/^* //g' | awk '{print $NF}' | sed 's/)//g'`
 echo "*****************************"
-echo "Project name = $project_name"
-echo "Branch name = $branch"
+echo "`log_date_time`: Project name = $project_name"
+echo "`log_date_time`: Branch name = $branch"
 echo "*****************************"
 #******end Params*****
 
@@ -45,13 +55,13 @@ echo "*****************************"
 download_file(){
 	local link=$1
 	local output_file=$2
-	echo "Download file from $link"
+	echo "`log_date_time`: Download file from $link"
 	wget -q -O $output_file $link
 	if [ $? -eq 0 ]; then
-	        echo "Download - Completed"
+	        echo "`log_date_time`: Download - Completed"
 	else
-	        echo "ERROR: download file problem"
-	        echo "Link = $link"
+	        echo "`log_date_time`: ERROR: download file problem"
+	        echo "`log_date_time`: Link = $link"
 	        exit 2
 	fi
 }
@@ -78,13 +88,14 @@ normalize(){
                 #echo "BundleName = $bundleName"
 		#echo "Lic = $lic"
 		if  [[  -z $lic  ]]; then
-			echo "***************WARNING***************"
-		        echo "YOU HAVE UNDEFINED TRANSFORMATION RULE in $normalizer_file"
-			echo "Regexp = $exp"
-			echo "Bundle name = $bundleName"
-			echo "The rule is skipped."
+			echo "*********************************************"
+			echo "`log_date_time`: Warning"
+		        echo "`log_date_time`: YOU HAVE UNDEFINED TRANSFORMATION RULE in $normalizer_file"
+			echo "`log_date_time`: Regexp = $exp"
+			echo "`log_date_time`: Bundle name = $bundleName"
+			echo "`log_date_time`: The rule is skipped."
 			echo "Undefined transformation rule,bundleName=$bundleName,regexp=$exp" >> $warnings
-			echo "*************************************"
+			echo "*********************************************"
 		else
 			echo "s#${mod_exp}#${lic}#g" >> $reg_sed
 		fi
@@ -105,16 +116,16 @@ download_file "$link_license_normalizer_bundle" "$normalizer_file"
 case $1 in
 
 	java|JAVA|Java)
-	echo "Using java mode"
-	echo "Running gradle plugins"
+	echo "`log_date_time`: Using java mode"
+	echo "`log_date_time`: Running gradle plugins"
 	./gradlew checkLicense generateLicenseReport
 	cp build/reports/dependency-license/licenses.json $lic_file
-	echo "Running plugins - completed"
+	echo "`log_date_time`: Running plugins - completed"
 	;;
 
 	python|PYTHON|Python)
-	echo "Using python mode"
-	echo "Running pip-licenses"
+	echo "`log_date_time`: Using python mode"
+	echo "`log_date_time`: Running pip-licenses"
 	pip install pip-licenses
 	pip-licenses --format=json --output-file=pyth_licenses.json
 	#Reformat to common
@@ -123,17 +134,17 @@ case $1 in
 	rm p_temp
 	mv pyth_licenses.json $lic_file
 	normalize "$lic_file"
-	echo "Running pip-licenses - completed"
+	echo "`log_date_time`: Running pip-licenses - completed"
 	;;
 
 	*)
-	echo "Unknown mode"
+	echo "`log_date_time`: Unknown mode"
 	exit 2
 	;;
 esac
 
 
-echo "Parsing file $lic_file"
+echo "`log_date_time`: Parsing file $lic_file"
 
 #Make report prior to check
 #Old version without URLs
@@ -141,7 +152,7 @@ echo "Parsing file $lic_file"
 
 $jq_path -r '.dependencies[] | [.moduleName, .moduleVersion, try (.moduleLicenses[].moduleLicense) catch "null", try (.moduleLicenses[].moduleLicenseUrl) catch "null"] | @csv' $lic_file | sort -u > $temp_res 
 
-echo "Forming report"
+echo "`log_date_time`: Forming report"
 
 for main in `cat $temp_res | tr ' ' ';'`
     do
@@ -213,7 +224,7 @@ for main in `cat $temp_res | tr ' ' ';'`
 cat $res_lic | sort -u > $report_before_check
 
 #rm $res_lic $temp_res
-echo "Forming completed"
+echo "`log_date_time`: Forming completed"
 
 
 #regular expressions from allowed-licenses.json
@@ -224,7 +235,7 @@ $jq_path -r '.allowedLicenses[] | .licenses = try (.mvnRepositoryLicense) catch 
 
 
 #Check license based on regular expressions in allowed-licenses.json file
-echo "Checking licenses"
+echo "`log_date_time`: Checking licenses"
 echo "--------------------------------------"
 
 while IFS=, read -r name version license url
@@ -279,20 +290,20 @@ do
         #echo "licenseCategory = $lic_category"
 
         if [ "$known_license" -eq 0 ]; then
-               echo "Line = $name,$version,$license"
-               echo "Result = ***FAILED***"
+               echo "`log_date_time`: Line = $name,$version,$license"
+               echo "`log_date_time`: Result = ***FAILED***"
                echo "\"$project_name/$branch\",$name,$version,$license,$url,$lic_category" >> $failed_licenses
                echo "--------------------------------------"
         else
                echo "\"$project_name/$branch\",$name,$version,$license,$url,$lic_category" >> $passed_licenses
 	       #echo "Result = *PASSED*"
         fi
-	`echo "\"$project_name/$branch\",$name,$version,$license,$url,$lic_category" >> $final_report`
+	echo "\"$project_name/$branch\",$name,$version,$license,$url,$lic_category" >> $final_report
 	#echo "--------------------------------------------------------------"
 
 done < $report_before_check
 
-echo "CHECK LICENSES - COMPLETED. PLEASE SEE REPORTS WITH DETAILS."
+echo "`log_date_time`: CHECK LICENSES - COMPLETED. PLEASE SEE REPORTS WITH DETAILS."
 echo "Folder = $dir"
 echo "Passed report = $passed_licenses"
 echo "Failed report = $failed_licenses"
