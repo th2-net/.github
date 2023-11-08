@@ -1,0 +1,63 @@
+name: Check licenses
+
+on:
+  push:
+    branches-ignore:
+      - master
+      - version-*
+      - dependabot**
+    paths-ignore:
+      - README.md
+
+env:
+        APP_NAME: ${{ github.repository }}
+        BRANCH: ${{ github.ref }}
+
+jobs:
+  check_licenses:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout actions
+      uses: actions/checkout@v2
+
+    - name: Install jq env
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq
+
+    - name: Download script
+      run: |
+        wget -q -O check_licenses.sh https://raw.githubusercontent.com/th2-net/.github/th2-1836-json-files-update/license-compliance/check_licenses.sh
+        chmod +x ./check_licenses.sh
+    
+    - name: Run check_licenses script
+      run: ./check_licenses.sh java
+      id: run_script
+
+    - name: Get version
+      run:
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')              
+
+    - name: Uploading results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: licenses_check-$APP_NAME-$VERSION
+        path: ./licenses_check/
+    
+    - name: Determine workflow status
+      id: set_status
+      run: |
+        line_count=$(wc -l < ./licenses_check/failed_licenses.csv)
+        if [[ $line_count -gt 1 ]]; then
+                echo "FAILED: failed/unknown licenses found"
+                exit 1
+        else
+                echo "PASSED: license check successfull"
+                exit 0
+        fi
+
+    - name: Set workflow status
+      run: echo "::set-output name=status::Failure"
+      if: steps.set_status.outputs.result == 'FAILED: failed/unknown licenses found'
+      continue-on-error: false
