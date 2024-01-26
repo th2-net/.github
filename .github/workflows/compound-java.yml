@@ -52,6 +52,11 @@ on:
         type: boolean
         default: false
         description: 'false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
+      create-tag:
+        required: false
+        type: boolean
+        default: false
+        description: 'Whether creating and publishing git tag'
 
     outputs:
       version:
@@ -134,3 +139,13 @@ jobs:
       multiproject: ${{ inputs.multiproject }}
       javaVersion: ${{ inputs.javaVersion }}
       javaVendor: ${{ inputs.javaVendor }}
+
+  create-tag:
+    if: inputs.create-tag
+    name: Create and push tag
+    needs: [ prebuild-job, sonatype-push ]
+    uses: th2-net/.github/.github/workflows/compaund-git-tag-push.yml@create-tag
+    with:
+      runsOn: ${{ inputs.runsOn }}
+      suffix: ${{ inputs.devRelease == true && '-dev' || '' }}
+      version: ${{ needs.prebuild-job.outputs.version }}
