@@ -147,5 +147,4 @@ jobs:
     uses: th2-net/.github/.github/workflows/compaund-git-tag-push.yml@create-tag
     with:
       runsOn: ${{ inputs.runsOn }}
-      suffix: ${{ inputs.devRelease == true && '-dev' || '' }}
-      version: ${{ needs.prebuild-job.outputs.version }}
+      tagName: ${{ needs.prebuild-job.outputs.version }}
