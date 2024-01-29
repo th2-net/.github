@@ -144,7 +144,7 @@ jobs:
     if: inputs.createTag
     name: Create and push tag
     needs: [ prebuild-job, sonatype-push ]
-    uses: th2-net/.github/.github/workflows/compaund-git-tag-push.yml@create-tag
+    uses: th2-net/.github/.github/workflows/compaund-git-tag-push.yml@main
     with:
       runsOn: ${{ inputs.runsOn }}
       tagName: ${{ needs.prebuild-job.outputs.version }}
