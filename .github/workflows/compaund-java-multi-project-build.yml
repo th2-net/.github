@@ -45,7 +45,7 @@ jobs:
     name: Build Gradle module ${{ inputs.projectPath }}
     runs-on: ${{ inputs.runsOn }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Needs publication
         id: check_publish
         run: echo enabled="${{ contains(fromJson(inputs.additionalTasks), 'publish') }}" >> $GITHUB_OUTPUT

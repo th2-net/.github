@@ -42,7 +42,7 @@ jobs:
   sonatype-push:
     runs-on: ${{ inputs.runsOn }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Show release version
         if: ${{ inputs.closeAndRelease }}
         run: echo ${{ inputs.version }}
