@@ -1,0 +1,32 @@
+name: Create and push git tag
+
+on:
+  workflow_call:
+    inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-20.04'
+      tagName:
+        required: true
+        type: string
+      tagDescription:
+        required: false
+        type: string
+        default: 'Auto genrated tag by Github Actions'
+
+jobs:
+  create-tag:
+    runs-on: ${{ inputs.runsOn }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show tag name
+        run: |
+          echo "tag ${{ inputs.tagName }}"
+          echo "description ${{ inputs.tagDescription }}"
+      - name: Create and push tag
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git tag -a ${{ inputs.tagName }} -m "${{ inputs.tagDescription }}"
+          git push origin ${{ inputs.tagName }}
