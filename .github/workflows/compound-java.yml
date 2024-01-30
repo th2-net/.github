@@ -141,7 +141,7 @@ jobs:
       javaVendor: ${{ inputs.javaVendor }}
 
   create-tag:
-    if: inputs.createTag
+    if: inputs.createTag && !cancelled() && (needs.docker-push.result == 'success' || needs.sonatype-push.result == 'success')
     name: Create and push tag
     needs: [ prebuild-job, sonatype-push, docker-push ]
     uses: th2-net/.github/.github/workflows/compaund-git-tag-push.yml@main
