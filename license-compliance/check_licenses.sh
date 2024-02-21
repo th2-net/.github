@@ -242,7 +242,8 @@ while IFS=, read -r name version license url
 do
 	lic_category=""
 	known_license=0 #0 = false
-	mod_license=`echo $license | sed 's/"//g'`
+        ORchange=`echo $license | sed 's/"//g'`
+        mod_license=`echo $ORchange | sed 's/ | / OR /g'`
 
 	if [[ "$mod_license" != "null" ]]; then
 		while IFS= read -r exp
