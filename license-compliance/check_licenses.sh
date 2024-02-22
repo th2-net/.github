@@ -34,6 +34,7 @@ temp_res="$dir/temp_res"
 res_lic="$dir/res.lic"
 report_before_check="$dir/report.csv_before_check"
 failed_licenses="$dir/failed_licenses.csv"
+touch $failed_licenses
 passed_licenses="$dir/passed_licenses.csv"
 final_report="$dir/licenses_report.csv"
 head="Testing tool name,Open Source Code Library Name (contained within the Testing Tool),Version,Associated Open Source License,Comment"
