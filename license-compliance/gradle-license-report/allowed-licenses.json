@@ -471,6 +471,15 @@
       "moduleLicense": "^Apache-2\\.0 OR BSD-3-Clause OR BSD-3-Clause$"
     },
     {
+      "moduleLicense": "^Apache-2\\.0 OR GPL-2\\.0 OR MPL-1\\.1$"
+    },
+    {
+      "moduleLicense": "^CDDL + GPLv2 with classpath exception OR CDDL-1\\.0$"
+    },
+    {
+      "moduleLicense": "^EPL-2\\.0 OR GNU General Public License Version 2 OR GNU Lesser General Public License Version 2\\.1$"
+    },
+    {
       "moduleLicense": "^BSD-2-Clause OR CC0-1\\.0$"
     }
   ]
