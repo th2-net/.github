@@ -128,3 +128,7 @@ jobs:
       multiproject: ${{ inputs.multiproject }}
       javaVersion: ${{ inputs.javaVersion }}
       javaVendor: ${{ inputs.javaVendor }}
+
+  licenses-check:
+    name: Licenses checks
+    uses: th2-net/.github/.github/workflows/license_check.yml@main
