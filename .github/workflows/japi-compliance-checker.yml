@@ -57,7 +57,7 @@ jobs:
           properties: release_version
 
       - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: ${{ inputs.javaVendor }}
           java-version: ${{ inputs.javaVersion }}
