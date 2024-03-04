@@ -89,7 +89,7 @@ jobs:
 
       - name: Upload compatibility report
         if: success() || failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: japi-compatibility-report
           path: compat_reports
