@@ -99,7 +99,7 @@ jobs:
       sensitivity: ${{ inputs.trivy-sensitivity }}
   owasp-scan:
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@nvd-key-support
+    uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@main
     with:
       multiproject: true
       javaVersion: ${{ inputs.javaVersion }}
