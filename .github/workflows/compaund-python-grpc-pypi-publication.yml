@@ -51,6 +51,12 @@ jobs:
         with:
           distribution: ${{ inputs.java-vendor }}
           java-version: ${{ inputs.java-version }}
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v2
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: wrapper
       - name: Build with Gradle
         run: ./gradlew -p ${{ inputs.project-path }} clean build
       - name: Build package

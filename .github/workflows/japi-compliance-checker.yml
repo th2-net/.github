@@ -65,8 +65,13 @@ jobs:
       - name: install japi-compliance-checker
         run: sudo apt-get update && sudo apt-get install -y japi-compliance-checker
 
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v2
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
+        with:
+         gradle-version: wrapper
 
       - name: Download target jar
         run: curl -o targetVersion.jar -L ${{ inputs.targetJarUrl }}

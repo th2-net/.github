@@ -70,8 +70,12 @@ jobs:
         with:
           distribution: ${{ inputs.javaVendor }}
           java-version: ${{ inputs.javaVersion }}
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v2
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: wrapper
       - name: Build with Gradle
         run: ./gradlew -p ${{ inputs.projectPath }} --info -Pversion_suffix=${{ steps.suffix.outputs.value }} clean build ${{ join(fromJSON(inputs.additionalTasks), ' ') }} ${{ steps.close_release.outputs.task }}
         env:
