@@ -44,10 +44,10 @@ jobs:
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Get release_version
         id: ver
-        uses: christian-draeger/read-properties@1.1.1
+        uses: BrycensRanch/read-properties-action@v1.0.3
         with:
-          path: ${{ inputs.project-path }}/gradle.properties
-          properties: release_version
+          file: ${{ inputs.project-path }}/gradle.properties
+          property: release_version
       - name: Build custom release version
         id: release_ver
         run: echo "value="${{ steps.ver.outputs.release_version }}-${{ steps.branch.outputs.branch_name }}-${{ github.run_id }}-${{ steps.sha.outputs.sha_short }}"" >> $GITHUB_OUTPUT

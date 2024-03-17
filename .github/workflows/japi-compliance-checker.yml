@@ -51,10 +51,10 @@ jobs:
 
       - name: Get release_version
         id: ver
-        uses: christian-draeger/read-properties@1.1.1
+        uses: BrycensRanch/read-properties-action@v1.0.3
         with:
-          path: ${{ inputs.gradlePropertiesPath }}/gradle.properties
-          properties: release_version
+          file: ${{ inputs.gradlePropertiesPath }}/gradle.properties
+          property: release_version
 
       - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
         uses: actions/setup-java@v4
