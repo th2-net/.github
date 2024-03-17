@@ -46,6 +46,9 @@ on:
     secrets:
       docker-password:
         required: false
+      nvd-api-key:
+        required: false
+        description: 'API key to access NVD database'
 
 jobs:
   prebuild-job:
@@ -97,3 +100,5 @@ jobs:
       multiproject: true
       javaVersion: ${{ inputs.javaVersion }}
       javaVendor: ${{ inputs.javaVendor }}
+    secrets:
+      nvd-api-key: ${{ secrets.nvd-api-key }}

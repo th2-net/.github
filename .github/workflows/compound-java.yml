@@ -73,6 +73,9 @@ on:
         required: false
       sonatypeSigningPassword:
         required: false
+      nvd-api-key:
+        required: false
+        description: 'API key to access NVD database'
 
 jobs:
   prebuild-job:
@@ -148,3 +151,5 @@ jobs:
     with:
       runsOn: ${{ inputs.runsOn }}
       tagName: ${{ needs.prebuild-job.outputs.version }}
+    secrets:
+      nvd-api-key: ${{ secrets.nvd-api-key }}
