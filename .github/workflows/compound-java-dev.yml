@@ -126,7 +126,7 @@ jobs:
 
   owasp-scan:
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@main
+    uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@nvd-key-support
     with:
       multiproject: ${{ inputs.multiproject }}
       javaVersion: ${{ inputs.javaVersion }}
