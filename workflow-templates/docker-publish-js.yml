@@ -34,4 +34,5 @@ jobs:
         push: true
         tags: ghcr.io/${{ github.repository }}:${{ steps.version.outputs.prop }}
         labels: com.exactpro.th2.${{ steps.meta.outputs.REPOSITORY_NAME }}=${{ steps.version.outputs.prop }}
+        provenance: false
 

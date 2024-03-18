@@ -83,6 +83,7 @@ jobs:
           context: .
           tags: ghcr.io/th2-net/th2-${{ inputs.projectName }}:${{ needs.prebuild-job.outputs.version }}
           labels: com.exactpro.th2.th2-${{ inputs.projectName }}=${{ needs.prebuild-job.outputs.versionNumber }}
+          provenance: false
   trivy-docker-scan:
     name: Scan Docker image for vulnerabilities
     if: inputs.scanner-enabled
