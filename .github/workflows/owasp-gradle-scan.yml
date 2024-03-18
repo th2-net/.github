@@ -16,6 +16,10 @@ on:
         required: false
         type: string
         default: 'zulu'
+    secrets:
+      nvd-api-key:
+        required: false
+        description: 'API key to access NVD database'
 
 jobs:
   owasp-scan-job:
@@ -31,11 +35,11 @@ jobs:
       - name: Run OWASP single-project scanning
         # continue-on-error: true
         if: ${{ !inputs.multiproject }}
-        run: ./gradlew dependencyCheckAnalyze
+        run: ./gradlew dependencyCheckAnalyze -PnvdApiKey=${{ secrets.nvd-api-key }}
       - name: Run OWASP multi-project scanning
         # continue-on-error: true
         if: ${{ inputs.multiproject }}
-        run: ./gradlew dependencyCheckAggregate
+        run: ./gradlew dependencyCheckAggregate -PnvdApiKey=${{ secrets.nvd-api-key }}
       - name: Upload OWASP scan results to GitHub Security tab
         if: success() || failure()
         uses: github/codeql-action/upload-sarif@v3
