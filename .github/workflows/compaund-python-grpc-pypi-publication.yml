@@ -66,3 +66,4 @@ jobs:
           password: ${{ secrets.pypi_password }}
           repository-url: https://upload.pypi.org/legacy/
           packages-dir: ${{ inputs.project-path }}/dist/
+          verbose: true
