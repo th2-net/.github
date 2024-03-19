@@ -46,9 +46,13 @@ jobs:
         run: echo ${{ inputs.version }}
       - uses: actions/checkout@v4
         if: inputs.dockerContext != '{{defaultContext}}'
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v2
       - name: Setup Gradle
         if: inputs.gradleParameters != '[]'
         uses: gradle/actions/setup-gradle@v3
+        with:
+         gradle-version: wrapper
       - name: Build with Gradle
         if: inputs.gradleParameters != '[]'
         run: ./gradlew -p ${{ inputs.gradleProjectPath }} --info --warning-mode all ${{ join(fromJSON(inputs.gradleParameters), ' ') }}
