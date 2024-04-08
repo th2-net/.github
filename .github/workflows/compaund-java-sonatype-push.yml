@@ -76,3 +76,11 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatypeSigningKey }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            ${{ inputs.projectPath }}/build/test-results/**/*.xml
+            ${{ inputs.projectPath }}/build/test-results/**/*.trx
+            ${{ inputs.projectPath }}/build/test-results/**/*.json

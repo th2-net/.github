@@ -41,4 +41,12 @@ jobs:
           java-version: '11'
       - name: Build with Gradle
         run: ./gradlew clean build bintrayUpload -Pbintray_user=${{ secrets.BINTRAY_USER }} -Pbintray_key=${{ secrets.BINTRAY_KEY }}
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            build/test-results/**/*.xml
+            build/test-results/**/*.trx
+            build/test-results/**/*.json  
 
