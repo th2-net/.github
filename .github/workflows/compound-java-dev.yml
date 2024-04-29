@@ -79,7 +79,7 @@ jobs:
     name: Build Docker image and push to ghcr.io
     if: contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')
     needs: [prebuild-job]
-    uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
+    uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@docker-version-arg
     with:
       docker-username: ${{ inputs.docker-username }}
       runsOn: ${{ inputs.runsOn }}
@@ -103,7 +103,7 @@ jobs:
     if: contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')
     name: Build and Push Jar to Sonatype
     needs: [prebuild-job]
-    uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@docker-version-arg
+    uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
     with:
       runsOn: ${{ inputs.runsOn }}
       closeAndRelease: false
