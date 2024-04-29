@@ -33,3 +33,5 @@ jobs:
         push: true
         tags: ghcr.io/${{ github.repository }}:${{ steps.read_property.outputs.value }}
         provenance: false
+        build-args: 
+            - release_version=${{ steps.read_property.outputs.value }}
