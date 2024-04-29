@@ -49,3 +49,5 @@ jobs:
         tags: ghcr.io/${{ github.repository }}:${{ steps.release_ver.outputs.value }}
         labels: com.exactpro.th2.${{ steps.meta.outputs.REPOSITORY_NAME }}=${{ steps.ver.outputs.value }}
         provenance: false
+        build-args: |
+          release_version=${{ steps.release_ver.outputs.value }}

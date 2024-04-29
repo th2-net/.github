@@ -79,6 +79,7 @@ jobs:
         with:
           build-args: |
             project_name=${{ inputs.projectName }}
+            release_version=${{ needs.prebuild-job.outputs.version }}
           push: true
           context: .
           tags: ghcr.io/th2-net/th2-${{ inputs.projectName }}:${{ needs.prebuild-job.outputs.version }}
