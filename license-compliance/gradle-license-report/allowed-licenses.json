@@ -321,6 +321,11 @@
       "mvnRepositoryLicense": "Apache-2.0"
     },
     {
+      "moduleName": "org.jetbrains.kotlin:kotlin-stdlib-common",
+      "moduleVersion": "^1(\\.\\d+)+$",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
       "moduleName": "org.junit:junit-bom",
       "moduleVersion": "^5(\\.\\d+)+$",
       "mvnRepositoryLicense": "EPL-2.0"
