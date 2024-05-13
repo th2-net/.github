@@ -182,7 +182,7 @@
     },
     {
       "bundleName": "apache2",
-      "licenseUrlPattern": "^\\\"Apache 2\\.0\\\";link=\\\"http://www.apache.org/licenses/LICENSE-2\\.0.txt\\\"$"
+      "licenseUrlPattern": "^\\\"Apache 2\\.0\\\";link=\\\"http://www\\.apache\\.org/licenses/LICENSE-2\\.0.txt\\\"$"
     },
     {
       "bundleName": "apache2",
