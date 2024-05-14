@@ -23,10 +23,13 @@ rm -rf $dir
 mkdir -p $dir
 lic_file="$dir/licenses.json"
 
-link_allowed_licenses="https://raw.githubusercontent.com/th2-net/.github/th2-1836-json-files-update/license-compliance/gradle-license-report/allowed-licenses.json"
-link_license_normalizer_bundle="https://raw.githubusercontent.com/th2-net/.github/th2-1836-json-files-update/license-compliance/gradle-license-report/license-normalizer-bundle.json"
+link_allowed_licenses="https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/gradle-license-report/allowed-licenses.json"
+link_license_normalizer_bundle="https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/gradle-license-report/license-normalizer-bundle.json"
+link_info_licenses="https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/gradle-license-report/info-licenses.json"
+
 allowed_licenses="$dir/allowed-licenses.json"
 normalizer_file="$dir/license-normalizer-bundle.json"
+info_licenses_file="$dir/info-licenses.json"
 unknown_license=""
 warnings="$dir/warnings.csv"
 
@@ -112,6 +115,8 @@ download_file "$link_allowed_licenses" "$allowed_licenses"
 #Download license-normalizer-bundle.json
 download_file "$link_license_normalizer_bundle" "$normalizer_file"
 
+#Download info-licenses.json
+download_file "$link_info_licenses" "$info_licenses_file"
 
 #Define mode and reformat files before checking
 case $1 in
@@ -281,7 +286,7 @@ do
 
 
 	#Getting info about license category
-	lic_category=`$jq_path --argjson n "$license" '.bundles[] | select (.licenseName == $n) | .licenseCategory' $normalizer_file`
+	lic_category=`$jq_path --argjson n "$license" '.bundles[] | select (.licenseName == $n) | .licenseCategory' $info_licenses_file`
 
 	#echo "Project name = $project_name"
 	#echo "Branch = $branch"
