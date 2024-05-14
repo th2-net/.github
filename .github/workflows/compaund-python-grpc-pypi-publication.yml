@@ -34,23 +34,29 @@ jobs:
     name: Build and publish Python distributions to PyPI
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set version for current build in package_info.json
         if: ${{ inputs.custom-version != '' }}
         uses: MerthinTechnologies/edit-json-action@v1
         with:
-          filename: 'grpc/package_info.json'
+          filename: "${{ inputs.project-path }}/package_info.json"
           key: 'package_version'
           value: ${{ inputs.custom-version }}
       - name: Set up Python ${{ inputs.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ inputs.python-version }}
       - name: Set up JDK ${{ inputs.java-vendor }} ${{ inputs.java-version }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: ${{ inputs.java-vendor }}
           java-version: ${{ inputs.java-version }}
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: wrapper
       - name: Build with Gradle
         run: ./gradlew -p ${{ inputs.project-path }} clean build
       - name: Build package
@@ -60,9 +66,9 @@ jobs:
           python setup.py generate -s
           python setup.py sdist
       - name: Publish distribution to PyPI
-        uses: pypa/gh-action-pypi-publish@master
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
           password: ${{ secrets.pypi_password }}
-          repository_url: https://upload.pypi.org/legacy/
-          packages_dir: ${{ inputs.project-path }}/dist/
+          repository-url: https://upload.pypi.org/legacy/
+          packages-dir: ${{ inputs.project-path }}/dist/

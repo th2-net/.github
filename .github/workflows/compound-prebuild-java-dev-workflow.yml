@@ -35,7 +35,7 @@ jobs:
       versionSuffix: ${{ steps.version_suffix.outputs.value }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Get branch name
         id: branch
         run: echo "branch_name=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
@@ -44,10 +44,10 @@ jobs:
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Get release_version
         id: ver
-        uses: christian-draeger/read-properties@1.1.1
+        uses: BrycensRanch/read-properties-action@v1.0.3
         with:
-          path: ${{ inputs.project-path }}/gradle.properties
-          properties: release_version
+          file: ${{ inputs.project-path }}/gradle.properties
+          property: release_version
       - name: Build custom release version
         id: release_ver
         run: echo "value="${{ steps.ver.outputs.release_version }}-${{ steps.branch.outputs.branch_name }}-${{ github.run_id }}-${{ steps.sha.outputs.sha_short }}"" >> $GITHUB_OUTPUT

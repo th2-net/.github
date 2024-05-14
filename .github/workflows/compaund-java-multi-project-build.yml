@@ -45,7 +45,7 @@ jobs:
     name: Build Gradle module ${{ inputs.projectPath }}
     runs-on: ${{ inputs.runsOn }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Needs publication
         id: check_publish
         run: echo enabled="${{ contains(fromJson(inputs.additionalTasks), 'publish') }}" >> $GITHUB_OUTPUT
@@ -66,12 +66,16 @@ jobs:
         id: suffix
         run: echo "value=${{ steps.branch.outputs.branch_name }}-${{ steps.sha.outputs.sha_short }}-SNAPSHOT" >> $GITHUB_OUTPUT
       - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: ${{ inputs.javaVendor }}
           java-version: ${{ inputs.javaVersion }}
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: wrapper
       - name: Build with Gradle
         run: ./gradlew -p ${{ inputs.projectPath }} --info -Pversion_suffix=${{ steps.suffix.outputs.value }} clean build ${{ join(fromJSON(inputs.additionalTasks), ' ') }} ${{ steps.close_release.outputs.task }}
         env:
@@ -79,3 +83,11 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatypeSigningKey }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            ${{ inputs.projectPath }}/build/test-results/**/*.xml
+            ${{ inputs.projectPath }}/build/test-results/**/*.trx
+            ${{ inputs.projectPath }}/build/test-results/**/*.json

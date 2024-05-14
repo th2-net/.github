@@ -47,17 +47,17 @@ jobs:
   japi-compliance-check:
     runs-on: ${{ inputs.runsOn }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get release_version
         id: ver
-        uses: christian-draeger/read-properties@1.1.1
+        uses: BrycensRanch/read-properties-action@v1.0.3
         with:
-          path: ${{ inputs.gradlePropertiesPath }}/gradle.properties
-          properties: release_version
+          file: ${{ inputs.gradlePropertiesPath }}/gradle.properties
+          property: release_version
 
       - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: ${{ inputs.javaVendor }}
           java-version: ${{ inputs.javaVersion }}
@@ -65,8 +65,13 @@ jobs:
       - name: install japi-compliance-checker
         run: sudo apt-get update && sudo apt-get install -y japi-compliance-checker
 
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
+
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/actions/setup-gradle@v3
+        with:
+         gradle-version: wrapper
 
       - name: Download target jar
         run: curl -o targetVersion.jar -L ${{ inputs.targetJarUrl }}
@@ -89,7 +94,7 @@ jobs:
 
       - name: Upload compatibility report
         if: success() || failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: japi-compatibility-report
           path: compat_reports

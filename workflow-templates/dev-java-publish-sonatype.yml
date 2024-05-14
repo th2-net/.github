@@ -20,9 +20,9 @@ jobs:
         run: echo ::set-output name=branch_name::${GITHUB_REF#refs/*/}
       - name: Get release_version
         id: ver
-        uses: christian-draeger/read-properties@1.0.1
+        uses: BrycensRanch/read-properties-action@v1.0.3
         with:
-          path: gradle.properties
+          file: gradle.properties
           property: release_version
       - name: Build custom release version
         id: release_ver
@@ -46,5 +46,13 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SONATYPE_GPG_ARMORED_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SONATYPE_SIGNING_PASSWORD }} 
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SONATYPE_SIGNING_PASSWORD }}
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            build/test-results/**/*.xml
+            build/test-results/**/*.trx
+            build/test-results/**/*.json
 

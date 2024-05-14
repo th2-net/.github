@@ -6,7 +6,7 @@ on:
     - master
     paths:
     - gradle.properties
-    - package_info.json  
+    - package_info.json
 
 jobs:
   build:
@@ -22,9 +22,9 @@ jobs:
         password: ${{ secrets.CR_PAT }}
     - name: Read version from gradle.properties
       id: read_property
-      uses: christian-draeger/read-properties@1.0.1
+      uses: BrycensRanch/read-properties-action@v1.0.3
       with:
-        path: ./gradle.properties
+        file: ./gradle.properties
         property: release_version
     - name: Build and push
       id: docker_build
@@ -32,3 +32,6 @@ jobs:
       with:
         push: true
         tags: ghcr.io/${{ github.repository }}:${{ steps.read_property.outputs.value }}
+        provenance: false
+        build-args: |
+          release_version=${{ steps.read_property.outputs.value }}

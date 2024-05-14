@@ -50,6 +50,9 @@ on:
     secrets:
       docker-password:
         required: false
+      nvd-api-key:
+        required: false
+        description: 'API key to access NVD database'
 
 jobs:
   prebuild-job:
@@ -65,26 +68,28 @@ jobs:
     needs: [prebuild-job]
     runs-on: ${{ inputs.runsOn }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Show custom release version
+        run: echo ${{ needs.prebuild-job.outputs.version }}
+      - uses: actions/checkout@v4
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - uses: docker/login-action@v2
+        uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ inputs.docker-username }}
           password: ${{ secrets.docker-password }}
-      - name: Get repository name
-        run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_OUTPUT
-        id: meta
       - name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           build-args: |
             project_name=${{ inputs.projectName }}
+            release_version=${{ needs.prebuild-job.outputs.version }}
+          context: .
           push: true
           tags: ghcr.io/th2-net/th2-${{ inputs.projectName }}:${{ needs.prebuild-job.outputs.version }}
           labels: com.exactpro.th2.th2-${{ inputs.projectName }}=${{ needs.prebuild-job.outputs.version }}
+          provenance: false
   trivy-docker-scan:
     name: Scan Docker image for vulnerabilities
     if: inputs.scanner-enabled
@@ -101,3 +106,5 @@ jobs:
       multiproject: true
       javaVersion: ${{ inputs.javaVersion }}
       javaVendor: ${{ inputs.javaVendor }}
+    secrets:
+      nvd-api-key: ${{ secrets.nvd-api-key }}

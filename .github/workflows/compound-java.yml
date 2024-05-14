@@ -52,6 +52,11 @@ on:
         type: boolean
         default: false
         description: 'false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
+      createTag:
+        required: false
+        type: boolean
+        default: false
+        description: 'Whether creating and publishing git tag'
 
     outputs:
       version:
@@ -68,6 +73,9 @@ on:
         required: false
       sonatypeSigningPassword:
         required: false
+      nvd-api-key:
+        required: false
+        description: 'API key to access NVD database'
 
 jobs:
   prebuild-job:
@@ -134,3 +142,14 @@ jobs:
       multiproject: ${{ inputs.multiproject }}
       javaVersion: ${{ inputs.javaVersion }}
       javaVendor: ${{ inputs.javaVendor }}
+    secrets:
+      nvd-api-key: ${{ secrets.nvd-api-key }}
+
+  create-tag:
+    if: inputs.createTag && !cancelled() && (needs.docker-push.result == 'success' || needs.sonatype-push.result == 'success')
+    name: Create and push tag
+    needs: [ prebuild-job, sonatype-push, docker-push ]
+    uses: th2-net/.github/.github/workflows/compaund-git-tag-push.yml@main
+    with:
+      runsOn: ${{ inputs.runsOn }}
+      tagName: ${{ needs.prebuild-job.outputs.version }}

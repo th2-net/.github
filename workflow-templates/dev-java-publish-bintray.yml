@@ -19,9 +19,9 @@ jobs:
         run: echo ::set-output name=branch_name::${GITHUB_REF#refs/*/}
       - name: Get release_version
         id: ver
-        uses: christian-draeger/read-properties@1.0.1
+        uses: BrycensRanch/read-properties-action@v1.0.3
         with:
-          path: gradle.properties
+          file: gradle.properties
           property: release_version
       - name: Build custom release version
         id: release_ver
@@ -41,4 +41,12 @@ jobs:
           java-version: '11'
       - name: Build with Gradle
         run: ./gradlew clean build bintrayUpload -Pbintray_user=${{ secrets.BINTRAY_USER }} -Pbintray_key=${{ secrets.BINTRAY_KEY }}
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            build/test-results/**/*.xml
+            build/test-results/**/*.trx
+            build/test-results/**/*.json  
 
