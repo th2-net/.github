@@ -1,20 +1,22 @@
 name: Check licenses
 
 on: 
-  workflow_dispatch:
-  push:
-    paths-ignore:
-      - README.md
+  workflow_call:
+    inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
 
 jobs:
   prebuild-job:
     name: Prebuild Job
     uses: th2-net/.github/.github/workflows/compound-prebuild-java-dev-workflow.yml@main
     with:
-      runsOn: 'ubuntu-latest'
+      runsOn: ${{ inputs.runsOn }}
 
   check_licenses:
-    runs-on: 'ubuntu-latest'
+    runs-on: ${{ inputs.runsOn }}
     needs: [prebuild-job]
 
     steps:
