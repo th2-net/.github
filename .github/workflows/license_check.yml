@@ -1,0 +1,58 @@
+name: Check licenses
+
+on: 
+  workflow_call:
+    inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+
+jobs:
+  prebuild-job:
+    name: Prebuild Job
+    uses: th2-net/.github/.github/workflows/compound-prebuild-java-dev-workflow.yml@main
+    with:
+      runsOn: ${{ inputs.runsOn }}
+
+  check_licenses:
+    runs-on: ${{ inputs.runsOn }}
+    needs: [prebuild-job]
+
+    steps:
+    - name: checkout actions
+      uses: actions/checkout@v4
+
+    - name: Install jq env
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq
+    - name: Download script
+      run: |
+        wget -q -O check_licenses.sh https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/check_licenses.sh
+        chmod +x ./check_licenses.sh
+    
+    - name: Run check_licenses script
+      id: run_script
+      run: |
+        ./check_licenses.sh java
+        line_count=$(wc -l < ./licenses_check/failed_licenses.csv)
+        if [[ $line_count -ge 1 ]]; then
+                echo "FAILED due to unknown/failed licenses found"
+                exit 1
+        else
+                echo "PASSED: licenses check successfull"
+                exit 0
+        fi
+
+    - name: Get repository name
+      if: ${{ !cancelled() }}
+      run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $NF}')" >> $GITHUB_OUTPUT
+      id: meta
+
+    - name: Uploading results
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: licenses_check-${{ steps.meta.outputs.REPOSITORY_NAME }}-${{ needs.prebuild-job.outputs.version }}
+        path: ./licenses_check/
