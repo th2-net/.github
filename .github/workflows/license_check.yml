@@ -49,7 +49,7 @@ jobs:
       if: ${{ !cancelled() }}
       id: meta
       run: |
-        REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $NF}')"
+        REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $NF}')
         name=$(echo -n "$REPOSITORY_NAME-${{ needs.prebuild-job.outputs.version }}" | sed -e 's/[ \t:\/\\"<>|*?]/-/g' -e 's/--*/-/g')
         echo "ARTIFACT_NAME=$name" >> $GITHUB_ENV
 
