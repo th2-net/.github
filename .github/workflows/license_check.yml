@@ -47,12 +47,16 @@ jobs:
 
     - name: Get repository name
       if: ${{ !cancelled() }}
-      run: echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $NF}')" >> $GITHUB_OUTPUT
       id: meta
+      run: |
+        REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $NF}')"
+        name=$(echo -n "$REPOSITORY_NAME-${{ needs.prebuild-job.outputs.version }}" | sed -e 's/[ \t:\/\\"<>|*?]/-/g' -e 's/--*/-/g')
+        echo "ARTIFACT_NAME=$name" >> $GITHUB_ENV
 
     - name: Uploading results
       if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
       with:
-        name: licenses_check-${{ steps.meta.outputs.REPOSITORY_NAME }}-${{ needs.prebuild-job.outputs.version }}
+        name: licenses_check-${{ steps.meta.outputs.ARTIFACT_NAME }}
         path: ./licenses_check/
+        overwrite: true
