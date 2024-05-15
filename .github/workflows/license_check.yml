@@ -57,6 +57,6 @@ jobs:
       if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
       with:
-        name: licenses_check-${{ steps.meta.outputs.ARTIFACT_NAME }}
+        name: licenses_check-${{ env.ARTIFACT_NAME }}
         path: ./licenses_check/
         overwrite: true
