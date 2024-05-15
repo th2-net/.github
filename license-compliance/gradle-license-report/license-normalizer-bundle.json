@@ -153,7 +153,7 @@
     },
     {
       "bundleName": "apache2",
-      "licenseNamePattern": "^\"Apache[-\\s]2\\.0\";link=\"https?://www.apache.org/licenses/LICENSE-2.0\\.txt\"$"
+      "licenseNamePattern": "^\"Apache[-\\s]2\\.0\";link=\"https?://www.apache.org/licenses/LICENSE-2\\.0\\.txt\"$"
     },
     {
       "bundleName": "apache2",
