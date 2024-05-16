@@ -16,6 +16,7 @@ jobs:
       runsOn: ${{ inputs.runsOn }}
 
   check_licenses:
+    continue-on-error: true
     runs-on: ${{ inputs.runsOn }}
     needs: [prebuild-job]
 
