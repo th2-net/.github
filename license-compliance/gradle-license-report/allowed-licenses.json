@@ -296,6 +296,11 @@
       "mvnRepositoryLicense": "Apache-2.0"
     },
     {
+      "moduleName": "org.eclipse.jetty:jetty-bom",
+      "moduleVersion": "^9(\\.(\\d|\\w)+)+$",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
       "moduleName": "org.jdbi:jdbi3-bom",
       "moduleVersion": "^3(\\.\\d+)+$",
       "mvnRepositoryLicense": "Apache-2.0"
