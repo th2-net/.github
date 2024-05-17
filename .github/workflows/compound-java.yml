@@ -14,7 +14,7 @@ on:
       runsOn:
         required: false
         type: string
-        default: 'ubuntu-20.04'
+        default: 'ubuntu-latest'
       gradleVersion:
         required: false
         type: string
@@ -153,3 +153,7 @@ jobs:
     with:
       runsOn: ${{ inputs.runsOn }}
       tagName: ${{ needs.prebuild-job.outputs.version }}
+
+  license-check:
+    if: inputs.scanner-enabled
+    uses: th2-net/.github/.github/workflows/license_check.yml@main
