@@ -131,6 +131,11 @@
       "licenseUrl": "https://spdx.org/licenses/GPL-2.0.html"
     },
     {
+      "bundleName": "gpl2.0wcpe",
+      "licenseName": "GPL-2.0-with-classpath-exception",
+      "licenseUrl": "https://spdx.org/licenses/GPL-2.0-with-classpath-exception.html"
+    },
+    {
       "bundleName": "lgpl2.1",
       "licenseName": "LGPL-2.1",
       "licenseUrl": "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html"
@@ -263,6 +268,10 @@
     {
       "bundleName": "gpl2.0",
       "licenseNamePattern": "^GPL v2$"
+    },
+    {
+      "bundleName": "gpl2.0wcpe",
+      "licenseNamePattern": "^GPL2 w/ CPE$"
     },
     {
       "bundleName": "lgpl2.1",
