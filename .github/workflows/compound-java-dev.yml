@@ -135,4 +135,5 @@ jobs:
       nvd-api-key: ${{ secrets.nvd-api-key }}
 
   license-check:
+    if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/license_check.yml@main
