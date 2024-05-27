@@ -321,11 +321,6 @@
       "mvnRepositoryLicense": "Apache-2.0"
     },
     {
-      "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-json",
-      "moduleVersion": "^1(\\.\\d+)+$",
-      "mvnRepositoryLicense": "Apache-2.0"
-    },
-    {
       "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-core",
       "moduleVersion": "^1(\\.\\d+)+$",
       "mvnRepositoryLicense": "Apache-2.0"

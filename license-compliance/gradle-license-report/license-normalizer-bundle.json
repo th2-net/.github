@@ -116,11 +116,6 @@
       "licenseUrl": "https://opensource.org/licenses/CDDL-1.0"
     },
     {
-      "bundleName": "cddl11",
-      "licenseName": "CDDL-1.1",
-      "licenseUrl": "https://spdx.org/licenses/CDDL-1.1.html"
-    },
-    {
       "bundleName": "epl2",
       "licenseName": "EPL-2.0",
       "licenseUrl": "https://www.eclipse.org/legal/epl-2.0/"
@@ -129,11 +124,6 @@
       "bundleName": "gpl2.0",
       "licenseName": "GPL-2.0",
       "licenseUrl": "https://spdx.org/licenses/GPL-2.0.html"
-    },
-    {
-      "bundleName": "gpl2.0wcpe",
-      "licenseName": "GPL-2.0-with-classpath-exception",
-      "licenseUrl": "https://spdx.org/licenses/GPL-2.0-with-classpath-exception.html"
     },
     {
       "bundleName": "lgpl2.1",
@@ -184,10 +174,6 @@
     {
       "bundleName": "apache2",
       "licenseNamePattern": "^The Apache Software License, Version 2\\.0$"
-    },
-    {
-      "bundleName": "apache2",
-      "licenseNamePattern": "^Apache Software License - Version 2\\.0$"
     },
     {
       "bundleName": "apache2",
@@ -254,10 +240,6 @@
       "licenseNamePattern": "^COMMON DEVELOPMENT AND DISTRIBUTION LICENSE \\(CDDL\\) Version 1\\.0$"
     },
     {
-      "bundleName": "cddl11",
-      "licenseNamePattern": "^CDDL 1\\.1$"
-    },
-    {
       "bundleName": "epl2",
       "licenseNamePattern": "^Eclipse Public License - v 2\\.0$"
     },
@@ -268,10 +250,6 @@
     {
       "bundleName": "gpl2.0",
       "licenseNamePattern": "^GPL v2$"
-    },
-    {
-      "bundleName": "gpl2.0wcpe",
-      "licenseNamePattern": "^GPL2 w/ CPE$"
     },
     {
       "bundleName": "lgpl2.1",
