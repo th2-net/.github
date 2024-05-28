@@ -311,11 +311,6 @@
       "mvnRepositoryLicense": "Apache-2.0"
     },
     {
-      "moduleName": "org.jetbrains.kotlinx:kotlinx-coroutines-core",
-      "moduleVersion": "^1(\\.\\d+)+$",
-      "mvnRepositoryLicense": "Apache-2.0"
-    },
-    {
       "moduleName": "org.jetbrains.kotlinx:kotlinx-serialization-bom",
       "moduleVersion": "^1(\\.\\d+)+$",
       "mvnRepositoryLicense": "Apache-2.0"
@@ -359,12 +354,6 @@
       "moduleName": "^com\\.exactpro\\.th2:.*",
       "moduleVersion": "^\\d+(\\.\\d+)+$",
       "mvnRepositoryLicense": "Apache-2.0"
-    },
-    {
-      "moduleName": "^io\\.ktor:.*",
-      "moduleVersion": "^\\d+(\\.\\d+)+$",
-      "mvnRepositoryLicense": "Apache-2.0",
-      "proof": "https://github.com/ktorio/ktor/blob/main/LICENSE"
     },
     {
       "moduleLicense": "^MIT$"
