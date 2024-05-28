@@ -144,6 +144,11 @@
       "bundleName": "upl1.0",
       "licenseName": "UPL-1.0",
       "licenseUrl": "https://spdx.org/licenses/UPL-1.0.html"
+    },
+    {
+      "bundleName": "unicode-and-icu",
+      "licenseName": "Unicode/ICU",
+      "licenseUrl": "https://github.com/unicode-org/icu/blob/release-72-1/icu4c/LICENSE"
     }
   ],
   "transformationRules": [
@@ -210,6 +215,10 @@
     {
       "bundleName": "bsd3clause",
       "licenseNamePattern": "^BSD-3-Clause$"
+    },
+    {
+      "bundleName": "bsd3clause",
+      "licenseNamePattern": "^BSD 3-Clause \"New\" or \"Revised\" License \\(BSD-3-Clause\\)$"
     },
     {
       "bundleName": "cc0-1",
@@ -322,6 +331,10 @@
     {
       "bundleName": "Unlicense",
       "licenseNamePattern": "^Unlicense$"
+    },
+    {
+      "bundleName": "unicode-and-icu",
+      "licenseNamePattern": "^Unicode/ICU License$"
     },
     {
       "bundleName": "cc-by-3.0-mit",
