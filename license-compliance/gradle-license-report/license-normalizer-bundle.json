@@ -289,6 +289,10 @@
     },
     {
       "bundleName": "edl1.0",
+      "licenseNamePattern": "^EDL 1\\.0$"
+    },
+    {
+      "bundleName": "edl1.0",
       "licenseNamePattern": "^Eclipse Distribution License \\(New BSD License\\)$"
     },
     {
@@ -296,8 +300,16 @@
       "licenseNamePattern": "^Eclipse Distribution License v\\. 1\\.0$"
     },
     {
+      "bundleName": "edl1.0",
+      "licenseNamePattern": "^Eclipse Distribution License - v 1\\.0$"
+    },
+    {
       "bundleName": "epl1.0",
       "licenseNamePattern": "^Eclipse Public License v1\\.0$"
+    },
+    {
+      "bundleName": "epl1.0",
+      "licenseNamePattern": "^Eclipse Public License - Version 1\\.0$"
     },
     {
       "bundleName": "bsd-0",
