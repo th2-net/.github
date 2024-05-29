@@ -173,7 +173,7 @@ for main in `cat $temp_res | tr ' ' ';'`
 	#echo "Head = $name , $version"
 
 	#Concatenate strings if licenses more than one via vertical line |
-        for line in `cat $temp_res | tr ' ' ';' | grep $name`
+        for line in `cat $temp_res | tr ' ' ';' | grep $name | grep $version`
             do
 		#echo "Line = $line"
 		column_number=`echo $line | awk -F "," '{print NF}'`
