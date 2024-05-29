@@ -500,6 +500,9 @@
     },
     {
       "moduleLicense": "^BSD-2-Clause OR CC0-1\\.0$"
+    },
+    {
+      "moduleLicense": "^EDL-1\\.0 OR EPL-2\\.0 OR GPL-2\\.0-with-classpath-exception$"
     }
   ]
 }
