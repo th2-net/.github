@@ -96,6 +96,11 @@
       "licenseUrl": "http://www.gnu.org/licenses/lgpl.html"
     },
     {
+      "bundleName": "gpl2-wce",
+      "licenseName": "GPL-2.0-with-classpath-exception",
+      "licenseUrl": "https://spdx.org/licenses/GPL-2.0-with-classpath-exception.html"
+    },
+    {
       "bundleName": "apache2",
       "licenseName": "Apache-2.0",
       "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.txt"
@@ -187,6 +192,14 @@
     },
     {
       "bundleName": "apache2",
+      "licenseNamePattern": "^The Apache Software - License, Version 2\\.0$"
+    },
+    {
+      "bundleName": "apache2",
+      "licenseNamePattern": "^Apache Software License - Version 2\\.0$"
+    },
+    {
+      "bundleName": "apache2",
       "licenseNamePattern": "^The Apache License, Version 2\\.0$"
     },
     {
@@ -259,6 +272,10 @@
     },
     {
       "bundleName": "epl2",
+      "licenseNamePattern": "^Eclipse Public License v\\. 2\\.0$"
+    },
+    {
+      "bundleName": "epl2",
       "licenseNamePattern": "^EPL 2\\.0$"
     },
     {
@@ -272,6 +289,10 @@
     {
       "bundleName": "lgpl2.1",
       "licenseNamePattern": "^GNU LESSER GENERAL PUBLIC LICENSE, Version 2\\.1$"
+    },
+    {
+      "bundleName": "gpl2-wce",
+      "licenseNamePattern": "^GNU General Public License, version 2 with the GNU Classpath Exception$"
     },
     {
       "bundleName": "mit",

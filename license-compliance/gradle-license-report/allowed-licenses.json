@@ -296,11 +296,6 @@
       "mvnRepositoryLicense": "Apache-2.0"
     },
     {
-      "moduleName": "org.eclipse.jetty:jetty-bom",
-      "moduleVersion": "^9(\\.(\\d|\\w)+)+$",
-      "mvnRepositoryLicense": "Apache-2.0"
-    },
-    {
       "moduleName": "org.jdbi:jdbi3-bom",
       "moduleVersion": "^3(\\.\\d+)+$",
       "mvnRepositoryLicense": "Apache-2.0"
@@ -498,6 +493,9 @@
       "moduleLicense": "^Apache-2\\.0 OR GPL-2\\.0 OR MPL 2\\.0$"
     },
     {
+      "moduleLicense": "^Apache-2\\.0 OR CDDL-1\\.0 OR EPL-1\\.0$"
+    },
+    {
       "moduleLicense": "^CDDL \\+ GPLv2 with classpath exception OR CDDL-1\\.0$"
     },
     {
@@ -505,6 +503,9 @@
     },
     {
       "moduleLicense": "^BSD-2-Clause OR CC0-1\\.0$"
+    },
+    {
+      "moduleLicense": "^EDL-1\\.0 OR EPL-2\\.0 OR GPL-2\\.0-with-classpath-exception$"
     }
   ]
 }
