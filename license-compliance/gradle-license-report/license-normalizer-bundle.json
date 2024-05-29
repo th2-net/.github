@@ -91,6 +91,11 @@
       "licenseUrl": "https://spdx.org/licenses/LGPL-2.1+.html"
     },
     {
+      "bundleName": "lgpl",
+      "licenseName": "LGPL",
+      "licenseUrl": "http://www.gnu.org/licenses/lgpl.html"
+    },
+    {
       "bundleName": "apache2",
       "licenseName": "Apache-2.0",
       "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.txt"
@@ -259,6 +264,10 @@
     {
       "bundleName": "gpl2.0",
       "licenseNamePattern": "^GPL v2$"
+    },
+    {
+      "bundleName": "lgpl",
+      "licenseNamePattern": "^GNU Library or Lesser General Public License$"
     },
     {
       "bundleName": "lgpl2.1",
