@@ -91,6 +91,11 @@
       "licenseUrl": "https://spdx.org/licenses/LGPL-2.1+.html"
     },
     {
+      "bundleName": "lgpl",
+      "licenseName": "LGPL",
+      "licenseUrl": "http://www.gnu.org/licenses/lgpl.html"
+    },
+    {
       "bundleName": "apache2",
       "licenseName": "Apache-2.0",
       "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.txt"
@@ -144,6 +149,11 @@
       "bundleName": "upl1.0",
       "licenseName": "UPL-1.0",
       "licenseUrl": "https://spdx.org/licenses/UPL-1.0.html"
+    },
+    {
+      "bundleName": "unicode-and-icu",
+      "licenseName": "Unicode/ICU",
+      "licenseUrl": "https://github.com/unicode-org/icu/blob/release-72-1/icu4c/LICENSE"
     }
   ],
   "transformationRules": [
@@ -212,6 +222,10 @@
       "licenseNamePattern": "^BSD-3-Clause$"
     },
     {
+      "bundleName": "bsd3clause",
+      "licenseNamePattern": "^BSD 3-Clause \"New\" or \"Revised\" License \\(BSD-3-Clause\\)$"
+    },
+    {
       "bundleName": "cc0-1",
       "licenseNamePattern": "^Creative Commons Legal Code$"
     },
@@ -252,6 +266,10 @@
       "licenseNamePattern": "^GPL v2$"
     },
     {
+      "bundleName": "lgpl",
+      "licenseNamePattern": "^GNU Library or Lesser General Public License$"
+    },
+    {
       "bundleName": "lgpl2.1",
       "licenseNamePattern": "^GNU LESSER GENERAL PUBLIC LICENSE, Version 2\\.1$"
     },
@@ -289,6 +307,10 @@
     },
     {
       "bundleName": "edl1.0",
+      "licenseNamePattern": "^EDL 1\\.0$"
+    },
+    {
+      "bundleName": "edl1.0",
       "licenseNamePattern": "^Eclipse Distribution License \\(New BSD License\\)$"
     },
     {
@@ -296,8 +318,16 @@
       "licenseNamePattern": "^Eclipse Distribution License v\\. 1\\.0$"
     },
     {
+      "bundleName": "edl1.0",
+      "licenseNamePattern": "^Eclipse Distribution License - v 1\\.0$"
+    },
+    {
       "bundleName": "epl1.0",
       "licenseNamePattern": "^Eclipse Public License v1\\.0$"
+    },
+    {
+      "bundleName": "epl1.0",
+      "licenseNamePattern": "^Eclipse Public License - Version 1\\.0$"
     },
     {
       "bundleName": "bsd-0",
@@ -310,6 +340,10 @@
     {
       "bundleName": "Unlicense",
       "licenseNamePattern": "^Unlicense$"
+    },
+    {
+      "bundleName": "unicode-and-icu",
+      "licenseNamePattern": "^Unicode/ICU License$"
     },
     {
       "bundleName": "cc-by-3.0-mit",

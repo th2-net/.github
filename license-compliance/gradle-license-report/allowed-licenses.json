@@ -356,12 +356,20 @@
       "mvnRepositoryLicense": "Apache-2.0"
     },
     {
+      "moduleName": "^org\\.antlr:.*",
+      "moduleVersion": "^[34](\\.\\d+)+$",
+      "mvnRepositoryLicense": "BSD-3-Clause"
+    },
+    {
       "moduleName": "^com\\.exactpro\\.th2:.*",
       "moduleVersion": "^\\d+(\\.\\d+)+$",
       "mvnRepositoryLicense": "Apache-2.0"
     },
     {
       "moduleLicense": "^MIT$"
+    },
+    {
+      "moduleLicense": "^LGPL$"
     },
     {
       "moduleLicense": "^LGPL-2.1$"
@@ -437,6 +445,9 @@
     },
     {
       "moduleLicense": "^unicode-icu-58$"
+    },
+    {
+      "moduleLicense": "^Unicode/ICU$"
     },
     {
       "moduleLicense": "^MPL-1\\.1$"
