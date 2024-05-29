@@ -156,7 +156,11 @@ echo "`log_date_time`: Parsing file $lic_file"
 #Old version without URLs
 #$jq_path -r '.dependencies[] | .licenses = try (.moduleLicenses[].moduleLicense) catch "null" | [.moduleName, .moduleVersion, .licenses ] | @csv' $lic_file | sort -u > $temp_res
 
-$jq_path -r '.dependencies[] | [.moduleName, .moduleVersion, try (.moduleLicenses[].moduleLicense) catch "null", try (.moduleLicenses[].moduleLicenseUrl) catch "null"] | @csv' $lic_file | sort -u > $temp_res 
+#Filter rubbish `"moduleLicense": "LICENSE"`
+#Old version without filter
+#$jq_path -r '.dependencies[] | [.moduleName, .moduleVersion, try (.moduleLicenses[].moduleLicense) catch "null", try (.moduleLicenses[].moduleLicenseUrl) catch "null"] | @csv' $lic_file | sort -u > $temp_res 
+
+$jq_path -r '.dependencies[] | .moduleLicenses |= map(select(.moduleLicense != "LICENSE")) | [.moduleName, .moduleVersion, try (.moduleLicenses[].moduleLicense) catch "null", try (.moduleLicenses[].moduleLicenseUrl) catch "null"] | @csv' $lic_file | sort -u > $temp_res
 
 echo "`log_date_time`: Forming report"
 
