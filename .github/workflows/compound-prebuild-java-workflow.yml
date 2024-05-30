@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Get release_version
         id: ver
-        uses: BrycensRanch/read-properties-action@v1.0.3
+        uses: BrycensRanch/read-properties-action@v1.0.4
         with:
           file: ${{ inputs.project-path }}/gradle.properties
           property: release_version
