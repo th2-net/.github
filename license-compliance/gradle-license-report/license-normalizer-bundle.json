@@ -239,6 +239,10 @@
       "licenseNamePattern": "^BSD 3-Clause \"New\" or \"Revised\" License \\(BSD-3-Clause\\)$"
     },
     {
+      "bundleName": "bsd3clause",
+      "licenseUrlPattern": "^http://(www\\.)?antlr\\.org/license\\.html$"
+    },
+    {
       "bundleName": "cc0-1",
       "licenseNamePattern": "^Creative Commons Legal Code$"
     },
