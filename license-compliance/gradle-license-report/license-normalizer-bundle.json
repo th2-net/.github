@@ -295,6 +295,10 @@
       "licenseNamePattern": "^GNU General Public License, version 2 with the GNU Classpath Exception$"
     },
     {
+      "bundleName": "gpl2-wce",
+      "licenseNamePattern": "^GPL2 w/ CPE$"
+    },
+    {
       "bundleName": "mit",
       "licenseNamePattern": "^MIT License$"
     },
