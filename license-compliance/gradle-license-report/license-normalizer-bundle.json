@@ -163,7 +163,7 @@
     {
       "bundleName": "gpl2-with-foss1",
       "licenseName": "GPL-2.0-with-Universal-FOSS-Exception-1.0",
-      "licenseUrl": "https://github.com/mysql/mysql-connector-j/tree/8.3.0?tab=License-1-ov-file"
+      "licenseUrl": "https://spdx.org/licenses/GPL-2.0.html ; https://spdx.org/licenses/Universal-FOSS-exception-1.0.html"
     },
     {
       "bundleName": "oracle-futc",
