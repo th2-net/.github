@@ -494,6 +494,12 @@
       "moduleLicense": "^Apache-2\\.0 OR CDDL-1\\.0 OR EPL-1\\.0$"
     },
     {
+      "moduleLicense": "^Apache-2\\.0 OR CDDL-1\\.0 OR EPL-2\\.0$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 OR CDDL-1\\.0 OR EPL-1\\.0 OR EPL-2\\.0$"
+    },
+    {
       "moduleLicense": "^CDDL \\+ GPLv2 with classpath exception OR CDDL-1\\.0$"
     },
     {
