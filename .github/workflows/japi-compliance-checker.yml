@@ -51,7 +51,7 @@ jobs:
 
       - name: Get release_version
         id: ver
-        uses: BrycensRanch/read-properties-action@v1.0.3
+        uses: BrycensRanch/read-properties-action@v1.0.4
         with:
           file: ${{ inputs.gradlePropertiesPath }}/gradle.properties
           property: release_version
