@@ -159,6 +159,16 @@
       "bundleName": "unicode-and-icu",
       "licenseName": "Unicode/ICU",
       "licenseUrl": "https://github.com/unicode-org/icu/blob/release-72-1/icu4c/LICENSE"
+    },
+    {
+      "bundleName": "gpl2-with-foss1",
+      "licenseName": "GPL-2.0-with-Universal-FOSS-Exception-1.0",
+      "licenseUrl": "https://spdx.org/licenses/GPL-2.0.html ; https://spdx.org/licenses/Universal-FOSS-exception-1.0.html"
+    },
+    {
+      "bundleName": "oracle-futc",
+      "licenseName": "Oracle-FUTC",
+      "licenseUrl": "https://www.oracle.com/downloads/licenses/oracle-free-license.html"
     }
   ],
   "transformationRules": [
@@ -441,6 +451,14 @@
     {
       "bundleName": "lgpl2.1-or-later",
       "licenseNamePattern": "^GNU Library General Public License v2\\.1 or later$"
+    },
+    {
+      "bundleName": "gpl2-with-foss1",
+      "licenseNamePattern": "^The GNU General Public License, v2 with Universal FOSS Exception, v1\\.0$"
+    },
+    {
+      "bundleName": "oracle-futc",
+      "licenseNamePattern": "^Oracle Free Use Terms and Conditions \\(FUTC\\)$"
     }
   ]
 }

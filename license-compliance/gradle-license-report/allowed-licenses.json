@@ -446,6 +446,12 @@
       "moduleLicense": "^UPL-1\\.0$"
     },
     {
+      "moduleLicense": "^GPL-2\\.0-with-Universal-FOSS-Exception-1\\.0$"
+    },
+    {
+      "moduleLicense": "^Oracle-FUTC$"
+    },
+    {
       "moduleLicense": "^GPL-2\\.0-with-classpath-exception$"
     },
     {
