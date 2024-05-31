@@ -455,6 +455,9 @@
       "moduleLicense": "^GPL-2\\.0-with-classpath-exception$"
     },
     {
+      "moduleLicense": "^LGPL-2\\.1 OR MPL-2\\.0$"
+    },
+    {
       "moduleLicense": "^CC0-1\\.0 OR Apache-2\\.0$"
     },
     {
@@ -495,6 +498,12 @@
     },
     {
       "moduleLicense": "^Apache-2\\.0 OR CDDL-1\\.0 OR EPL-1\\.0$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 OR CDDL-1\\.0 OR EPL-2\\.0$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 OR CDDL-1\\.0 OR EPL-1\\.0 OR EPL-2\\.0$"
     },
     {
       "moduleLicense": "^CDDL \\+ GPLv2 with classpath exception OR CDDL-1\\.0$"
