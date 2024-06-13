@@ -108,3 +108,6 @@ jobs:
   license-check:
     if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/license_check.yml@main
+    needs: [prebuild-job]
+    with:
+      version: ${{ needs.prebuild-job.outputs.version }}
