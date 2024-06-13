@@ -3,22 +3,19 @@ name: Check licenses
 on: 
   workflow_call:
     inputs:
+      version:
+        required: true
+        type: string
+        description: 'Full version of distributive, with branch name etc.'
       runsOn:
         required: false
         type: string
         default: 'ubuntu-latest'
 
 jobs:
-  prebuild-job:
-    name: Prebuild Job
-    uses: th2-net/.github/.github/workflows/compound-prebuild-java-dev-workflow.yml@main
-    with:
-      runsOn: ${{ inputs.runsOn }}
-
   check_licenses:
     continue-on-error: true
     runs-on: ${{ inputs.runsOn }}
-    needs: [prebuild-job]
 
     steps:
     - name: checkout actions
@@ -51,7 +48,7 @@ jobs:
       id: meta
       run: |
         REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $NF}')
-        name=$(echo -n "$REPOSITORY_NAME-${{ needs.prebuild-job.outputs.version }}" | sed -e 's/[ \t:\/\\"<>|*?]/-/g' -e 's/--*/-/g')
+        name=$(echo -n "$REPOSITORY_NAME-${{ inputs.version }}" | sed -e 's/[ \t:\/\\"<>|*?]/-/g' -e 's/--*/-/g')
         echo "ARTIFACT_NAME=$name" >> $GITHUB_ENV
 
     - name: Uploading results
