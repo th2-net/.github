@@ -32,11 +32,11 @@ on:
         type: boolean
         default: true
         description: 'Whether vulnerabilities and license scanning are enabled'
-      scanner-required:
+      strict-scanner:
         required: false
         type: boolean
         default: true
-        description: 'Whether vulnerabilities and license scanning are required'
+        description: 'Whether vulnerabilities and license scanning executions are strict'
       trivy-target:
         required: false
         type: string
@@ -82,7 +82,7 @@ jobs:
   # if Docker
   docker-push:
     name: Build Docker image and push to ghcr.io
-    if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && (inputs.scanner-required && success() || !inputs.scanner-required)
+    if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && (inputs.strict-scanner && success() || !inputs.strict-scanner)
     needs: [prebuild-job, owasp-scan, license-check]
     uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
@@ -106,7 +106,7 @@ jobs:
 
 # if Sonatype
   sonatype-push:
-    if: (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && (inputs.scanner-required && success() || !inputs.scanner-required )
+    if: (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && (inputs.strict-scanner && success() || !inputs.strict-scanner )
     name: Build and Push Jar to Sonatype
     needs: [ prebuild-job, owasp-scan, license-check ]
     uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
