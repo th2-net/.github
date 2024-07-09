@@ -36,7 +36,12 @@ on:
         required: false
         type: boolean
         default: true
-        description: 'Whether scanning for vulnerabilities is enabled'
+        description: 'Whether vulnerabilities and license scanning are enabled'
+      scanner-required:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether vulnerabilities and license scanning are required'
       trivy-target:
         required: false
         type: string
@@ -88,8 +93,8 @@ jobs:
 # if Docker
   docker-push:
     name: Build Docker image and push to ghcr.io
-    if: contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')
-    needs: [prebuild-job]
+    if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && (inputs.scanner-required && success() || !inputs.scanner-required)
+    needs: [prebuild-job, owasp-scan, license-check ]
     uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
       docker-username: ${{ inputs.docker-username }}
@@ -111,9 +116,9 @@ jobs:
 
 # if Sonatype
   sonatype-push:
-    if: contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')
+    if: (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && (inputs.scanner-required && success() || !inputs.scanner-required)
     name: Build and Push Jar to Sonatype
-    needs: [ prebuild-job ]
+    needs: [ prebuild-job, owasp-scan, license-check ]
     uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
     with:
       runsOn: ${{ inputs.runsOn }}
@@ -126,14 +131,6 @@ jobs:
       sonatypePassword: ${{ secrets.sonatypePassword }}
       sonatypeSigningKey: ${{ secrets.sonatypeSigningKey }}
       sonatypeSigningPassword: ${{ secrets.sonatypeSigningPassword }}
-  trivy-gradle-scanning:
-    name: Gradle Vulnerabilities Scanning
-    if: inputs.scanner-enabled
-    needs: [ sonatype-push ]
-    uses: th2-net/.github/.github/workflows/trivy-scan-lockfile-github.yml@main
-    with:
-      sensitivity: ${{ inputs.trivy-sensitivity }}
-      gradleVersion: ${{ inputs.gradleVersion }}
 
   owasp-scan:
     if: inputs.scanner-enabled

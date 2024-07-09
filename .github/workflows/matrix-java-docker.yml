@@ -36,7 +36,12 @@ on:
         required: false
         type: boolean
         default: true
-        description: 'Whether scanning for vulnerabilities is enabled'
+        description: 'Whether vulnerabilities and license scanning are enabled'
+      scanner-required:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether vulnerabilities and license scanning are required'
       trivy-target:
         required: false
         type: string
@@ -64,8 +69,8 @@ jobs:
 
   # if Docker
   docker-push:
-    if: contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')
-    needs: [prebuild-job]
+    if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && (inputs.scanner-required && success() || !inputs.scanner-required)
+    needs: [prebuild-job, owasp-scan, license-check ]
     runs-on: ${{ inputs.runsOn }}
     steps:
       - name: Show custom release version
