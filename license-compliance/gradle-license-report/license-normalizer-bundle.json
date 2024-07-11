@@ -301,6 +301,10 @@
       "licenseNamePattern": "^EPL 2\\.0$"
     },
     {
+      "bundleName": "epl2",
+      "licenseUrlPattern": "^https://www.eclipse.org/legal/epl-v20.html"
+    },
+    {
       "bundleName": "gpl2.0",
       "licenseNamePattern": "^GPL v2$"
     },
