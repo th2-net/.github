@@ -169,6 +169,11 @@
       "bundleName": "oracle-futc",
       "licenseName": "Oracle-FUTC",
       "licenseUrl": "https://www.oracle.com/downloads/licenses/oracle-free-license.html"
+    },
+    {
+      "bundleName": "indiana-extreme-1.2",
+      "licenseName": "Indiana-Extreme-License-1.2",
+      "licenseUrl": "https://raw.githubusercontent.com/x-stream/mxparser/master/LICENSE.txt"
     }
   ],
   "transformationRules": [
@@ -250,7 +255,15 @@
     },
     {
       "bundleName": "bsd3clause",
+      "licenseNamePattern": "^New BSD License$"
+    },
+    {
+      "bundleName": "bsd3clause",
       "licenseUrlPattern": "^http://(www\\.)?antlr\\.org/license\\.html$"
+    },
+    {
+      "bundleName": "bsd3clause",
+      "licenseUrlPattern": "^http://opensource\\.org/licenses/BSD-3-Clause$"
     },
     {
       "bundleName": "cc0-1",
@@ -425,10 +438,6 @@
       "licenseNamePattern": "^\\(BSD-3-Clause OR GPL-2\\.0\\)$"
     },
     {
-      "bundleName": "pd",
-      "licenseNamePattern": "^Public Domain$"
-    },
-    {
       "bundleName": "apache2-mpl11",
       "licenseNamePattern": "^\\(Apache-2\\.0 OR MPL-1\\.1\\)$"
     },
@@ -463,6 +472,10 @@
     {
       "bundleName": "oracle-futc",
       "licenseNamePattern": "^Oracle Free Use Terms and Conditions \\(FUTC\\)$"
+    },
+    {
+      "bundleName": "indiana-extreme-1.2",
+      "licenseNamePattern": "^Indiana University Extreme! Lab Software License$"
     }
   ]
 }

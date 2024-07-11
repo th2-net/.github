@@ -455,6 +455,9 @@
       "moduleLicense": "^GPL-2\\.0-with-classpath-exception$"
     },
     {
+      "moduleLicense": "^Indiana-Extreme-License-1\\.2$"
+    },
+    {
       "moduleLicense": "^LGPL-2\\.1 OR MPL-2\\.0$"
     },
     {
