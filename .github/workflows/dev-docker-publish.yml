@@ -30,7 +30,7 @@ jobs:
         run: echo ::set-output name=sha_short::$(git rev-parse --short HEAD)
       - name: Get release_version
         id: ver
-        uses: BrycensRanch/read-properties-action@v1.0.3
+        uses: BrycensRanch/read-properties-action@v1.0.4
         with:
           file: gradle.properties
           property: release_version
@@ -51,7 +51,7 @@ jobs:
         id: meta
       - name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           tags: ghcr.io/${{ github.repository }}:${{ steps.release_ver.outputs.value }}

@@ -80,7 +80,7 @@ jobs:
           password: ${{ secrets.docker-password }}
       - name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           build-args: |
             project_name=${{ inputs.projectName }}
@@ -112,3 +112,6 @@ jobs:
   license-check:
     if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/license_check.yml@main
+    needs: [prebuild-job]
+    with:
+      version: ${{ needs.prebuild-job.outputs.version }}
