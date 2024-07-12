@@ -125,10 +125,10 @@ case $1 in
 	echo "`log_date_time`: Using java mode"
 	echo "`log_date_time`: Running gradle plugins"
 	./gradlew checkLicense generateLicenseReport
-    if [ $? -ne 0 ]; then
-        echo "`log_date_time`: ERROR: check license by gradle plugin failure"
-	    exit 2
-    fi
+	if [ $? -ne 0 ]; then
+		echo "`log_date_time`: ERROR: check license by gradle plugin failure"
+		exit 2
+	fi
 	cp build/reports/dependency-license/licenses.json $lic_file
 	echo "`log_date_time`: Running plugins - completed"
 	;;
