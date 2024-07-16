@@ -1,5 +1,5 @@
 #!/bin/bash
-#Designed by LLC Exactprosystems 
+#Designed by LLC Exactprosystems
 #24.10.2023
 #DevOps Engineer
 #Andrei Shulika
@@ -162,7 +162,7 @@ echo "`log_date_time`: Parsing file $lic_file"
 
 #Filter rubbish `"moduleLicense": "LICENSE"`
 #Old version without filter
-#$jq_path -r '.dependencies[] | [.moduleName, .moduleVersion, try (.moduleLicenses[].moduleLicense) catch "null", try (.moduleLicenses[].moduleLicenseUrl) catch "null"] | @csv' $lic_file | sort -u > $temp_res 
+#$jq_path -r '.dependencies[] | [.moduleName, .moduleVersion, try (.moduleLicenses[].moduleLicense) catch "null", try (.moduleLicenses[].moduleLicenseUrl) catch "null"] | @csv' $lic_file | sort -u > $temp_res
 
 $jq_path -r '.dependencies[] | .moduleLicenses |= map(select(.moduleLicense != "LICENSE")) | [.moduleName, .moduleVersion, try (.moduleLicenses[].moduleLicense) catch "null", try (.moduleLicenses[].moduleLicenseUrl) catch "null"] | @csv' $lic_file | sort -u > $temp_res
 
@@ -200,6 +200,9 @@ for main in `cat $temp_res | tr ' ' ';'`
 						lic_url=$lic_url" | "$item
 					fi
 				else
+					# trim ; (former space) from start and end of the item
+					item=${item#;}
+					item=${item%;}
 					if [[ $lic == "" ]]
 					then
 						lic=$item
