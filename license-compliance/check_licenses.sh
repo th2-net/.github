@@ -23,9 +23,9 @@ rm -rf $dir
 mkdir -p $dir
 lic_file="$dir/licenses.json"
 
-link_allowed_licenses="https://raw.githubusercontent.com/th2-net/.github/clearth-licenses/license-compliance/gradle-license-report/allowed-licenses.json"
-link_license_normalizer_bundle="https://raw.githubusercontent.com/th2-net/.github/clearth-licenses/license-compliance/gradle-license-report/license-normalizer-bundle.json"
-link_info_licenses="https://raw.githubusercontent.com/th2-net/.github/clearth-licenses/license-compliance/gradle-license-report/info-licenses.json"
+link_allowed_licenses="https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/gradle-license-report/allowed-licenses.json"
+link_license_normalizer_bundle="https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/gradle-license-report/license-normalizer-bundle.json"
+link_info_licenses="https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/gradle-license-report/info-licenses.json"
 
 allowed_licenses="$dir/allowed-licenses.json"
 normalizer_file="$dir/license-normalizer-bundle.json"
