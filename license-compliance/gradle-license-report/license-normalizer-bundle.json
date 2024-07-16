@@ -71,11 +71,6 @@
       "licenseUrl": "https://spdx.org/licenses/Apache-2.0.html OR https://spdx.org/licenses/MIT.html"
     },
     {
-      "bundleName": "mit-mpl2.0",
-      "licenseName": "Apache-2.0 OR MIT",
-      "licenseUrl": "https://spdx.org/licenses/Apache-2.0.html OR https://spdx.org/licenses/MIT.html"
-    },
-    {
       "bundleName": "apache2-bsd3",
       "licenseName": "Apache-2.0 OR BSD-3-Clause",
       "licenseUrl": "https://spdx.org/licenses/Apache-2.0.html OR https://spdx.org/licenses/BSD-3-Clause.html"
