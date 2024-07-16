@@ -455,6 +455,9 @@
       "moduleLicense": "^GPL-2\\.0-with-classpath-exception$"
     },
     {
+      "moduleLicense": "^Indiana-Extreme-License-1\\.2$"
+    },
+    {
       "moduleLicense": "^LGPL-2\\.1 OR MPL-2\\.0$"
     },
     {
@@ -519,6 +522,24 @@
     },
     {
       "moduleLicense": "^EPL-2\\.0 OR GPL-2\\.0-with-classpath-exception$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 OR EPL-2\\.0 OR GPL-2\\.0-with-classpath-exception$"
+    },
+    {
+      "moduleLicense": "^CDDL 1\\.1 OR CDDL-1\\.0 OR GPL-2\\.0-with-classpath-exception$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 OR The BSD 3-Clause License$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 OR LGPL 2\\.1 OR MPL 1\\.1$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 OR BSD 2-Clause OR EDL-1\\.0 OR EPL-2\\.0 OR GPL-2\\.0-with-classpath-exception OR MIT OR Modified BSD OR Public Domain OR W3C license OR jQuery license OR jquery\\.org/license OR jquery\\.org/license$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 OR BSD 2-Clause OR EDL-1\\.0 OR EPL-2\\.0 OR GPL-2\\.0-with-classpath-exception OR MIT OR Modified BSD OR Public Domain OR W3C license OR jQuery license OR jquery\\.org/license$"
     }
   ]
 }

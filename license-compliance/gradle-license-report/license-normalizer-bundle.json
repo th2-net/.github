@@ -169,6 +169,11 @@
       "bundleName": "oracle-futc",
       "licenseName": "Oracle-FUTC",
       "licenseUrl": "https://www.oracle.com/downloads/licenses/oracle-free-license.html"
+    },
+    {
+      "bundleName": "indiana-extreme-1.2",
+      "licenseName": "Indiana-Extreme-License-1.2",
+      "licenseUrl": "https://raw.githubusercontent.com/x-stream/mxparser/master/LICENSE.txt"
     }
   ],
   "transformationRules": [
@@ -194,7 +199,7 @@
     },
     {
       "bundleName": "apache2",
-      "licenseNamePattern": "^Apache License 2\\.0$"
+      "licenseNamePattern": "^Apache License,? 2\\.0$"
     },
     {
       "bundleName": "apache2",
@@ -211,6 +216,10 @@
     {
       "bundleName": "apache2",
       "licenseNamePattern": "^The Apache License, Version 2\\.0$"
+    },
+    {
+      "bundleName": "apache2",
+      "licenseNamePattern": "^Apache License,? Version 2\\.0; see: https?://www\\.apache\\.org/licenses/LICENSE-2\\.0\\.(txt|html)$"
     },
     {
       "bundleName": "apache2",
@@ -250,7 +259,15 @@
     },
     {
       "bundleName": "bsd3clause",
+      "licenseNamePattern": "^New BSD License$"
+    },
+    {
+      "bundleName": "bsd3clause",
       "licenseUrlPattern": "^http://(www\\.)?antlr\\.org/license\\.html$"
+    },
+    {
+      "bundleName": "bsd3clause",
+      "licenseUrlPattern": "^http://opensource\\.org/licenses/BSD-3-Clause$"
     },
     {
       "bundleName": "cc0-1",
@@ -279,6 +296,10 @@
     {
       "bundleName": "cddl1",
       "licenseNamePattern": "^COMMON DEVELOPMENT AND DISTRIBUTION LICENSE \\(CDDL\\) Version 1\\.0$"
+    },
+    {
+      "bundleName": "cddl1",
+      "licenseNamePattern": "^Common Development and Distribution License \\(CDDL\\) v1\\.0$"
     },
     {
       "bundleName": "epl2",
@@ -323,6 +344,10 @@
     {
       "bundleName": "gpl2-wce",
       "licenseNamePattern": "^GNU General Public License, version 2 with the GNU Classpath Exception$"
+    },
+    {
+      "bundleName": "gpl2-wce",
+      "licenseNamePattern": "^The GNU General Public License \\(GPL\\), Version 2, With Classpath Exception$"
     },
     {
       "bundleName": "gpl2-wce",
@@ -425,10 +450,6 @@
       "licenseNamePattern": "^\\(BSD-3-Clause OR GPL-2\\.0\\)$"
     },
     {
-      "bundleName": "pd",
-      "licenseNamePattern": "^Public Domain$"
-    },
-    {
       "bundleName": "apache2-mpl11",
       "licenseNamePattern": "^\\(Apache-2\\.0 OR MPL-1\\.1\\)$"
     },
@@ -463,6 +484,10 @@
     {
       "bundleName": "oracle-futc",
       "licenseNamePattern": "^Oracle Free Use Terms and Conditions \\(FUTC\\)$"
+    },
+    {
+      "bundleName": "indiana-extreme-1.2",
+      "licenseNamePattern": "^Indiana University Extreme! Lab Software License$"
     }
   ]
 }
