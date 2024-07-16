@@ -219,6 +219,10 @@
     },
     {
       "bundleName": "apache2",
+      "licenseNamePattern": "^Apache License,? Version 2\\.0; see: https?://www\\.apache\\.org/licenses/LICENSE-2\\.0\\.(txt|html)$"
+    },
+    {
+      "bundleName": "apache2",
       "licenseUrlPattern": "^https://www.apache.org/licenses/LICENSE-2\\.0\\.html$"
     },
     {
