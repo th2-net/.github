@@ -298,6 +298,10 @@
       "licenseNamePattern": "^COMMON DEVELOPMENT AND DISTRIBUTION LICENSE \\(CDDL\\) Version 1\\.0$"
     },
     {
+      "bundleName": "cddl1",
+      "licenseNamePattern": "^Common Development and Distribution License \\(CDDL\\) v1\\.0$"
+    },
+    {
       "bundleName": "epl2",
       "licenseNamePattern": "^Eclipse Public License - v 2\\.0$"
     },
@@ -340,6 +344,10 @@
     {
       "bundleName": "gpl2-wce",
       "licenseNamePattern": "^GNU General Public License, version 2 with the GNU Classpath Exception$"
+    },
+    {
+      "bundleName": "gpl2-wce",
+      "licenseNamePattern": "^The GNU General Public License \\(GPL\\), Version 2, With Classpath Exception$"
     },
     {
       "bundleName": "gpl2-wce",
