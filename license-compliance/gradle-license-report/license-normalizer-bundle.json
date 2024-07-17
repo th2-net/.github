@@ -1,6 +1,11 @@
 {
   "bundles": [
     {
+      "bundleName": "hpnd",
+      "licenseName": "HPND",
+      "licenseUrl": "https://spdx.org/licenses/HPND.html"
+    },
+    {
       "bundleName": "epl1.0",
       "licenseName": "EPL-1.0",
       "licenseUrl": "https://www.eclipse.org/legal/epl-v10.html"
@@ -190,6 +195,10 @@
     {
       "bundleName": "psf2.0",
       "licenseNamePattern": "^Python Software Foundation License$"
+    },
+    {
+      "bundleName": "hpnd",
+      "licenseNamePattern": "^Historical Permission Notice and Disclaimer \\(HPND\\)$"
     },
     {
       "bundleName": "apache2",
