@@ -1,9 +1,19 @@
 {
   "bundles": [
     {
+      "bundleName": "hpnd",
+      "licenseName": "HPND",
+      "licenseUrl": "https://spdx.org/licenses/HPND.html"
+    },
+    {
       "bundleName": "epl1.0",
       "licenseName": "EPL-1.0",
       "licenseUrl": "https://www.eclipse.org/legal/epl-v10.html"
+    },
+    {
+      "bundleName": "psf2.0",
+      "licenseName": "PSF-2.0",
+      "licenseUrl": "https://spdx.org/licenses/PSF-2.0.html"
     },
     {
       "bundleName": "mpl2.0",
@@ -64,6 +74,11 @@
       "bundleName": "apache2-mit",
       "licenseName": "Apache-2.0 OR MIT",
       "licenseUrl": "https://spdx.org/licenses/Apache-2.0.html OR https://spdx.org/licenses/MIT.html"
+    },
+    {
+      "bundleName": "apache2-bsd3",
+      "licenseName": "Apache-2.0 OR BSD-3-Clause",
+      "licenseUrl": "https://spdx.org/licenses/Apache-2.0.html OR https://spdx.org/licenses/BSD-3-Clause.html"
     },
     {
       "bundleName": "zlib-mit",
@@ -178,6 +193,14 @@
   ],
   "transformationRules": [
     {
+      "bundleName": "psf2.0",
+      "licenseNamePattern": "^Python Software Foundation License$"
+    },
+    {
+      "bundleName": "hpnd",
+      "licenseNamePattern": "^Historical Permission Notice and Disclaimer \\(HPND\\)$"
+    },
+    {
       "bundleName": "apache2",
       "licenseNamePattern": "^Apache 2$"
     },
@@ -203,6 +226,10 @@
     },
     {
       "bundleName": "apache2",
+      "licenseNamePattern": "^Apache Software License$"
+    },
+    {
+      "bundleName": "apache2",
       "licenseNamePattern": "^The Apache Software License, Version 2\\.0$"
     },
     {
@@ -215,7 +242,15 @@
     },
     {
       "bundleName": "apache2",
+      "licenseNamePattern": "^Apache Software License v2$"
+    },
+    {
+      "bundleName": "apache2",
       "licenseNamePattern": "^The Apache License, Version 2\\.0$"
+    },
+    {
+      "bundleName": "apache2",
+      "licenseNamePattern": "^Apache License 2\\.0$"
     },
     {
       "bundleName": "apache2",
@@ -247,11 +282,19 @@
     },
     {
       "bundleName": "bsd3clause",
+      "licenseNamePattern": "^BSD License$"
+    },
+    {
+      "bundleName": "bsd3clause",
       "licenseNamePattern": "^BSD-3-Clause;link=https://asm\\.ow2\\.io/LICENSE\\.txt$"
     },
     {
       "bundleName": "bsd3clause",
       "licenseNamePattern": "^BSD-3-Clause$"
+    },
+    {
+      "bundleName": "bsd3clause",
+      "licenseNamePattern": "^BSD 3-Clause$"
     },
     {
       "bundleName": "bsd3clause",
@@ -382,6 +425,10 @@
       "licenseNamePattern": "^Mozilla Public License Version 2\\.0$"
     },
     {
+      "bundleName": "mpl2.0",
+      "licenseNamePattern": "^Mozilla Public License 2.0 \\(MPL 2\\.0\\)$"
+    },
+    {
       "bundleName": "upl1.0",
       "licenseNamePattern": "^UPL-1\\.0"
     },
@@ -418,8 +465,16 @@
       "licenseNamePattern": "^ISC$"
     },
     {
-      "bundleName": "Unlicense",
+      "bundleName": "isc",
+      "licenseNamePattern": "^ISC License (ISCL)$"
+    },
+    {
+      "bundleName": "unlicense",
       "licenseNamePattern": "^Unlicense$"
+    },
+    {
+      "bundleName": "unlicense",
+      "licenseNamePattern": "^The Unlicense (Unlicense)$"
     },
     {
       "bundleName": "unicode-and-icu",
@@ -454,8 +509,16 @@
       "licenseNamePattern": "^\\(Apache-2\\.0 OR MPL-1\\.1\\)$"
     },
     {
+      "bundleName": "apache2-bsd3",
+      "licenseNamePattern": "^Apache Software License\\; BSD License$"
+    },
+    {
       "bundleName": "apache2-mit",
       "licenseNamePattern": "^\\(MIT OR Apache-2\\.0\\)$"
+    },
+    {
+      "bundleName": "apache2-mit",
+      "licenseNamePattern": "^Apache Software License\\; MIT License$"
     },
     {
       "bundleName": "zlib-mit",
