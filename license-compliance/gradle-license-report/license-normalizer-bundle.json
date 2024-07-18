@@ -189,6 +189,21 @@
       "bundleName": "indiana-extreme-1.2",
       "licenseName": "Indiana-Extreme-License-1.2",
       "licenseUrl": "https://raw.githubusercontent.com/x-stream/mxparser/master/LICENSE.txt"
+    },
+    {
+      "bundleName": "mit-or-epl-2.0",
+      "licenseName":"MIT OR EPL-2.0",
+      "licenseUrl": "http://www.opensource.org/licenses/mit-license.php; https://www.eclipse.org/legal/epl-2.0/"
+    },
+    {
+      "bundleName": "bsd3clause-or-lgpl-v3",
+      "licenseName": "BSD-3-Clause OR LGPL v3",
+      "licenseUrl": "https://opensource.org/licenses/BSD-3-Clause; https://spdx.org/licenses/LGPL-3.0-only.html"
+    },
+    {
+      "bundleName": "mit-or-mpl-2.0",
+      "licenseName": "MIT OR MPL-2.0",
+      "licenseUrl": "http://www.opensource.org/licenses/mit-license.php; https://spdx.org/licenses/MPL-2.0.html"
     }
   ],
   "transformationRules": [
@@ -551,6 +566,18 @@
     {
       "bundleName": "indiana-extreme-1.2",
       "licenseNamePattern": "^Indiana University Extreme! Lab Software License$"
+    },
+    {
+      "bundleName": "mit-or-epl-2.0",
+      "licenseNamePattern": "^Eclipse Public License 2\\.0 \\(EPL-2\\.0\\)\\s+MIT License$"
+    },
+    {
+      "bundleName": "bsd3clause-or-lgpl-v3",
+      "licenseNamePattern": "^BSD License\\s+GNU Library or Lesser General Public License \\(LGPL\\)$"
+    },
+    {
+      "bundleName": "mit-or-mpl-2.0",
+      "licenseNamePattern": "^MIT License\\s+Mozilla Public License 2\\.0 \\(MPL 2\\.0\\)$"
     }
   ]
 }
