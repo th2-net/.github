@@ -569,15 +569,15 @@
     },
     {
       "bundleName": "mit-or-epl-2.0",
-      "licenseNamePattern": "^Eclipse Public License 2\\.0 \\(EPL-2\\.0\\)\\s+MIT License$"
+      "licenseNamePattern": "^Eclipse Public License 2\\.0 \\(EPL-2\\.0\\); MIT License$"
     },
     {
       "bundleName": "bsd3clause-or-lgpl-v3",
-      "licenseNamePattern": "^BSD License\\s+GNU Library or Lesser General Public License \\(LGPL\\)$"
+      "licenseNamePattern": "^BSD License; GNU Library or Lesser General Public License \\(LGPL\\)$"
     },
     {
       "bundleName": "mit-or-mpl-2.0",
-      "licenseNamePattern": "^MIT License\\s+Mozilla Public License 2\\.0 \\(MPL 2\\.0\\)$"
+      "licenseNamePattern": "^MIT License; Mozilla Public License 2\\.0 \\(MPL 2\\.0\\)$"
     }
   ]
 }
