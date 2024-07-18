@@ -540,6 +540,15 @@
     },
     {
       "moduleLicense": "^Apache-2\\.0 OR BSD 2-Clause OR EDL-1\\.0 OR EPL-2\\.0 OR GPL-2\\.0-with-classpath-exception OR MIT OR Modified BSD OR Public Domain OR W3C license OR jQuery license OR jquery\\.org/license$"
+    },
+    {
+      "moduleLicense": "^MIT OR EPL-2\\.0$"
+    },
+    {
+      "moduleLicense": "^BSD-3-Clause OR LGPL v3$"
+    },
+    {
+      "moduleLicense": "^MIT OR MPL-2.0$"
     }
   ]
 }
