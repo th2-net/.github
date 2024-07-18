@@ -356,6 +356,21 @@
       "mvnRepositoryLicense": "Apache-2.0"
     },
     {
+      "moduleName": "^debugpy$",
+      "moduleVersion": "^1\\.[0-6]\\.*$",
+      "mvnRepositoryLicense": "MIT OR EPL-2.0"
+    },
+    {
+      "moduleName": "^pyzmq$",
+      "moduleVersion": "^(1[3-9]|2[0-5])\\..*$",
+      "mvnRepositoryLicense": "BSD-3-Clause OR LGPL v3"
+    },
+    {
+      "moduleName": "^tqdm$",
+      "moduleVersion": "^[0-4]\\.\\d+\\.\\d+",
+      "mvnRepositoryLicense": "MIT OR MPL-2.0"
+    },
+    {
       "moduleLicense": "^MIT$"
     },
     {
