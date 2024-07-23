@@ -300,6 +300,10 @@ do
 	mod_license=`echo $license | sed 's/ | / OR /g'` #modify to find multilicense items
 	lic_category=`$jq_path --argjson n "$mod_license" '.bundles[] | select (.licenseName == $n) | .licenseCategory' $info_licenses_file`
 
+        if [ "$url" == "\"\"" ]; then
+                url=`$jq_path --argjson n "$mod_license" '.bundles[] | select (.licenseName == $n) | .licenseUrl' $info_licenses_file`
+        fi
+
 	#echo "Project name = $project_name"
 	#echo "Branch = $branch"
         #echo "Name = $name"
