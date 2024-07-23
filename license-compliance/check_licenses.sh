@@ -301,7 +301,7 @@ do
 	lic_category=`$jq_path --argjson n "$mod_license" '.bundles[] | select (.licenseName == $n) | .licenseCategory' $info_licenses_file`
 
         if [ "$url" == "\"\"" ]; then
-                url=`$jq_path --argjson n "$mod_license" '.bundles[] | select (.licenseName == $n) | .licenseUrl' $info_licenses_file`
+                url=`$jq_path --argjson n "$mod_license" '.bundles[] | select (.licenseName == $n) | .licenseUrl' $normalizer_file`
         fi
 
 	#echo "Project name = $project_name"
