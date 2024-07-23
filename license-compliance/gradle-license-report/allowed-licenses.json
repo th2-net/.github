@@ -549,6 +549,9 @@
     },
     {
       "moduleLicense": "^MIT OR MPL-2.0$"
+    },
+    {
+      "moduleLicense": "^CDDL\\+GPL License$"
     }
   ]
 }
