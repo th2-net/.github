@@ -204,6 +204,11 @@
       "bundleName": "mit-or-mpl-2.0",
       "licenseName": "MIT OR MPL-2.0",
       "licenseUrl": "http://www.opensource.org/licenses/mit-license.php; https://spdx.org/licenses/MPL-2.0.html"
+    },
+    {
+      "bundleName": "cddl-1.1-or-gpl-2",
+      "licenseName": "CDDL-1_1 OR GPL-2",
+      "licenseUrl": "https://oss.oracle.com/licenses/CDDL+GPL-1.1"
     }
   ],
   "transformationRules": [
@@ -221,7 +226,7 @@
     },
     {
       "bundleName": "apache2",
-      "licenseNamePattern": "^\"Apache[-\\s]2\\.0\";link=\"https?://www.apache.org/licenses/LICENSE-2\\.0\\.txt\"$"
+      "licenseNamePattern": "^\"Apache[-\\s]2\\.0\";link=\"https?://www\\.apache\\.org/licenses/LICENSE-2\\.0\\.txt\"$"
     },
     {
       "bundleName": "apache2",
@@ -273,15 +278,7 @@
     },
     {
       "bundleName": "apache2",
-      "licenseUrlPattern": "^https://www.apache.org/licenses/LICENSE-2\\.0\\.html$"
-    },
-    {
-      "bundleName": "apache2",
-      "licenseUrlPattern": "^https://www.apache.org/licenses/LICENSE-2\\.0\\.txt$"
-    },
-    {
-      "bundleName": "apache2",
-      "licenseUrlPattern": "^https://www.apache.org/licenses/LICENSE-2\\.0$"
+      "licenseUrlPattern": "^https://www\\.apache\\.org/licenses/LICENSE-2\\.0(.html|.txt)?$"
     },
     {
       "bundleName": "apache2",
@@ -341,7 +338,7 @@
     },
     {
       "bundleName": "cc0-1",
-      "licenseUrlPattern": "^http://creativecommons.org/publicdomain/zero/1.0/"
+      "licenseUrlPattern": "^http://creativecommons\\.org/publicdomain/zero/1\\.0/$"
     },
     {
       "bundleName": "cc0-1",
@@ -365,19 +362,7 @@
     },
     {
       "bundleName": "epl2",
-      "licenseNamePattern": "^Eclipse Public License - v 2\\.0$"
-    },
-    {
-      "bundleName": "epl2",
-      "licenseNamePattern": "^Eclipse Public License v\\. 2\\.0$"
-    },
-    {
-      "bundleName": "epl2",
-      "licenseNamePattern": "^Eclipse Public License v2\\.0$"
-    },
-    {
-      "bundleName": "epl2",
-      "licenseNamePattern": "^Eclipse Public License - Version 2\\.0$"
+      "licenseNamePattern": "^Eclipse Public License (- v |v\\. |v|- Version )2\\.0$"
     },
     {
       "bundleName": "epl2",
@@ -385,7 +370,7 @@
     },
     {
       "bundleName": "epl2",
-      "licenseUrlPattern": "^https://www.eclipse.org/legal/epl-v20.html"
+      "licenseUrlPattern": "^https://www\\.eclipse\\.org/legal/epl-v20\\.html$"
     },
     {
       "bundleName": "gpl2.0",
@@ -437,7 +422,7 @@
     },
     {
       "bundleName": "mpl1.1",
-      "licenseUrlPattern": "^https://www.mozilla.org/MPL/MPL-1\\.1\\.txt$"
+      "licenseUrlPattern": "^https://www\\.mozilla\\.org/MPL/MPL-1\\.1\\.txt$"
     },
     {
       "bundleName": "mpl2.0",
@@ -445,7 +430,7 @@
     },
     {
       "bundleName": "mpl2.0",
-      "licenseNamePattern": "^Mozilla Public License 2.0 \\(MPL 2\\.0\\)$"
+      "licenseNamePattern": "^Mozilla Public License 2\\.0 \\(MPL 2\\.0\\)$"
     },
     {
       "bundleName": "upl1.0",
@@ -485,7 +470,7 @@
     },
     {
       "bundleName": "isc",
-      "licenseNamePattern": "^ISC License (ISCL)$"
+      "licenseNamePattern": "^ISC License \\(ISCL\\)$"
     },
     {
       "bundleName": "unlicense",
@@ -493,7 +478,7 @@
     },
     {
       "bundleName": "unlicense",
-      "licenseNamePattern": "^The Unlicense (Unlicense)$"
+      "licenseNamePattern": "^The Unlicense \\(Unlicense\\)$"
     },
     {
       "bundleName": "unicode-and-icu",
@@ -529,7 +514,7 @@
     },
     {
       "bundleName": "apache2-bsd3",
-      "licenseNamePattern": "^Apache Software License\\; BSD License$"
+      "licenseNamePattern": "^Apache Software License; BSD License$"
     },
     {
       "bundleName": "apache2-mit",
@@ -537,7 +522,7 @@
     },
     {
       "bundleName": "apache2-mit",
-      "licenseNamePattern": "^Apache Software License\\; MIT License$"
+      "licenseNamePattern": "^Apache Software License; MIT License$"
     },
     {
       "bundleName": "zlib-mit",
@@ -582,6 +567,10 @@
     {
       "bundleName": "mit-or-mpl-2.0",
       "licenseNamePattern": "^MIT License; Mozilla Public License 2\\.0 \\(MPL 2\\.0\\)$"
+    },
+    {
+      "bundleName": "cddl-1.1-or-gpl-2",
+      "licenseUrlPattern": "^http://glassfish\\.java\\.net/public/CDDL\\+GPL_1_1\\.html$"
     }
   ]
 }

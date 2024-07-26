@@ -362,10 +362,10 @@
       "moduleLicense": "^LGPL$"
     },
     {
-      "moduleLicense": "^LGPL-2.1$"
+      "moduleLicense": "^LGPL-2\\.1$"
     },
     {
-      "moduleLicense": "^EPL-2.0$"
+      "moduleLicense": "^EPL-2\\.0$"
     },
     {
       "moduleLicense": "^BSD-3-Clause$"
@@ -374,13 +374,13 @@
       "moduleLicense": "^BSD-2-Clause$"
     },
     {
-      "moduleLicense": "^CC0-1.0$"
+      "moduleLicense": "^CC0-1\\.0$"
     },
     {
-      "moduleLicense": "^CDDL-1.0$"
+      "moduleLicense": "^CDDL-1\\.0$"
     },
     {
-      "moduleLicense": "^Apache-2.0$"
+      "moduleLicense": "^Apache-2\\.0$"
     },
     {
       "moduleLicense": "^MIT-0$"
@@ -548,7 +548,10 @@
       "moduleLicense": "^BSD-3-Clause OR LGPL v3$"
     },
     {
-      "moduleLicense": "^MIT OR MPL-2.0$"
+      "moduleLicense": "^MIT OR MPL-2\\.0$"
+    },
+    {
+      "moduleLicense": "^CDDL-1_1 OR GPL-2$"
     }
   ]
 }
