@@ -106,6 +106,7 @@ normalize(){
 	done < $regexp_file
 	#Apply sed commands replace patterns
 	sed -f $reg_sed -i $file
+	sed -i "s/ OR / | /g" $file
 #	rm $reg_sed $regexp_file
 }
 
@@ -301,7 +302,7 @@ do
 	lic_category=`$jq_path --argjson n "$mod_license" '.bundles[] | select (.licenseName == $n) | .licenseCategory' $info_licenses_file`
 
         if [ "$url" == "\"\"" ]; then
-                url=`$jq_path --argjson n "$mod_license" '.bundles[] | select (.licenseName == $n) | .licenseUrl' $normalizer_file`
+                url=`$jq_path --argjson n "$mod_license" '.bundles[] | select (.licenseName == $n) | .licenseUrl' $normalizer_file | sed 's/ OR / | /g'`
         fi
 
 	#echo "Project name = $project_name"
