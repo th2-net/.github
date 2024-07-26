@@ -70,6 +70,29 @@ download_file(){
 	fi
 }
 
+#Function to check if all licenses Permissive
+checkLicCategory(){
+        local line=$1
+        local pattern="\"[pP]ermissive\""
+        local category=""
+        local isPermissive=1 #1=true 0=false
+        local mas=`echo $line | sed 's/ | / /g'`
+        for item in $mas
+        do
+                local mod_item=`echo $item | sed 's/"//g' | sed 's/^/"/g' | sed 's/$/"/g'`
+                category=`$jq_path --argjson n "$mod_item" '.bundles[] | select (.licenseName == $n) | .licenseCategory' $info_licenses_file`
+                #echo "item = $item"
+                #echo "mod_item = $mod_item"
+                #echo "category = $category"
+
+                if [[ ! "$category" =~ $pattern ]]; then
+                        isPermissive=0
+                fi
+        done
+
+echo ${isPermissive}
+}
+
 #Function to normalize license names
 normalize(){
 	local file=$1
@@ -300,6 +323,16 @@ do
 	#Getting info about license category
 	mod_license=`echo $license | sed 's/ | / OR /g'` #modify to find multilicense items
 	lic_category=`$jq_path --argjson n "$mod_license" '.bundles[] | select (.licenseName == $n) | .licenseCategory' $info_licenses_file`
+
+        num=`echo "$license" | awk -F "\ \|\ " '{print NF}'`
+        if [ $num -ge 2 ]; then
+                #echo "Checking composite license..."
+                #Example if license = "MIT | MPL-2.0" then check
+                check=`checkLicCategory "$license"`
+                if [ $check -eq 1 ]; then
+                        lic_category="\"Permissive\""
+                fi
+        fi
 
         if [ "$url" == "\"\"" ]; then
                 url=`$jq_path --argjson n "$mod_license" '.bundles[] | select (.licenseName == $n) | .licenseUrl' $normalizer_file | sed 's/ OR / | /g'`
