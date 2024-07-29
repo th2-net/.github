@@ -241,7 +241,7 @@ for main in `cat $temp_res | tr ' ' ';'`
 				lic=`echo $line | awk -F "," '{print $3}'`
 				lic_url=`echo $line | awk -F "," '{print $4}'`
 			else
-		                lic=$lic" | "`echo $line | awk -F "," '{print $3}'`
+		    lic=$lic" | "`echo $line | awk -F "," '{print $3}'`
 				lic_url=$lic_url" | "`echo $line | awk -F "," '{print $4}'`
 			fi
 		fi
@@ -324,7 +324,7 @@ do
 	mod_license=`echo $license | sed 's/ | / OR /g'` #modify to find multilicense items
 	lic_category=`$jq_path --argjson n "$mod_license" '.bundles[] | select (.licenseName == $n) | .licenseCategory' $info_licenses_file`
 
-        num=`echo "$license" | awk -F "\ \|\ " '{print NF}'`
+        num=`echo "$license" | awk -F " | " '{print NF}'`
         if [ $num -ge 2 ]; then
                 #echo "Checking composite license..."
                 #Example if license = "MIT | MPL-2.0" then check
