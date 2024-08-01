@@ -209,6 +209,11 @@
       "bundleName": "cddl-1.1-or-gpl-2",
       "licenseName": "CDDL-1_1 OR GPL-2",
       "licenseUrl": "https://oss.oracle.com/licenses/CDDL+GPL-1.1"
+    },
+    {
+      "bundleName": "bouncy-castle",
+      "licenseName": "Bouncy Castle Licence",
+      "licenseUrl": "https://www.bouncycastle.org/about/license/"
     }
   ],
   "transformationRules": [
@@ -571,6 +576,10 @@
     {
       "bundleName": "cddl-1.1-or-gpl-2",
       "licenseUrlPattern": "^http://glassfish\\.java\\.net/public/CDDL\\+GPL_1_1\\.html$"
+    },
+    {
+      "bundleName": "bouncy-castle",
+      "licenseNamePattern": "^Bouncy Castle Licence$"
     }
   ]
 }
