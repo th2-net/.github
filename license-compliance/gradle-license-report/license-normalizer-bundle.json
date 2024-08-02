@@ -161,6 +161,11 @@
       "licenseUrl": "http://www.opensource.org/licenses/mit-license.php"
     },
     {
+      "bundleName": "bouncy-castle",
+      "licenseName": "Bouncy-Castle-License",
+      "licenseUrl": "https://www.bouncycastle.org/licence.html"
+    },
+    {
       "bundleName": "mpl1.1",
       "licenseName": "MPL-1.1",
       "licenseUrl": "https://spdx.org/licenses/MPL-1.1.html"
@@ -419,6 +424,14 @@
     {
       "bundleName": "mit",
       "licenseNamePattern": "^MIT$"
+    },
+    {
+      "bundleName": "bouncy-castle",
+      "licenseNamePattern": "^Bouncy Castle Licence$"
+    },
+    {
+      "bundleName": "bouncy-castle",
+      "licenseNamePattern": "^Bouncy Castle License$"
     },
     {
       "bundleName": "mpl1.1",

@@ -359,6 +359,9 @@
       "moduleLicense": "^MIT$"
     },
     {
+      "moduleLicense": "^Bouncy-Castle-License$"
+    },
+    {
       "moduleLicense": "^LGPL$"
     },
     {
