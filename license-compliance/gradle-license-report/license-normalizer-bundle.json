@@ -289,6 +289,10 @@
       "licenseNamePattern": "^The 2-Clause BSD License$"
     },
     {
+      "bundleName": "bsd2clause",
+      "licenseNamePattern": "^The BSD 2-Clause License$"
+    },
+    {
       "bundleName": "bsd3clause",
       "licenseNamePattern": "^The 3-Clause BSD License$"
     },
