@@ -509,6 +509,9 @@
       "moduleLicense": "^Apache-2\\.0 OR CDDL-1\\.0 OR EPL-1\\.0 OR EPL-2\\.0$"
     },
     {
+      "moduleLicense": "^Apache-2\\.0 OR BSD-2-Clause$"
+    },
+    {
       "moduleLicense": "^CDDL \\+ GPLv2 with classpath exception OR CDDL-1\\.0$"
     },
     {
