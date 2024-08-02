@@ -176,7 +176,7 @@
     },
     {
       "bundleName": "bouncy-castle",
-      "licenseName": "Bouncy Castle Licence",
+      "licenseName": "Bouncy Castle License",
       "licenseUrl": "https://www.bouncycastle.org/about/license/",
       "licenseCategory": "Permissive"
     }
