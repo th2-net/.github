@@ -555,6 +555,9 @@
     },
     {
       "moduleLicense": "^CDDL-1_1 OR GPL-2$"
+    },
+    {
+      "moduleLicense": "^Bouncy Castle License$"
     }
   ]
 }
