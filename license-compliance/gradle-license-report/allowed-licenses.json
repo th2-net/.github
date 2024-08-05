@@ -365,7 +365,7 @@
       "moduleLicense": "^LGPL-2\\.1$"
     },
     {
-      "moduleLicense": "^LGPL-2\\.1+$"
+      "moduleLicense": "^LGPL-2\\.1\\+$"
     },
     {
       "moduleLicense": "^EPL-2\\.0$"
