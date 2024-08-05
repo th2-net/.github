@@ -331,6 +331,10 @@
     },
     {
       "bundleName": "bsd3clause",
+      "licenseNamePattern": "^BSD 3-clause New License$"
+    },
+    {
+      "bundleName": "bsd3clause",
       "licenseUrlPattern": "^http://(www\\.)?antlr\\.org/license\\.html$"
     },
     {
