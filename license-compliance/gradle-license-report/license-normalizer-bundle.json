@@ -206,8 +206,8 @@
       "licenseUrl": "http://www.opensource.org/licenses/mit-license.php; https://spdx.org/licenses/MPL-2.0.html"
     },
     {
-      "bundleName": "cddl-1.1-or-gpl-2",
-      "licenseName": "CDDL-1_1 OR GPL-2",
+      "bundleName": "cddl-1.1-or-gpl-2-wce",
+      "licenseName": "CDDL-1.1 OR GPL-2.0-with-classpath-exception",
       "licenseUrl": "https://oss.oracle.com/licenses/CDDL+GPL-1.1"
     },
     {
@@ -374,6 +374,14 @@
       "licenseNamePattern": "^Common Development and Distribution License \\(CDDL\\) v1\\.0$"
     },
     {
+      "bundleName": "cddl1",
+      "licenseNamePattern": "^Common Development and Distribution License$"
+    },
+    {
+      "bundleName": "cddl1",
+      "licenseUrlPattern": "^http(s)?://repository\\.jboss\\.org/licenses/cddl\\.txt$"
+    },
+    {
       "bundleName": "epl2",
       "licenseNamePattern": "^Eclipse Public License (- v |v\\. |v|- Version )2\\.0$"
     },
@@ -404,6 +412,10 @@
     {
       "bundleName": "gpl2-wce",
       "licenseNamePattern": "^GNU General Public License, version 2 with the GNU Classpath Exception$"
+    },
+    {
+      "bundleName": "gpl2-wce",
+      "licenseNamePattern": "^GNU General Public License, Version 2 with the Classpath Exception$"
     },
     {
       "bundleName": "gpl2-wce",
@@ -476,6 +488,10 @@
     {
       "bundleName": "epl1.0",
       "licenseNamePattern": "^Eclipse Public License - Version 1\\.0$"
+    },
+    {
+      "bundleName": "epl1.0",
+      "licenseNamePattern": "^Eclipse Public License, Version 1\\.0$"
     },
     {
       "bundleName": "bsd-0",
@@ -586,8 +602,20 @@
       "licenseNamePattern": "^MIT License; Mozilla Public License 2\\.0 \\(MPL 2\\.0\\)$"
     },
     {
-      "bundleName": "cddl-1.1-or-gpl-2",
-      "licenseUrlPattern": "^http://glassfish\\.java\\.net/public/CDDL\\+GPL_1_1\\.html$"
+      "bundleName": "cddl-1.1-or-gpl-2-wce",
+      "licenseNamePattern": "^CDDL/GPLv2+CE$"
+    },
+    {
+      "bundleName": "cddl-1.1-or-gpl-2-wce",
+      "licenseUrlPattern": "^http(s)?://glassfish\\.java\\.net/public/CDDL\\+GPL_1_1\\.html$"
+    },
+    {
+      "bundleName": "cddl-1.1-or-gpl-2-wce",
+      "licenseUrlPattern": "^https://github\\.com/javaee/activation/blob/master/LICENSE\\.txt$"
+    },
+    {
+      "bundleName": "cddl-1.1-or-gpl-2-wce",
+      "licenseUrlPattern": "^https://javaee\\.github\\.io/glassfish/LICENSE$"
     },
     {
       "bundleName": "bouncy-castle",
