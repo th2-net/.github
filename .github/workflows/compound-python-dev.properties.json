@@ -1,0 +1,5 @@
+{
+    "name": "Compound Python Dev Build",
+    "description": "Check, build and publish Python to PyPi",
+    "iconName": "example-icon"
+  }
