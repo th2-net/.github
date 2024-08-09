@@ -1,25 +1,51 @@
-name: Check licenses
+name: Run matrix Python test
 
-on: 
+
+on:
   workflow_call:
     inputs:
       version:
         required: true
         type: string
         description: 'Full version of distributive, with branch name etc.'
+      python-version:
+        required: false
+        type: string
+        default: '3.8'
+        description: 'Python version'
+      os:
+        required: false
+        type: string
+        default: 'ubuntu-20.04'
+        description: 'Operation system'
       runsOn:
         required: false
         type: string
         default: 'ubuntu-latest'
 
 jobs:
-  check_licenses:
-    continue-on-error: true
+  check-licenses:
+    name: "Check license  { Python: '${{ inputs.python-version }}', OS: '${{ inputs.os }}' }"
     runs-on: ${{ inputs.runsOn }}
 
     steps:
-    - name: checkout actions
+    - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Setup python ${{ inputs.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install virtualenv module
+      run: |
+        pip install virtualenv
+        python -m venv venv
+
+    - name: Install dependencies
+      run: |
+        source venv/bin/activate
+        pip install -r requirements.txt
 
     - name: Install jq env
       run: |
@@ -33,7 +59,8 @@ jobs:
     - name: Run check_licenses script
       id: run_script
       run: |
-        ./check_licenses.sh java
+        source venv/bin/activate
+        ./check_licenses.sh python
         line_count=$(wc -l < ./licenses_check/failed_licenses.csv)
         if [[ $line_count -ge 1 ]]; then
                 echo "FAILED due to unknown/failed licenses found"

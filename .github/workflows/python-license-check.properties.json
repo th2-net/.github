@@ -1,0 +1,5 @@
+{
+  "name": "Check Python transitive dependencies licenses",
+  "description": "Check Python transitive dependencies licenses for specific Python version and operation system",
+  "iconName": "example-icon"
+}

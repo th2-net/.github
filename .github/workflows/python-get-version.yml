@@ -27,5 +27,5 @@ jobs:
         with:
           path: package_info.json
           prop_path: package_version
-      - name: Show package_version value
+      - name: Show package_version value ${{ steps.package-version.outputs.prop }}
         run: echo ${{ steps.package-version.outputs.prop }}

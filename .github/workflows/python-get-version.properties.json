@@ -1,5 +1,5 @@
 {
-    "name": "Get package_version from package_info.json",
-    "description": "Get value for key in JSON file. Configure to get 'package_version' from `package_info.json` by default",
-    "iconName": "example-icon"
-  }
+  "name": "Get package_version from package_info.json",
+  "description": "Get value for key in JSON file. Configure to get 'package_version' from `package_info.json` by default",
+  "iconName": "example-icon"
+}

@@ -82,7 +82,7 @@ jobs:
           esac
 
           echo "release-version=${release_version}" >> $GITHUB_OUTPUT
-      - name: Show package_version
+      - name: Show package_version ${{ steps.release-version-step.outputs.release-version }}
         run: echo ${{ steps.release-version-step.outputs.release-version }}
 
   matrix-test:
@@ -95,11 +95,10 @@ jobs:
 
   license-check:
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/license_check.yml@python-workflow # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/python-license-check.yml@python-workflow # FIXME: change to main
     needs: [build-custom-version]
     with:
       version: ${{ needs.build-custom-version.outputs.release-version }}
-      language: python
 
   pypi-publish:
     name: Publish to PyPi
