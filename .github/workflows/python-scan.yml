@@ -9,10 +9,11 @@ env:
 
 jobs:
   scan:
+    name: Vulnerability scan
     runs-on: ubuntu-latest
     steps:
       - name: Check out master
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
       - name: Security vulnerabilities scan
         continue-on-error: true
         uses: aufdenpunkt/python-safety-check@master

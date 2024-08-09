@@ -1,0 +1,32 @@
+name: Run matrix Python test
+
+
+on:
+  workflow_call:
+    inputs:
+      matrix-python-versions:
+        required: false
+        type: string
+        default: "['3.8', '3.9']"
+        description: 'list of python versions in JSON format'
+      matrix-os:
+        required: false
+        type: string
+        default: "['ubuntu-20.04', 'windows-latest']"
+        description: 'list of operation systems JSON format'
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+
+jobs:
+  matrix-test:
+    name: Run matrix test
+    strategy:
+      matrix:
+        python-version: ${{ fromJson(inputs.matrix-python-versions) }}
+        os: ${{ fromJson(inputs.matrix-os) }}
+    runs-on: ${{ inputs.runsOn }}
+    steps:
+      - name: "Run python: ${{ matrix.python-version }}, os: ${{ matrix.os }}"
+        run: echo "python ${{ matrix.python-version }}, os ${{ matrix.os }}"

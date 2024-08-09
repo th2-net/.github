@@ -60,25 +60,9 @@ jobs:
       - name: Show package_version
         run: echo ${{ steps.release-ver.outputs.custom-version }}
 
-    # steps:
-    #   - uses: th2-net/.github/.github/workflows/python-get-version.yml@python-workflow # FIXME: change to main
-    #     id: get-version
-    #     with:
-    #       runsOn: ${{ inputs.runsOn }}
-    #   - name: Build custom package_version
-    #     id: release-ver
-    #     run: echo ::set-output name=custom-version::"${{ steps.get-version.outputs.version }}.dev${{ github.run_id }}"
-    #   - name: Show package_version
-    #     run: echo ${{ steps.release-ver.outputs.custom-version }}
-    # outputs:
-    #   version: ${{ steps.get-version.outputs.version }}
-    #   custom-version: ${{ steps.release-ver.outputs.custom-version }}
-
-  # matrix-test:
-  #   name: Matrix test Job
-  #   uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@python-workflow # FIXME: change to main
-  #   with: # TODO:
-  #     runsOn: ${{ inputs.runsOn }}
+  matrix-test:
+    name: Matrix test Job
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@python-workflow # FIXME: change to main
   
   vulnerability-scan:
     if: inputs.scanner-enabled
