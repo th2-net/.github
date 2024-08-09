@@ -32,7 +32,8 @@ jobs:
         sudo apt-get install -y jq
     - name: Download script
       run: |
-        wget -q -O check_licenses.sh https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/check_licenses.sh
+        # FIXME: change to main
+        wget -q -O check_licenses.sh https://raw.githubusercontent.com/th2-net/.github/python-workflow/license-compliance/check_licenses.sh
         chmod +x ./check_licenses.sh
     
     - name: Run check_licenses script
