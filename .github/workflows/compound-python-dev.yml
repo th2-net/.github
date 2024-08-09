@@ -80,7 +80,7 @@ jobs:
   #   with: # TODO:
   #     runsOn: ${{ inputs.runsOn }}
   
-  vulnarbility-scan:
+  vulnerability-scan:
     if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/python-scan.yml@python-workflow # FIXME: change to main
 
