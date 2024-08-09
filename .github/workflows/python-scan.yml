@@ -15,7 +15,6 @@ jobs:
       - name: Check out master
         uses: actions/checkout@v4
       - name: Security vulnerabilities scan
-        continue-on-error: true
         uses: aufdenpunkt/python-safety-check@master
         with:
           scan_requirements_file_only: 'true'

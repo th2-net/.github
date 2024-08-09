@@ -19,7 +19,7 @@ on:
 
 jobs:
   check_licenses:
-    continue-on-error: true
+    name: License check
     runs-on: ${{ inputs.runsOn }}
 
     steps:
