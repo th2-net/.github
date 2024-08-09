@@ -83,7 +83,7 @@ jobs:
 
           echo "release-version=${release_version}" >> $GITHUB_OUTPUT
       - name: Show package_version
-        run: echo ${{ steps.release-version-step.outputs.release-version }}"
+        run: echo ${{ steps.release-version-step.outputs.release-version }}
 
   matrix-test:
     name: Matrix test Job
