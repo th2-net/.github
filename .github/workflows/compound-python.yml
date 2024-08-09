@@ -36,7 +36,7 @@ on:
         type: string
         default: ''
         description: 'Python version'
-      test-requirments-file:
+      test-requirements-file:
         required: false
         type: string
         default: ''
@@ -107,7 +107,7 @@ jobs:
     with:
       test-dir: ${{ inputs.test-dir }}
       test-ignore-dir: ${{ inputs.test-ignore-dir }}
-      test-requirments-file: ${{ inputs.test-requirments-file }}
+      test-requirements-file: ${{ inputs.test-requirements-file }}
   
   vulnerability-scan:
     if: inputs.scanner-enabled

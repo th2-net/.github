@@ -13,7 +13,7 @@ on:
         type: string
         default: ''
         description: 'Python version'
-      requirments-file:
+      requirements-file:
         required: false
         type: string
         default: ''
@@ -42,15 +42,9 @@ jobs:
       with:
         python-version: ${{ inputs.python-version }}
 
-    - name: Install modules
-      run: |
-        pip install --pre -e . -q
-        pip install pytest
-        pip install pytest-xdist
-
     - name: Install dependencies
-      if: ${{ inputs.requirments-file != '' }} 
-      run: pip install -r "${{ inputs.requirments-file }}"
+      if: ${{ inputs.requirements-file != '' }} 
+      run: pip install -r "${{ inputs.requirements-file }}"
     
     - name: Show dependencies
       run: pip list
