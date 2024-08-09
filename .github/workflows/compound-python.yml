@@ -1,0 +1,131 @@
+name: Compound Python check, build and pypi publish
+
+on:
+  workflow_call:
+    inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+      release-type:
+        required: false
+        type: string
+        default: 'development'
+        description: 'Choose one of release type: [development, alpha, beta, release-candidate, release]'
+      pythonVersion:
+        required: false
+        type: string
+        default: '3.8'
+      scanner-enabled:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether vulnerabilities and license scanning are enabled'
+      strict-scanner:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether vulnerabilities and license scanning executions are strict'
+      test-dir:
+        required: false
+        type: string
+        default: ''
+        description: 'Dirrectiry with pytests'
+      test-ignore-dir:
+        required: false
+        type: string
+        default: ''
+        description: 'Python version'
+      test-requirements-file:
+        required: false
+        type: string
+        default: ''
+        description: 'Path to reuqirments'
+
+    # outputs:
+    #   version:
+    #     description: "Generated version of the image"
+    #     value: ${{ jobs.prebuild-job.outputs.version }}
+    secrets:
+      # pypi-user:
+      #   required: true
+      #   description: 'TODO'
+      pypi-password:
+        required: true
+        description: 'TODO'
+
+jobs:
+  
+  get-version:
+    name: Get version
+    uses: th2-net/.github/.github/workflows/python-get-version.yml@python-workflow # FIXME: change to main
+    with:
+      runsOn: ${{ inputs.runsOn }}
+
+  build-custom-version:
+    name: Build custom package_version
+    runs-on: ${{ inputs.runsOn }}
+    needs: [get-version]
+    outputs:
+      release-version: ${{ steps.release-version-step.outputs.release-version }}
+    steps:
+      - name: Build custom package_version
+        id: release-version-step
+        run: |
+          release_version='0.0.0'
+          echo "release type: '${{ inputs.release-type }}'"
+          case "${{ inputs.release-type }}" in
+            development)
+              release_version="${{ needs.get-version.outputs.version }}.dev${{ github.run_id }}"
+              ;;
+            alpha)
+              release_version="${{ needs.get-version.outputs.version }}a${{ github.run_id }}"
+              ;;
+            beta)
+              release_version="${{ needs.get-version.outputs.version }}b${{ github.run_id }}"
+              ;;
+            release-candidate)
+              release_version="${{ needs.get-version.outputs.version }}rc${{ github.run_id }}"
+              ;;
+            release)
+              release_version=${{ needs.get-version.outputs.version }}
+              ;;
+            *)
+              echo "Unsupported release type: '${{ inputs.release-type }}'"
+              exit 1
+              ;;
+          esac
+
+          echo "release-version=${release_version}" >> $GITHUB_OUTPUT
+      - name: Show package_version ${{ steps.release-version-step.outputs.release-version }}
+        run: echo ${{ steps.release-version-step.outputs.release-version }}
+
+  matrix-test:
+    name: Matrix test Job
+    if: ${{ inputs.test-dir }} != ''
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@python-workflow # FIXME: change to main
+    with:
+      test-dir: ${{ inputs.test-dir }}
+      test-ignore-dir: ${{ inputs.test-ignore-dir }}
+      test-requirements-file: ${{ inputs.test-requirements-file }}
+  
+  vulnerability-scan:
+    if: inputs.scanner-enabled
+    uses: th2-net/.github/.github/workflows/python-scan.yml@python-workflow # FIXME: change to main
+
+  license-check:
+    if: inputs.scanner-enabled
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-licenses-check.yml@python-workflow # FIXME: change to main
+    needs: [build-custom-version]
+    with:
+      version: ${{ needs.build-custom-version.outputs.release-version }}
+
+  pypi-publish:
+    name: Publish to PyPi
+    needs: [build-custom-version, license-check, vulnerability-scan, matrix-test]
+    if: inputs.strict-scanner && success() || !inputs.strict-scanner
+    uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@python-workflow # FIXME: change to main
+    with:
+      version: ${{ needs.build-custom-version.outputs.release-version }}
+    secrets:
+      pypi-password: ${{ secrets.pypi-password }}
