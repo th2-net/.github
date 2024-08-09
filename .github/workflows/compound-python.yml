@@ -56,9 +56,33 @@ jobs:
     steps:
       - name: Build custom package_version
         id: release-version-step
-        run: echo "release-version=${{ needs.get-version.outputs.version }}.dev${{ github.run_id }}" >> $GITHUB_OUTPUT
+        run: |
+          release_version='0.0.0'
+          echo "release type: '${{ inputs.release-type }}'"
+          case "${{ inputs.release-type }}" in
+            development)
+              release_version="${{ needs.get-version.outputs.version }}.dev${{ github.run_id }}"
+              ;;
+            alpha)
+              release_version="${{ needs.get-version.outputs.version }}a${{ github.run_id }}"
+              ;;
+            beta)
+              release_version="${{ needs.get-version.outputs.version }}b${{ github.run_id }}"
+              ;;
+            release-candidate)
+              release_version="${{ needs.get-version.outputs.version }}rc${{ github.run_id }}"
+              ;;
+            release)
+              release_version=${{ needs.get-version.outputs.version }}
+              ;;
+            *)
+              echo "Unsupported release type: '${{ inputs.release-type }}'"
+              exit 1
+              ;;
+
+          echo "release-version=${release_version}" >> $GITHUB_OUTPUT
       - name: Show package_version
-        run: echo ${{ steps.release-version-step.outputs.release-version }}
+        run: echo ${{ steps.release-version-step.outputs.release-version }}"
 
   matrix-test:
     name: Matrix test Job
