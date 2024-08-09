@@ -162,6 +162,7 @@ case $1 in
 	echo "`log_date_time`: Running pip-licenses"
 	python --version
 
+	pip install venv
 	python -m vevn venv
 	source venv/bin/activate
 	pip install -r requirements.txt
