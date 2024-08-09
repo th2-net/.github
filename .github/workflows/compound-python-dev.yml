@@ -41,11 +41,25 @@ on:
 
 jobs:
   
-  prebuild-job:
-    name: Prebuild Job
+  get-version:
+    name: Get version
     uses: th2-net/.github/.github/workflows/python-get-version.yml@python-workflow # FIXME: change to main
     with:
       runsOn: ${{ inputs.runsOn }}
+
+  build-custom-version:
+    name: Build custom package_version
+    runs-on: ${{ inputs.runsOn }}
+    needs: [get-version]
+    outputs:
+      custom-version: ${{ steps.release-ver.outputs.custom-version }}
+    steps:
+      - name: Build custom package_version
+        id: release-ver
+        run: echo ::set-output name=custom-version::"${{ needs.get-version.outputs.version }}.dev${{ github.run_id }}"
+      - name: Show package_version
+        run: echo ${{ steps.release-ver.outputs.custom-version }}
+
     # steps:
     #   - uses: th2-net/.github/.github/workflows/python-get-version.yml@python-workflow # FIXME: change to main
     #     id: get-version
@@ -78,6 +92,8 @@ jobs:
   #   needs: [prebuild-job]
   #   with:
   #     version: ${{ needs.prebuild-job.outputs.custom-version }}
+
+  
 
   # pypi-publish:
   #   name: Publish to PyPi
