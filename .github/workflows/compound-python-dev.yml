@@ -47,7 +47,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: th2-net/.github/.github/workflows/python-get-version.yml@python-check # FIXME: change to main
+      - uses: th2-net/.github/.github/workflows/python-get-version.yml@python-workflow # FIXME: change to main
         id: get-version
         with: # TODO
           runsOn: ${{ inputs.runsOn }}
@@ -62,19 +62,19 @@ jobs:
 
   matrix-test:
     name: Matrix test Job
-    uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@python-check # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@python-workflow # FIXME: change to main
     with: # TODO:
       runsOn: ${{ inputs.runsOn }}
   
   vulnarbility-scan:
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/python-scan.yml@python-check # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/python-scan.yml@python-workflow # FIXME: change to main
     # with: TODO
     # secrets: TODO
 
   license-check:
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/license_check.yml@python-check # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/license_check.yml@python-workflow # FIXME: change to main
     needs: [prebuild-job]
     with:
       version: ${{ needs.prebuild-job.outputs.custom-version }}
@@ -83,11 +83,11 @@ jobs:
     name: Set custom version
     if: inputs.strict-scanner && success() || !inputs.strict-scanner
     needs: [prebuild-job]
-    uses: th2-net/.github/.github/workflows/python-set-version.yml@python-check # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/python-set-version.yml@python-workflow # FIXME: change to main
     with:
       version: ${{ needs.prebuild-job.outputs.custom-version }}
 
   pypi-publish:
     name: Publish to PyPi
     needs: [set-version]
-    uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@python-check # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@python-workflow # FIXME: change to main
