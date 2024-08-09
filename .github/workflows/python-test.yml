@@ -1,0 +1,61 @@
+name: Run matrix Python test
+
+
+on:
+  workflow_call:
+    inputs:
+      test-dir:
+        required: true
+        type: string
+        description: 'Dirrectiry with pytests'
+      test-ignore-dir:
+        required: false
+        type: string
+        default: ''
+        description: 'Python version'
+      requirments-file:
+        required: false
+        type: string
+        default: ''
+        description: 'Path to reuqirments'
+      python-version:
+        required: false
+        type: string
+        default: '3.8'
+        description: 'Python version'
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+
+jobs:
+  test:
+    name: "Test (Python:${{ inputs.python-version }},Image:${{ inputs.runsOn }})"
+    runs-on: ${{ inputs.runsOn }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup python ${{ inputs.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install modules
+      run: |
+        pip install --pre -e . -q
+        pip install pytest
+        pip install pytest-xdist
+
+    - name: Install dependencies
+      if: ${{ inputs.requirments-file }} != ''
+      run: pip install -r ${{ inputs.requirments-file }}
+    
+    - name: Show dependencies
+      run: pip list
+
+    - name: Run tests
+      run: pytest "${{ inputs.test-dir }}" -n auto --ignore "${{ inputs.test-ignore-dir }}"
+          
+        

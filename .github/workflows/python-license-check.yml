@@ -32,7 +32,7 @@ jobs:
       with:
         python-version: ${{ inputs.python-version }}
 
-    - name: Install virtualenv module
+    - name: Install modules
       run: |
         pip install virtualenv
         python -m venv venv
@@ -41,6 +41,11 @@ jobs:
       run: |
         source venv/bin/activate
         pip install -r requirements.txt
+
+    - name: Show dependencies
+      run: |
+        source venv/bin/activate
+        pip list
 
     - name: Install jq env
       run: |
