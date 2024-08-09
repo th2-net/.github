@@ -1,0 +1,5 @@
+{
+    "name": "Publish distribution to PyPi",
+    "description": "Publish Python distribution to PyPi",
+    "iconName": "example-icon"
+  }

@@ -1,4 +1,4 @@
-name: Compound Dev Python check, build and pypi publish
+name: Compound Python check, build and pypi publish
 
 on:
   workflow_call:
@@ -7,6 +7,10 @@ on:
         required: false
         type: string
         default: 'ubuntu-latest'
+      release:
+        required: false
+        type: boolean
+        default: false
       pythonVersion:
         required: false
         type: string
@@ -21,11 +25,6 @@ on:
         type: boolean
         default: true
         description: 'Whether vulnerabilities and license scanning executions are strict'
-      pypi-url:
-        required: false
-        type: string
-        default: 'https://upload.pypi.org/legacy/'
-        description: 'TODO'
 
     # outputs:
     #   version:
@@ -76,12 +75,12 @@ jobs:
       version: ${{ needs.build-custom-version.outputs.custom-version }}
       language: python
 
-  
-
-  # pypi-publish:
-  #   name: Publish to PyPi
-  #   needs: [prebuild-job]
-  #   if: inputs.strict-scanner && success() || !inputs.strict-scanner
-  #   uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@python-workflow # FIXME: change to main
-  #   with:
-  #     version: ${{ needs.prebuild-job.outputs.custom-version }}
+  pypi-publish:
+    name: Publish to PyPi
+    needs: [build-custom-version, license-check, vulnerability-scan, matrix-test]
+    if: inputs.strict-scanner && success() || !inputs.strict-scanner
+    uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@python-workflow # FIXME: change to main
+    with:
+      version: ${{ needs.build-custom-version.outputs.custom-version }}
+    secrets:
+      pypi-password: ${{ secrets.pypi-password }}
