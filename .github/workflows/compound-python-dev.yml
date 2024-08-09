@@ -7,10 +7,11 @@ on:
         required: false
         type: string
         default: 'ubuntu-latest'
-      release:
+      release-type:
         required: false
-        type: boolean
-        default: false
+        type: string
+        default: 'dev'
+        description: 'Choose one of release type: [development, alpha, beta, release-candidate, release]'
       pythonVersion:
         required: false
         type: string
@@ -51,13 +52,13 @@ jobs:
     runs-on: ${{ inputs.runsOn }}
     needs: [get-version]
     outputs:
-      custom-version: ${{ steps.release-ver.outputs.custom-version }}
+      release-version: ${{ steps.release-version-step.outputs.release-version }}
     steps:
       - name: Build custom package_version
-        id: release-ver
-        run: echo "custom-version=${{ needs.get-version.outputs.version }}.dev${{ github.run_id }}" >> $GITHUB_OUTPUT
+        id: release-version-step
+        run: echo "release-version=${{ needs.get-version.outputs.version }}.dev${{ github.run_id }}" >> $GITHUB_OUTPUT
       - name: Show package_version
-        run: echo ${{ steps.release-ver.outputs.custom-version }}
+        run: echo ${{ steps.release-version-step.outputs.release-version }}
 
   matrix-test:
     name: Matrix test Job
@@ -72,7 +73,7 @@ jobs:
     uses: th2-net/.github/.github/workflows/license_check.yml@python-workflow # FIXME: change to main
     needs: [build-custom-version]
     with:
-      version: ${{ needs.build-custom-version.outputs.custom-version }}
+      version: ${{ needs.build-custom-version.outputs.release-version }}
       language: python
 
   pypi-publish:
@@ -81,6 +82,6 @@ jobs:
     if: inputs.strict-scanner && success() || !inputs.strict-scanner
     uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@python-workflow # FIXME: change to main
     with:
-      version: ${{ needs.build-custom-version.outputs.custom-version }}
+      version: ${{ needs.build-custom-version.outputs.release-version }}
     secrets:
       pypi-password: ${{ secrets.pypi-password }}

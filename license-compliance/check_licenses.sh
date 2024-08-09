@@ -160,6 +160,12 @@ case $1 in
 	python|PYTHON|Python)
 	echo "`log_date_time`: Using python mode"
 	echo "`log_date_time`: Running pip-licenses"
+	python --version
+
+	python -m vevn venv
+	source venv/bin/activate
+	pip install -r requirements.txt
+
 	pip install pip-licenses
 	pip-licenses --format=json --output-file=pyth_licenses.json
 	#Reformat to common
