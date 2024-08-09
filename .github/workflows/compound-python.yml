@@ -79,6 +79,7 @@ jobs:
               echo "Unsupported release type: '${{ inputs.release-type }}'"
               exit 1
               ;;
+          esac
 
           echo "release-version=${release_version}" >> $GITHUB_OUTPUT
       - name: Show package_version
