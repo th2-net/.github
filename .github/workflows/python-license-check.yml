@@ -13,11 +13,6 @@ on:
         type: string
         default: '3.8'
         description: 'Python version'
-      os:
-        required: false
-        type: string
-        default: 'ubuntu-20.04'
-        description: 'Operation system'
       runsOn:
         required: false
         type: string
@@ -25,7 +20,7 @@ on:
 
 jobs:
   check-licenses:
-    name: "Check license  { Python: '${{ inputs.python-version }}', OS: '${{ inputs.os }}' }"
+    name: "Check license (Python:${{ inputs.python-version }},Image:${{ inputs.runsOn }})"
     runs-on: ${{ inputs.runsOn }}
 
     steps:

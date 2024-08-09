@@ -95,7 +95,7 @@ jobs:
 
   license-check:
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/python-license-check.yml@python-workflow # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-licenses-check.yml@python-workflow # FIXME: change to main
     needs: [build-custom-version]
     with:
       version: ${{ needs.build-custom-version.outputs.release-version }}

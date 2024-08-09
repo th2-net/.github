@@ -1,0 +1,33 @@
+name: Run Python matrix licenses check
+
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+        description: 'Full version of distributive, with branch name etc.'
+      matrix-python-versions:
+        required: false
+        type: string
+        default: "['3.8', '3.9']"
+        description: 'list of python versions in JSON format'
+      matrix-os:
+        required: false
+        type: string
+        default: "['ubuntu-20.04', 'windows-latest']"
+        description: 'list of operation systems JSON format'
+
+jobs:
+  matrix-license-check:
+    name: Run matrix licenses check
+    strategy:
+      matrix:
+        python-version: ${{ fromJson(inputs.matrix-python-versions) }}
+        os: ${{ fromJson(inputs.matrix-os) }}
+    uses: th2-net/.github/.github/workflows/python-license-check.yml@python-workflow # FIXME: change to main
+    with:
+      version: ${{ inputs.version }}
+      python-version: ${{ matrix.python-version }}
+      runsOn: ${{ matrix.os }}
