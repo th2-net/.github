@@ -49,13 +49,16 @@ jobs:
         pip install pytest-xdist
 
     - name: Install dependencies
-      if: ${{ inputs.requirments-file }} != ''
-      run: pip install -r ${{ inputs.requirments-file }}
+      if: ${{ inputs.requirments-file != '' }} 
+      run: pip install -r "${{ inputs.requirments-file }}"
     
     - name: Show dependencies
       run: pip list
 
-    - name: Run tests
+    - name: Run tests with ingonor
+      if: ${{ inputs.test-ignore-dir != '' }}
       run: pytest "${{ inputs.test-dir }}" -n auto --ignore "${{ inputs.test-ignore-dir }}"
-          
+    - name: Run tests without ingonor
+      if: ${{ inputs.test-ignore-dir == '' }}
+      run: pytest "${{ inputs.test-dir }}" -n auto
         
