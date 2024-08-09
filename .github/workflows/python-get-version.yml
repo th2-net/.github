@@ -1,0 +1,31 @@
+name: Get package_version from package_info.json
+
+on:
+  workflow_call:
+    inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+    outputs:
+      version:
+        description: "package_version from package_info.json"
+        value: ${{ jobs.get-package-version.outputs.version }}
+
+jobs:
+  get-package-version:
+    name: 'Get package_version'
+    runs-on: ${{ inputs.runsOn }}
+    outputs:
+      version: ${{ steps.package-version.outputs.prop }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get package_version value
+        id: package-version
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: package_info.json
+          prop_path: package_version
+      - name: Show package_version value
+        run: echo ${{ steps.package-version.outputs.prop }}

@@ -32,9 +32,9 @@ on:
     #     description: "Generated version of the image"
     #     value: ${{ jobs.prebuild-job.outputs.version }}
     secrets:
-      pypi-user:
-        required: true
-        description: 'TODO'
+      # pypi-user:
+      #   required: true
+      #   description: 'TODO'
       pypi-password:
         required: true
         description: 'TODO'
@@ -45,49 +45,42 @@ jobs:
     name: Prebuild Job
     runs-on: ${{ inputs.runsOn }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
       - uses: th2-net/.github/.github/workflows/python-get-version.yml@python-workflow # FIXME: change to main
         id: get-version
-        with: # TODO
+        with:
           runsOn: ${{ inputs.runsOn }}
-      - name: Build custom package version
+      - name: Build custom package_version
         id: release-ver
         run: echo ::set-output name=custom-version::"${{ steps.get-version.outputs.version }}.dev${{ github.run_id }}"
-      - name: Show package version
+      - name: Show package_version
         run: echo ${{ steps.release-ver.outputs.custom-version }}
     outputs:
       version: ${{ steps.get-version.outputs.version }}
       custom-version: ${{ steps.release-ver.outputs.custom-version }}
 
-  matrix-test:
-    name: Matrix test Job
-    uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@python-workflow # FIXME: change to main
-    with: # TODO:
-      runsOn: ${{ inputs.runsOn }}
+  # matrix-test:
+  #   name: Matrix test Job
+  #   uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@python-workflow # FIXME: change to main
+  #   with: # TODO:
+  #     runsOn: ${{ inputs.runsOn }}
   
-  vulnarbility-scan:
-    if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/python-scan.yml@python-workflow # FIXME: change to main
-    # with: TODO
-    # secrets: TODO
+  # vulnarbility-scan:
+  #   if: inputs.scanner-enabled
+  #   uses: th2-net/.github/.github/workflows/python-scan.yml@python-workflow # FIXME: change to main
+  #   # with: TODO
+  #   # secrets: TODO
 
-  license-check:
-    if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/license_check.yml@python-workflow # FIXME: change to main
-    needs: [prebuild-job]
-    with:
-      version: ${{ needs.prebuild-job.outputs.custom-version }}
+  # license-check:
+  #   if: inputs.scanner-enabled
+  #   uses: th2-net/.github/.github/workflows/license_check.yml@python-workflow # FIXME: change to main
+  #   needs: [prebuild-job]
+  #   with:
+  #     version: ${{ needs.prebuild-job.outputs.custom-version }}
 
-  set-version:
-    name: Set custom version
-    if: inputs.strict-scanner && success() || !inputs.strict-scanner
-    needs: [prebuild-job]
-    uses: th2-net/.github/.github/workflows/python-set-version.yml@python-workflow # FIXME: change to main
-    with:
-      version: ${{ needs.prebuild-job.outputs.custom-version }}
-
-  pypi-publish:
-    name: Publish to PyPi
-    needs: [set-version]
-    uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@python-workflow # FIXME: change to main
+  # pypi-publish:
+  #   name: Publish to PyPi
+  #   needs: [prebuild-job]
+  #   if: inputs.strict-scanner && success() || !inputs.strict-scanner
+  #   uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@python-workflow # FIXME: change to main
+  #   with:
+  #     version: ${{ needs.prebuild-job.outputs.custom-version }}
