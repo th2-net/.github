@@ -163,7 +163,7 @@ case $1 in
 	python --version
 
 	pip install virtualenv
-	python -m vevn venv
+	python -m venv venv
 	source venv/bin/activate
 	pip install -r requirements.txt
 
