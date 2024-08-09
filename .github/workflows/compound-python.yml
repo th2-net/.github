@@ -26,6 +26,21 @@ on:
         type: boolean
         default: true
         description: 'Whether vulnerabilities and license scanning executions are strict'
+      test-dir:
+        required: false
+        type: string
+        default: ''
+        description: 'Dirrectiry with pytests'
+      test-ignore-dir:
+        required: false
+        type: string
+        default: ''
+        description: 'Python version'
+      test-requirments-file:
+        required: false
+        type: string
+        default: ''
+        description: 'Path to reuqirments'
 
     # outputs:
     #   version:
@@ -87,7 +102,12 @@ jobs:
 
   matrix-test:
     name: Matrix test Job
+    if: ${{ inputs.test-dir }} != ''
     uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@python-workflow # FIXME: change to main
+    with:
+      test-dir: ${{ inputs.test-dir }}
+      test-ignore-dir: ${{ inputs.test-ignore-dir }}
+      test-requirments-file: ${{ inputs.test-requirments-file }}
   
   vulnerability-scan:
     if: inputs.scanner-enabled
