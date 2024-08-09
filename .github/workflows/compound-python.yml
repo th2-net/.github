@@ -10,7 +10,7 @@ on:
       release-type:
         required: false
         type: string
-        default: 'dev'
+        default: 'development'
         description: 'Choose one of release type: [development, alpha, beta, release-candidate, release]'
       pythonVersion:
         required: false
