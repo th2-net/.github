@@ -56,7 +56,7 @@ jobs:
     steps:
       - name: Build custom package_version
         id: release-ver
-        run: echo ::set-output name=custom-version::"${{ needs.get-version.outputs.version }}.dev${{ github.run_id }}"
+        run: echo "custom-version=${{ needs.get-version.outputs.version }}.dev${{ github.run_id }}" >> $GITHUB_OUTPUT
       - name: Show package_version
         run: echo ${{ steps.release-ver.outputs.custom-version }}
 
@@ -86,12 +86,13 @@ jobs:
   #   # with: TODO
   #   # secrets: TODO
 
-  # license-check:
-  #   if: inputs.scanner-enabled
-  #   uses: th2-net/.github/.github/workflows/license_check.yml@python-workflow # FIXME: change to main
-  #   needs: [prebuild-job]
-  #   with:
-  #     version: ${{ needs.prebuild-job.outputs.custom-version }}
+  license-check:
+    if: inputs.scanner-enabled
+    uses: th2-net/.github/.github/workflows/license_check.yml@python-workflow # FIXME: change to main
+    needs: [build-custom-version]
+    with:
+      version: ${{ needs.build-custom-version.outputs.custom-version }}
+      language: python
 
   
 

@@ -7,6 +7,11 @@ on:
         required: true
         type: string
         description: 'Full version of distributive, with branch name etc.'
+      language:
+        required: false
+        type: string
+        default: java
+        description: 'Project language. Allowed one of values [java, python]'
       runsOn:
         required: false
         type: string
@@ -33,7 +38,7 @@ jobs:
     - name: Run check_licenses script
       id: run_script
       run: |
-        ./check_licenses.sh java
+        ./check_licenses.sh ${{ inputs.language }}
         line_count=$(wc -l < ./licenses_check/failed_licenses.csv)
         if [[ $line_count -ge 1 ]]; then
                 echo "FAILED due to unknown/failed licenses found"
