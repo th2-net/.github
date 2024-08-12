@@ -16,6 +16,11 @@ on:
         required: false
         type: string
         default: '3.8'
+      style-check-enabled:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether Python code style check is enabled'
       scanner-enabled:
         required: false
         type: boolean
@@ -119,6 +124,14 @@ jobs:
     needs: [build-custom-version]
     with:
       version: ${{ needs.build-custom-version.outputs.release-version }}
+
+  style-check:
+    if: inputs.style-check-enabled
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-style-check.yml@python-workflow # FIXME: change to main
+    needs: [build-custom-version]
+    with:
+      version: ${{ needs.build-custom-version.outputs.release-version }}
+      runsOn: ${{ inputs.runsOn }}
 
   pypi-publish:
     name: Publish to PyPi

@@ -1,0 +1,26 @@
+name: Python matrix style check
+
+
+on:
+  workflow_call:
+    inputs:
+      matrix-python-versions:
+        required: false
+        type: string
+        default: "['3.7', '3.8', '3.9']"
+        description: 'list of python versions in JSON format'
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+
+jobs:
+  matrix-style-check:
+    name: Run matrix style check
+    strategy:
+      matrix:
+        python-version: ${{ fromJson(inputs.matrix-python-versions) }}
+    uses: th2-net/.github/.github/workflows/python-style-check.yml@python-workflow # FIXME: change to main
+    with:
+      python-version: ${{ matrix.python-version }}
+      runsOn: ${{ inputs.runsOn }}

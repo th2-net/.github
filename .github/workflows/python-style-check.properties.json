@@ -1,0 +1,5 @@
+{
+  "name": "Python style check",
+  "description": "Check code style using MyPy & flake8",
+  "iconName": "example-icon"
+}
