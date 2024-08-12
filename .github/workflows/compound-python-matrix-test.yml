@@ -7,7 +7,7 @@ on:
       test-dir:
         required: false
         type: string
-        default: '.'
+        default: ''
         description: 'Directory with pytests'
       test-ignore-dir:
         required: false

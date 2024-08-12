@@ -7,7 +7,7 @@ on:
       test-dir:
         required: false
         type: string
-        default: '.'
+        default: ''
         description: 'Directory with pytests'
       test-ignore-dir:
         required: false
@@ -50,10 +50,16 @@ jobs:
     - name: Show dependencies
       run: pip list
 
-    - name: Run tests with ingonor
+    - name: Run tests
       if: ${{ inputs.test-ignore-dir != '' }}
-      run: pytest "${{ inputs.test-dir }}" -n auto --ignore "${{ inputs.test-ignore-dir }}"
-    - name: Run tests without ingonor
-      if: ${{ inputs.test-ignore-dir == '' }}
-      run: pytest "${{ inputs.test-dir }}" -n auto
+      run: | 
+        args="-n auto "
+        if [ -n "${{ inputs.test-dir }}" ];then
+          args+="${{ inputs.test-dir }} "
+        fi
+        if [ -n "${{ inputs.test-ignore-dir }}" ]; then
+          args+="--ignore ${{ inputs.test-dir }} "
+        fi
+
+        pytest $args
         
