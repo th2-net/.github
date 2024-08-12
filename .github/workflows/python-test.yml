@@ -53,13 +53,12 @@ jobs:
     - name: Run tests
       if: ${{ inputs.test-ignore-dir != '' }}
       run: | 
-        args=""
+        args="-n auto "
         if [ -n "${{ inputs.test-dir }}" ];then
           args+="${{ inputs.test-dir }} "
         fi
-        args+="-n auto "
         if [ -n "${{ inputs.test-ignore-dir }}" ]; then
-          args+="--ignore ${{ inputs.test-dir }} "
+          args+="--ignore ${{ inputs.test-ignore-dir }} "
         fi
 
         echo "Args: ${args}"
