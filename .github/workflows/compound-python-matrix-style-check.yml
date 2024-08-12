@@ -15,12 +15,22 @@ on:
         default: 'ubuntu-latest'
 
 jobs:
-  matrix-style-check:
-    name: Run matrix style check
+  matrix-mypy-style-check:
+    name: Run matrix MyPy style check
     strategy:
       matrix:
         python-version: ${{ fromJson(inputs.matrix-python-versions) }}
-    uses: th2-net/.github/.github/workflows/python-style-check.yml@python-workflow # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/python-style-check-mypy.yml@python-workflow # FIXME: change to main
+    with:
+      python-version: ${{ matrix.python-version }}
+      runsOn: ${{ inputs.runsOn }}
+
+  matrix-flake8-style-check:
+    name: Run matrix Flake8 style check
+    strategy:
+      matrix:
+        python-version: ${{ fromJson(inputs.matrix-python-versions) }}
+    uses: th2-net/.github/.github/workflows/python-style-check-flake8.yml@python-workflow # FIXME: change to main
     with:
       python-version: ${{ matrix.python-version }}
       runsOn: ${{ inputs.runsOn }}
