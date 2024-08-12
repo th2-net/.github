@@ -61,5 +61,7 @@ jobs:
           args+="--ignore ${{ inputs.test-dir }} "
         fi
 
+        echo "Args: ${args}"
+
         pytest $args
         
