@@ -34,7 +34,7 @@ on:
       test-dir:
         required: false
         type: string
-        default: ''
+        default: '.'
         description: 'Dirrectiry with pytests'
       test-ignore-dir:
         required: false
@@ -44,7 +44,7 @@ on:
       test-requirements-file:
         required: false
         type: string
-        default: ''
+        default: 'requirements.txt'
         description: 'Path to reuqirments'
 
     # outputs:
