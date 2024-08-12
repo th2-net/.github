@@ -16,11 +16,16 @@ on:
         required: false
         type: string
         default: '3.8'
+      python-check-versions:
+        required: false
+        type: string
+        default: "['3.8', '3.9', '3.10', '3.11', '3.12']"
+        description: 'list of python versions for different check in JSON format'
       style-check-enabled:
         required: false
         type: boolean
         default: true
-        description: 'Whether Python code style check is enabled'
+        description: 'Whether code style check is enabled'
       scanner-enabled:
         required: false
         type: boolean
@@ -31,6 +36,11 @@ on:
         type: boolean
         default: true
         description: 'Whether vulnerabilities and license scanning executions are strict'
+      strict-style-check:
+        required: false
+        type: boolean
+        default: false
+        description: 'Whether code style check is strict'
       test-dir:
         required: false
         type: string
@@ -113,6 +123,7 @@ jobs:
       test-dir: ${{ inputs.test-dir }}
       test-ignore-dir: ${{ inputs.test-ignore-dir }}
       test-requirements-file: ${{ inputs.test-requirements-file }}
+      matrix-python-versions: ${{ inputs.python-check-versions }}
   
   vulnerability-scan:
     if: inputs.scanner-enabled
@@ -124,19 +135,19 @@ jobs:
     needs: [build-custom-version]
     with:
       version: ${{ needs.build-custom-version.outputs.release-version }}
+      matrix-python-versions: ${{ inputs.python-check-versions }}
 
   style-check:
     if: inputs.style-check-enabled
     uses: th2-net/.github/.github/workflows/compound-python-matrix-style-check.yml@python-workflow # FIXME: change to main
-    needs: [build-custom-version]
     with:
-      matrix-python-versions: ${{ needs.build-custom-version.outputs.release-version }}
+      matrix-python-versions: ${{ inputs.python-check-versions }}
       runsOn: ${{ inputs.runsOn }}
 
   pypi-publish:
     name: Publish to PyPi
-    needs: [build-custom-version, license-check, vulnerability-scan, matrix-test]
-    if: inputs.strict-scanner && success() || !inputs.strict-scanner
+    needs: [build-custom-version, license-check, vulnerability-scan, matrix-test, style-check]
+    if: (inputs.strict-scanner && success() || !inputs.strict-scanner) && (inputs.strict-style-check && success() || !inputs.strict-style-check)
     uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@python-workflow # FIXME: change to main
     with:
       version: ${{ needs.build-custom-version.outputs.release-version }}
