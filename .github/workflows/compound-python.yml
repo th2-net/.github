@@ -130,7 +130,7 @@ jobs:
     uses: th2-net/.github/.github/workflows/compound-python-matrix-style-check.yml@python-workflow # FIXME: change to main
     needs: [build-custom-version]
     with:
-      version: ${{ needs.build-custom-version.outputs.release-version }}
+      matrix-python-versions: ${{ needs.build-custom-version.outputs.release-version }}
       runsOn: ${{ inputs.runsOn }}
 
   pypi-publish:
