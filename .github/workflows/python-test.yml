@@ -65,34 +65,40 @@ jobs:
         virtualenvs-create: false
 
     - name: Show log
+      if: steps.check-poetry-file.outputs.files_exists == 'true'
       continue-on-error: true
       run: cat *.log
-
-    - name: Install dependencies requirements
-      if: ${{ inputs.requirements-file != '' && steps.check-poetry-file.outputs.files_exists == 'false' }} 
-      run: pip install -r "${{ inputs.requirements-file }}"
 
     - name: Install dependencies from Poetry
       if: steps.check-poetry-file.outputs.files_exists == 'true'
       run: poetry install
+
+    - name: Install pytest
+      if: steps.check-poetry-file.outputs.files_exists == 'false'
+      run: pip install pytest
+
+    - name: Install dependencies requirements
+      if: ${{ inputs.requirements-file != '' && steps.check-poetry-file.outputs.files_exists == 'false' }} 
+      run: pip install -r "${{ inputs.requirements-file }}"
     
     - name: Show dependencies
       run: pip list
 
-    - name: Run tests
-      run: | 
-        if [[ "${{ steps.check-poetry-file.outputs.files_exists }}" == 'true' ]]; then
-          poetry run pytest
-        else
-          args="-n auto "
-          if [ -n "${{ inputs.test-dir }}" ];then
-            args+="${{ inputs.test-dir }} "
-          fi
-          if [ -n "${{ inputs.test-ignore-dir }}" ]; then
-            args+="--ignore ${{ inputs.test-ignore-dir }} "
-          fi
+    - name: Run tests using Poetry
+      if: steps.check-poetry-file.outputs.files_exists == 'true'
+      run: poetry run pytest
 
-          echo "Args: ${args}"
-          pytest $args
+    - name: Run tests
+      if: steps.check-poetry-file.outputs.files_exists == 'false'
+      run: | 
+        args="-n auto "
+        if [ -n "${{ inputs.test-dir }}" ];then
+          args+="${{ inputs.test-dir }} "
         fi
+        if [ -n "${{ inputs.test-ignore-dir }}" ]; then
+          args+="--ignore ${{ inputs.test-ignore-dir }} "
+        fi
+
+        echo "Args: ${args}"
+        pytest $args
         
