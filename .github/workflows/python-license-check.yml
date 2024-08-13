@@ -27,25 +27,37 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Check Poetry file existence
+      id: check-poetry-file
+      uses: andstor/file-existence-action@v3
+      with:
+        files: "pyproject.toml"
+
     - name: Setup python ${{ inputs.python-version }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ inputs.python-version }}
 
+    - name: Install Poetry
+      if: steps.check-poetry-file.files_exists == 'true'
+      uses: snok/install-poetry@v1
+      
     - name: Install modules
       run: |
         pip install virtualenv
         python -m venv venv
-
-    - name: Install dependencies
-      run: |
         source venv/bin/activate
-        pip install -r requirements.txt
+
+    - name: Install dependencies from requirements
+      if: steps.check-poetry-file.files_exists == 'false'
+      run: pip install -r requirements.txt
+    
+    - name: Install dependencies from Poetry
+      if: steps.check-poetry-file.files_exists == 'true'
+      run: poetry install
 
     - name: Show dependencies
-      run: |
-        source venv/bin/activate
-        pip list
+      run: pip list
 
     - name: Install jq env
       run: |
@@ -59,7 +71,6 @@ jobs:
     - name: Run check_licenses script
       id: run_script
       run: |
-        source venv/bin/activate
         ./check_licenses.sh python
         line_count=$(wc -l < ./licenses_check/failed_licenses.csv)
         if [[ $line_count -ge 1 ]]; then
