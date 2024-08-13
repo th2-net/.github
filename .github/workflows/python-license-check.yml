@@ -48,6 +48,7 @@ jobs:
       run: |
         pip install virtualenv
         python -m venv venv
+        source venv/bin/activate
 
     - name: Install dependencies from requirements
       if: steps.check-poetry-file.outputs.files_exists == 'false'
@@ -59,10 +60,6 @@ jobs:
       continue-on-error: true
       with:
         version: ${{ inputs.poetry-version }}
-        virtualenvs-create: true
-        virtualenvs-in-project: true
-        virtualenvs-path: venv
-        installer-parallel: true
     
     - name: Show log
       run: cat *.log
@@ -73,7 +70,6 @@ jobs:
 
     - name: Show dependencies
       run: |
-        source venv/bin/activate
         pip list
 
     - name: Install jq env
