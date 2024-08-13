@@ -15,6 +15,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Security vulnerabilities scan
-        uses: aufdenpunkt/python-safety-check@master
+        continue-on-error: false
+        uses: aufdenpunkt/python-safety-check@043b9bf55528dacdc4ee3956a162ee9a92f00188
         with:
           scan_requirements_file_only: 'true'
+          safety_args: '--policy-file .safety-policy.yaml'
