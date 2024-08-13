@@ -73,9 +73,9 @@ jobs:
       if: steps.check-poetry-file.outputs.files_exists == 'true'
       run: poetry install
 
-    - name: Install pytest
+    - name: Install pytest-xdist
       if: steps.check-poetry-file.outputs.files_exists == 'false'
-      run: pip install pytest
+      run: pip install pytest-xdist
 
     - name: Install dependencies requirements
       if: ${{ inputs.requirements-file != '' && steps.check-poetry-file.outputs.files_exists == 'false' }} 
