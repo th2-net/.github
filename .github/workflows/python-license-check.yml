@@ -13,6 +13,11 @@ on:
         type: string
         default: '3.8'
         description: 'Python version'
+      poetry-version:
+        required: false
+        type: string
+        default: '1.5.1'
+        description: 'Poetry version'
       runsOn:
         required: false
         type: string
@@ -53,6 +58,7 @@ jobs:
       uses: snok/install-poetry@v1
       continue-on-error: true
       with:
+        version: ${{ inputs.poetry-version }}
         virtualenvs-create: true
         virtualenvs-in-project: true
         virtualenvs-path: venv
