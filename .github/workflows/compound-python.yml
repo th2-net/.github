@@ -152,7 +152,7 @@ jobs:
   pypi-publish:
     name: Publish to PyPi
     needs: [build-custom-version, license-check, vulnerability-scan, matrix-test, style-check]
-    if: (inputs.strict-scanner && success() || !inputs.strict-scanner) && (inputs.strict-style-check && success() || !inputs.strict-style-check)
+    if: (inputs.strict-scanner && !failure() || !inputs.strict-scanner) && (inputs.strict-style-check && !failure() || !inputs.strict-style-check)
     uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@python-workflow # FIXME: change to main
     with:
       version: ${{ needs.build-custom-version.outputs.release-version }}
