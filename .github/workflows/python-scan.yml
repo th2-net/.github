@@ -3,6 +3,12 @@ name: Python vulnerabilities scanning
 
 on:
   workflow_call:
+    inputs:
+      poetry-version:
+        required: false
+        type: string
+        default: '1.5.1'
+        description: 'Poetry version'
 
 env:
   DEP_PATH: requirements.txt
@@ -14,6 +20,30 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Check Poetry file existence
+        id: check-poetry-file
+        uses: andstor/file-existence-action@v3
+        with:
+          files: "pyproject.toml"
+      
+      - name: Install Poetry ${{ inputs.poetry-version }}
+        if: steps.check-poetry-file.outputs.files_exists == 'true'
+        uses: snok/install-poetry@v1
+        continue-on-error: true
+        with:
+          version: ${{ inputs.poetry-version }}
+          virtualenvs-create: false
+
+      - name: Generate requirements.txt from Poetry
+        if: steps.check-poetry-file.outputs.files_exists == 'true'
+        run: poetry export -f requirements.txt --output requirements.txt
+
+      - name: Download safety-policy
+        run: |
+          # FIXME: change to main
+          wget -q -O .safety-policy.yaml https://raw.githubusercontent.com/th2-net/.github/python-workflow/vulnerability-compliance/python-safety-check/.safety-policy.yaml
+
       - name: Security vulnerabilities scan
         continue-on-error: false
         uses: aufdenpunkt/python-safety-check@043b9bf55528dacdc4ee3956a162ee9a92f00188
