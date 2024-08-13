@@ -12,7 +12,7 @@ on:
       safety-args:
         required: false
         type: string
-        default: ''
+        default: '-i 70612'
         description: 'Arguments for the safety tool'
 
 env:
