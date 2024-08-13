@@ -1,5 +1,5 @@
 name: Run matrix Python test
-
+# FIXME: split to requirements and Poetry versions
 
 on:
   workflow_call:
@@ -100,13 +100,13 @@ jobs:
       id: meta
       run: |
         REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $NF}')
-        name=$(echo -n "$REPOSITORY_NAME-${{ inputs.version }}" | sed -e 's/[ \t:\/\\"<>|*?]/-/g' -e 's/--*/-/g')
-        echo "ARTIFACT_NAME=$name" >> $GITHUB_ENV
+        name=$(echo -n "$REPOSITORY_NAME-${{ inputs.version }}-${{ inputs.python-version }}-${{ inputs.runsOn }}" | sed -e 's/[ \t:\/\\"<>|*?]/-/g' -e 's/--*/-/g')
+        echo "artifact-name=$name" >> $GITHUB_OUTPUT
 
     - name: Uploading results
       if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
       with:
-        name: licenses_check-${{ env.ARTIFACT_NAME }}
+        name: licenses_check-${{ steps.meta.outputs.artifact-name }}
         path: ./licenses_check/
         overwrite: true
