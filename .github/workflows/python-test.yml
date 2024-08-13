@@ -38,7 +38,9 @@ jobs:
   test:
     name: "Test (Python:${{ inputs.python-version }},Image:${{ inputs.runsOn }})"
     runs-on: ${{ inputs.runsOn }}
-
+    defaults:
+      run:
+        shell: bash
     steps:
     - name: Checkout
       uses: actions/checkout@v4
