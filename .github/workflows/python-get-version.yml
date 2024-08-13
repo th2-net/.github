@@ -17,15 +17,38 @@ jobs:
     name: 'Get package_version'
     runs-on: ${{ inputs.runsOn }}
     outputs:
-      version: ${{ steps.package-version.outputs.prop }}
+      version: ${{ steps.show-version.outputs.paskage-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Get package_version value
-        id: package-version
+      - name: Check Poetry file existence
+        id: check-poetry-file
+        uses: andstor/file-existence-action@v3
+        with:
+          files: "pyproject.toml"
+      - name: Install Poetry
+        if: steps.check-poetry-file.files_exists == 'true'
+        uses: snok/install-poetry@v1
+      - name: Get package_version value from package_info.json
+        if: steps.check-poetry-file.files_exists == 'false'
+        id: package-version-from-package-info
         uses: notiz-dev/github-action-json-property@release
         with:
           path: package_info.json
           prop_path: package_version
-      - name: Show package_version value ${{ steps.package-version.outputs.prop }}
-        run: echo ${{ steps.package-version.outputs.prop }}
+      - name: Get package_version value from Poetry
+        if: steps.check-poetry-file.files_exists == 'true'
+        id: package-version-from-poetry
+        run: echo "paskage-version=$(poetry version -s)" >> $GITHUB_OUTPUT
+      - name: Show package_version value 
+        id: show-version
+        run: |
+          if [[ "${{ steps.check-poetry-file.files_exists }}" == 'true' ]]; then
+            echo "From Poetry"
+            echo "paskage-version=${{ steps.package-version-from-poetry.outputs.paskage-version }}" >> $GITHUB_OUTPUT
+            echo ${{ steps.package-version-from-poetry.outputs.paskage-version }}
+          else
+            echo "From package_info.json"
+            echo "paskage-version=${{ steps.package-version-from-package-info.outputs.prop }}" >> $GITHUB_OUTPUT
+            echo ${{ steps.package-version-from-package-info.outputs.prop }}
+          fi
