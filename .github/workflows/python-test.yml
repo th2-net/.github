@@ -79,19 +79,18 @@ jobs:
 
     - name: Run tests
       run: | 
-        args="-n auto "
-        if [ -n "${{ inputs.test-dir }}" ];then
-          args+="${{ inputs.test-dir }} "
-        fi
-        if [ -n "${{ inputs.test-ignore-dir }}" ]; then
-          args+="--ignore ${{ inputs.test-ignore-dir }} "
-        fi
-
-        echo "Args: ${args}"
-
         if [[ "${{ steps.check-poetry-file.outputs.files_exists }}" == 'true' ]]; then
-          poetry run pytest $args
+          poetry run pytest
         else
+          args="-n auto "
+          if [ -n "${{ inputs.test-dir }}" ];then
+            args+="${{ inputs.test-dir }} "
+          fi
+          if [ -n "${{ inputs.test-ignore-dir }}" ]; then
+            args+="--ignore ${{ inputs.test-ignore-dir }} "
+          fi
+
+          echo "Args: ${args}"
           pytest $args
         fi
         
