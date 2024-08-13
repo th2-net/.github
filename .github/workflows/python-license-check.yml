@@ -43,8 +43,19 @@ jobs:
       with:
         python-version: ${{ inputs.python-version }}
 
+    - name: Install Poetry
+      if: steps.check-poetry-file.outputs.files_exists == 'true'
+      uses: snok/install-poetry@v1
+      continue-on-error: true
+      with:
+        version: ${{ inputs.poetry-version }}
+        virtualenvs-create: false
+    
+    - name: Show log
+      continue-on-error: true
+      run: cat *.log
+
     - name: Install modules
-      if: steps.check-poetry-file.outputs.files_exists == 'false'
       run: |
         pip install virtualenv
         python -m venv venv
@@ -53,17 +64,6 @@ jobs:
     - name: Install dependencies from requirements
       if: steps.check-poetry-file.outputs.files_exists == 'false'
       run: pip install -r requirements.txt
-
-    - name: Install Poetry
-      if: steps.check-poetry-file.outputs.files_exists == 'true'
-      uses: snok/install-poetry@v1
-      continue-on-error: true
-      with:
-        version: ${{ inputs.poetry-version }}
-    
-    - name: Show log
-      continue-on-error: true
-      run: cat *.log
     
     - name: Install dependencies from Poetry
       if: steps.check-poetry-file.outputs.files_exists == 'true'

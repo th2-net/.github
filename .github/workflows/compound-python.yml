@@ -21,6 +21,11 @@ on:
         type: string
         default: "['3.8', '3.9', '3.10', '3.11', '3.12']"
         description: 'list of python versions for different check in JSON format'
+      test-enabled:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether test is enabled'
       style-check-enabled:
         required: false
         type: boolean
@@ -117,7 +122,7 @@ jobs:
 
   matrix-test:
     name: Matrix test Job
-    if: ${{ inputs.test-dir }} != ''
+    if: ${{ inputs.test-enabled }}
     uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@python-workflow # FIXME: change to main
     with:
       test-dir: ${{ inputs.test-dir }}
