@@ -16,7 +16,7 @@ on:
       matrix-os:
         required: false
         type: string
-        default: "['ubuntu-20.04']"
+        default: "['ubuntu-latest']"
         description: 'list of operation systems JSON format'
 
 jobs:

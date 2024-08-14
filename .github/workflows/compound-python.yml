@@ -61,15 +61,7 @@ on:
         type: string
         default: 'requirements.txt'
         description: 'Path to requirements'
-
-    # outputs:
-    #   version:
-    #     description: "Generated version of the image"
-    #     value: ${{ jobs.prebuild-job.outputs.version }}
     secrets:
-      # pypi-user:
-      #   required: true
-      #   description: 'TODO'
       pypi-password:
         required: true
         description: 'TODO'
