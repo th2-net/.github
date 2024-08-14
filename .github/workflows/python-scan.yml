@@ -13,7 +13,7 @@ on:
         required: false
         type: string
         default: ''
-        description: 'Arguments for the safety tool'
+        description: 'Arguments for the python safety check'
 
 env:
   DEP_PATH: requirements.txt
@@ -49,8 +49,8 @@ jobs:
           # FIXME: change to main
           wget -q -O .safety-policy.yaml https://raw.githubusercontent.com/th2-net/.github/python-workflow/vulnerability-compliance/python-safety-check/.safety-policy.yaml
 
-      - name: Print args
-        run: echo "args ${{ inputs.safety-args }}"
+      - name: Show python safety check args ${{ inputs.safety-args }}
+        run: echo "${{ inputs.safety-args }}"
         
       - name: Security vulnerabilities scan
         continue-on-error: false

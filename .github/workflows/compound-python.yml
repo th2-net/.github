@@ -61,6 +61,11 @@ on:
         type: string
         default: 'requirements.txt'
         description: 'Path to requirements'
+      scan-safety-args:
+        required: false
+        type: string
+        default: ''
+        description: 'Arguments for the python safety check'  
     secrets:
       pypi-password:
         required: true
@@ -125,6 +130,8 @@ jobs:
   vulnerability-scan:
     if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/python-scan.yml@python-workflow # FIXME: change to main
+    with:
+      safety-args: ${{ inputs.scan-safety-args }}
 
   license-check:
     if: inputs.scanner-enabled
