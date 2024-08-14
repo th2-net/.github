@@ -21,6 +21,11 @@ on:
         type: string
         default: "['3.8', '3.9', '3.10', '3.11', '3.12']"
         description: 'list of python versions for different check in JSON format'
+      create-tag:
+        required: false
+        type: boolean
+        default: false
+        description: 'Whether creating and publishing git tag'
       test-enabled:
         required: false
         type: boolean
@@ -157,3 +162,12 @@ jobs:
       version: ${{ needs.build-custom-version.outputs.release-version }}
     secrets:
       pypi-password: ${{ secrets.pypi-password }}
+  
+  create-tag:
+    if: inputs.create-tag && !cancelled() && (needs.pypi-publish.result == 'success' || needs.build-custom-version.result == 'success')
+    name: Create and push tag
+    needs: [ pypi-publish, build-custom-version ]
+    uses: th2-net/.github/.github/workflows/compaund-git-tag-push.yml@main
+    with:
+      runsOn: ${{ inputs.runsOn }}
+      tagName: ${{ needs.build-custom-version.outputs.release-version }}
