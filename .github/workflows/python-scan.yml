@@ -40,6 +40,12 @@ jobs:
           version: ${{ inputs.poetry-version }}
           virtualenvs-create: false
 
+      - name: Install modules
+        run: |
+          pip install virtualenv
+          python -m venv venv
+          source venv/bin/activate
+
       - name: Generate requirements.txt from Poetry
         if: steps.check-poetry-file.outputs.files_exists == 'true'
         run: poetry export -f requirements.txt --output requirements.txt
