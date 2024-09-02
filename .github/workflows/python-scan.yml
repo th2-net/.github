@@ -42,6 +42,7 @@ jobs:
 
       - name: Install modules
         run: |
+          deactivate
           pip install virtualenv
           python -m venv venv
           source venv/bin/activate
