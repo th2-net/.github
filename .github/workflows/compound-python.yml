@@ -1,0 +1,173 @@
+name: Compound Python check, build and pypi publish
+
+on:
+  workflow_call:
+    inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+      release-type:
+        required: false
+        type: string
+        default: 'development'
+        description: 'Choose one of release type: [development, alpha, beta, release-candidate, release]'
+      pythonVersion:
+        required: false
+        type: string
+        default: '3.8'
+      python-check-versions:
+        required: false
+        type: string
+        default: "['3.8', '3.9', '3.10', '3.11', '3.12']"
+        description: 'list of python versions for different check in JSON format'
+      create-tag:
+        required: false
+        type: boolean
+        default: false
+        description: 'Whether creating and publishing git tag'
+      test-enabled:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether test is enabled'
+      style-check-enabled:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether code style check is enabled'
+      scanner-enabled:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether vulnerabilities and license scanning are enabled'
+      strict-scanner:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether vulnerabilities and license scanning executions are strict'
+      strict-style-check:
+        required: false
+        type: boolean
+        default: false
+        description: 'Whether code style check is strict'
+      test-dir:
+        required: false
+        type: string
+        default: ''
+        description: 'Directory with pytests'
+      test-ignore-dir:
+        required: false
+        type: string
+        default: ''
+        description: 'Python version'
+      test-requirements-file:
+        required: false
+        type: string
+        default: 'requirements.txt'
+        description: 'Path to requirements'
+      scan-safety-args:
+        required: false
+        type: string
+        default: ''
+        description: 'Arguments for the python safety check'  
+    secrets:
+      pypi-password:
+        required: true
+        description: 'TODO'
+
+jobs:
+  
+  get-version:
+    name: Get version
+    uses: th2-net/.github/.github/workflows/python-get-version.yml@main
+    with:
+      runsOn: ${{ inputs.runsOn }}
+
+  build-custom-version:
+    name: Build custom package_version
+    runs-on: ${{ inputs.runsOn }}
+    needs: [get-version]
+    outputs:
+      release-version: ${{ steps.release-version-step.outputs.release-version }}
+    steps:
+      - name: Build custom package_version
+        id: release-version-step
+        run: |
+          release_version='0.0.0'
+          echo "release type: '${{ inputs.release-type }}'"
+          case "${{ inputs.release-type }}" in
+            development)
+              release_version="${{ needs.get-version.outputs.version }}.dev${{ github.run_id }}"
+              ;;
+            alpha)
+              release_version="${{ needs.get-version.outputs.version }}a${{ github.run_id }}"
+              ;;
+            beta)
+              release_version="${{ needs.get-version.outputs.version }}b${{ github.run_id }}"
+              ;;
+            release-candidate)
+              release_version="${{ needs.get-version.outputs.version }}rc${{ github.run_id }}"
+              ;;
+            release)
+              release_version=${{ needs.get-version.outputs.version }}
+              ;;
+            *)
+              echo "Unsupported release type: '${{ inputs.release-type }}'"
+              exit 1
+              ;;
+          esac
+
+          echo "release-version=${release_version}" >> $GITHUB_OUTPUT
+      - name: Show package_version ${{ steps.release-version-step.outputs.release-version }}
+        run: echo ${{ steps.release-version-step.outputs.release-version }}
+
+  matrix-test:
+    name: Matrix test Job
+    if: ${{ inputs.test-enabled }}
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@main
+    with:
+      test-dir: ${{ inputs.test-dir }}
+      test-ignore-dir: ${{ inputs.test-ignore-dir }}
+      test-requirements-file: ${{ inputs.test-requirements-file }}
+      matrix-python-versions: ${{ inputs.python-check-versions }}
+  
+  vulnerability-scan:
+    if: inputs.scanner-enabled
+    uses: th2-net/.github/.github/workflows/python-scan.yml@main
+    with:
+      safety-args: ${{ inputs.scan-safety-args }}
+
+  license-check:
+    if: inputs.scanner-enabled
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-licenses-check.yml@main
+    needs: [build-custom-version]
+    with:
+      version: ${{ needs.build-custom-version.outputs.release-version }}
+      matrix-python-versions: ${{ inputs.python-check-versions }}
+
+  style-check:
+    if: inputs.style-check-enabled
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-style-check.yml@main
+    with:
+      matrix-python-versions: ${{ inputs.python-check-versions }}
+      runsOn: ${{ inputs.runsOn }}
+
+  pypi-publish:
+    name: Publish to PyPi
+    needs: [build-custom-version, license-check, vulnerability-scan, matrix-test, style-check]
+    if: (inputs.strict-scanner && !failure() || !inputs.strict-scanner) && (inputs.strict-style-check && !failure() || !inputs.strict-style-check)
+    uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@main
+    with:
+      version: ${{ needs.build-custom-version.outputs.release-version }}
+    secrets:
+      pypi-password: ${{ secrets.pypi-password }}
+  
+  create-tag:
+    if: inputs.create-tag && !cancelled() && (needs.pypi-publish.result == 'success' || needs.build-custom-version.result == 'success')
+    name: Create and push tag
+    needs: [ pypi-publish, build-custom-version ]
+    uses: th2-net/.github/.github/workflows/compaund-git-tag-push.yml@main
+    with:
+      runsOn: ${{ inputs.runsOn }}
+      tagName: ${{ needs.build-custom-version.outputs.release-version }}

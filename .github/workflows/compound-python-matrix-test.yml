@@ -1,0 +1,50 @@
+name: Run matrix Python test
+
+
+on:
+  workflow_call:
+    inputs:
+      test-dir:
+        required: false
+        type: string
+        default: ''
+        description: 'Directory with pytests'
+      test-ignore-dir:
+        required: false
+        type: string
+        default: ''
+        description: 'Python version'
+      test-requirements-file:
+        required: false
+        type: string
+        default: 'requirements.txt'
+        description: 'Path to requirements'
+      matrix-python-versions:
+        required: false
+        type: string
+        default: "['3.8', '3.9']"
+        description: 'list of python versions in JSON format'
+      matrix-os:
+        required: false
+        type: string
+        default: "['ubuntu-latest', 'windows-latest']"
+        description: 'list of operation systems JSON format'
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+
+jobs:
+  matrix-test:
+    name: Run matrix test
+    strategy:
+      matrix:
+        python-version: ${{ fromJson(inputs.matrix-python-versions) }}
+        os: ${{ fromJson(inputs.matrix-os) }}
+    uses: th2-net/.github/.github/workflows/python-test.yml@main
+    with:
+      python-version: ${{ matrix.python-version }}
+      test-dir: ${{ inputs.test-dir }}
+      test-ignore-dir: ${{ inputs.test-ignore-dir }}
+      requirements-file: ${{ inputs.test-requirements-file }}
+      runsOn: ${{ matrix.os }}

@@ -3,18 +3,65 @@ name: Python vulnerabilities scanning
 
 on:
   workflow_call:
+    inputs:
+      poetry-version:
+        required: false
+        type: string
+        default: '1.5.1'
+        description: 'Poetry version'
+      safety-args:
+        required: false
+        type: string
+        default: ''
+        description: 'Arguments for the python safety check'
 
 env:
   DEP_PATH: requirements.txt
 
 jobs:
   scan:
+    name: Vulnerability scan
     runs-on: ubuntu-latest
     steps:
-      - name: Check out master
-        uses: actions/checkout@master
-      - name: Security vulnerabilities scan
-        continue-on-error: true
-        uses: aufdenpunkt/python-safety-check@master
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Poetry file existence
+        id: check-poetry-file
+        uses: andstor/file-existence-action@v3
         with:
-          scan_requirements_file_only: 'true'
+          files: "pyproject.toml"
+      
+      - name: Install Poetry ${{ inputs.poetry-version }}
+        if: steps.check-poetry-file.outputs.files_exists == 'true'
+        uses: snok/install-poetry@v1
+        continue-on-error: true
+        with:
+          version: ${{ inputs.poetry-version }}
+          virtualenvs-create: false
+
+      - name: Install modules
+        run: |
+          pip install virtualenv
+          python -m venv venv
+          source venv/bin/activate
+
+      - name: Generate requirements.txt from Poetry
+        if: steps.check-poetry-file.outputs.files_exists == 'true'
+        run: poetry export -f requirements.txt --output requirements.txt
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      - name: Store requirements in other file
+        run: pip freeze --local > file_to_check.txt
+        
+      - name: Download safety-policy
+        run: |
+          wget -q -O .safety-policy.yaml https://raw.githubusercontent.com/th2-net/.github/main/vulnerability-compliance/python-safety-check/.safety-policy.yaml
+      
+      - name: Install safety
+        run: pip install --upgrade pip && pip install safety
+
+      - name: Run Vulnerability check
+        run: safety check -r file_to_check.txt ${{ inputs.safety-args }} --policy-file .safety-policy.yaml

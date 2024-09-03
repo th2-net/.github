@@ -1,0 +1,58 @@
+name: Flake8 checks
+
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        required: false
+        type: string
+        default: '3.9'
+        description: 'Python version'
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+
+jobs:
+  style-check:
+    name: "Flake8 style check (Python:${{ inputs.python-version }})"
+    runs-on: ${{ inputs.runsOn }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup python ${{ inputs.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install Flake8
+      run: |
+        flake8_plugins="
+          flake8
+          flake8-bugbear
+          flake8-builtins
+          flake8-comprehensions
+          flake8-eradicate
+          flake8-fixme
+          flake8-multiline-containers
+          flake8-print
+          flake8-return
+          flake8-quotes
+          flake8-simplify
+          pep8-naming
+          flake8-expression-complexity
+          flake8-import-order
+          flake8-annotations-complexity
+          flake8-annotations-coverage
+        "
+        pip install $flake8_plugins
+
+    - name: Show dependencies
+      run: pip list
+
+    - name: Run Flake8
+      run: flake8 .
+        

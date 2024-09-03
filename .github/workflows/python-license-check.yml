@@ -1,0 +1,112 @@
+name: Run matrix Python test
+# FIXME: split to requirements and Poetry versions
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+        description: 'Full version of distributive, with branch name etc.'
+      python-version:
+        required: false
+        type: string
+        default: '3.8'
+        description: 'Python version'
+      poetry-version:
+        required: false
+        type: string
+        default: '1.5.1'
+        description: 'Poetry version'
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+
+jobs:
+  check-licenses:
+    name: "Check license (Python:${{ inputs.python-version }},Image:${{ inputs.runsOn }})"
+    runs-on: ${{ inputs.runsOn }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Check Poetry file existence
+      id: check-poetry-file
+      uses: andstor/file-existence-action@v3
+      with:
+        files: "pyproject.toml"
+
+    - name: Setup python ${{ inputs.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install Poetry ${{ inputs.poetry-version }}
+      if: steps.check-poetry-file.outputs.files_exists == 'true'
+      uses: snok/install-poetry@v1
+      continue-on-error: true
+      with:
+        version: ${{ inputs.poetry-version }}
+        virtualenvs-create: false
+    
+    - name: Show log
+      continue-on-error: true
+      run: cat *.log
+
+    - name: Install modules
+      run: |
+        pip install virtualenv
+        python -m venv venv
+        source venv/bin/activate
+
+    - name: Install dependencies from requirements
+      if: steps.check-poetry-file.outputs.files_exists == 'false'
+      run: pip install -r requirements.txt
+    
+    - name: Install dependencies from Poetry
+      if: steps.check-poetry-file.outputs.files_exists == 'true'
+      run: poetry install
+
+    - name: Show dependencies
+      run: |
+        pip list
+
+    - name: Install jq env
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq
+    - name: Download script
+      run: |
+        wget -q -O check_licenses.sh https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/check_licenses.sh
+        chmod +x ./check_licenses.sh
+    
+    - name: Run check_licenses script
+      id: run_script
+      run: |
+        ./check_licenses.sh python
+        line_count=$(wc -l < ./licenses_check/failed_licenses.csv)
+        if [[ $line_count -ge 1 ]]; then
+                echo "FAILED due to unknown/failed licenses found"
+                exit 1
+        else
+                echo "PASSED: licenses check successfull"
+                exit 0
+        fi
+
+    - name: Get repository name
+      if: ${{ !cancelled() }}
+      id: meta
+      run: |
+        REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $NF}')
+        name=$(echo -n "$REPOSITORY_NAME-${{ inputs.version }}-${{ inputs.python-version }}-${{ inputs.runsOn }}" | sed -e 's/[ \t:\/\\"<>|*?]/-/g' -e 's/--*/-/g')
+        echo "artifact-name=$name" >> $GITHUB_OUTPUT
+
+    - name: Uploading results
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: licenses_check-${{ steps.meta.outputs.artifact-name }}
+        path: ./licenses_check/
+        overwrite: true

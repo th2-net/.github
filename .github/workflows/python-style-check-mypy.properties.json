@@ -1,0 +1,5 @@
+{
+  "name": "Python style check using MyPy",
+  "description": "Check code style using MyPy",
+  "iconName": "example-icon"
+}

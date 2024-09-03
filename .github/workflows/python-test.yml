@@ -1,0 +1,104 @@
+name: Run matrix Python test
+# FIXME: split to requirements and Poetry versions
+
+on:
+  workflow_call:
+    inputs:
+      test-dir:
+        required: false
+        type: string
+        default: ''
+        description: 'Directory with pytests'
+      test-ignore-dir:
+        required: false
+        type: string
+        default: ''
+        description: 'Python version'
+      requirements-file:
+        required: false
+        type: string
+        default: 'requirements.txt'
+        description: 'Path to requirements'
+      python-version:
+        required: false
+        type: string
+        default: '3.8'
+        description: 'Python version'
+      poetry-version:
+        required: false
+        type: string
+        default: '1.5.1'
+        description: 'Poetry version'
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+
+jobs:
+  test:
+    name: "Test (Python:${{ inputs.python-version }},Image:${{ inputs.runsOn }})"
+    runs-on: ${{ inputs.runsOn }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Check Poetry file existence
+      id: check-poetry-file
+      uses: andstor/file-existence-action@v3
+      with:
+        files: "pyproject.toml"
+
+    - name: Setup python ${{ inputs.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install Poetry ${{ inputs.poetry-version }}
+      if: steps.check-poetry-file.outputs.files_exists == 'true'
+      uses: snok/install-poetry@v1
+      continue-on-error: true
+      with:
+        version: ${{ inputs.poetry-version }}
+        virtualenvs-create: false
+
+    - name: Show log
+      if: steps.check-poetry-file.outputs.files_exists == 'true'
+      continue-on-error: true
+      run: cat *.log
+
+    - name: Install dependencies from Poetry
+      if: steps.check-poetry-file.outputs.files_exists == 'true'
+      run: poetry install
+
+    - name: Install pytest-xdist
+      if: steps.check-poetry-file.outputs.files_exists == 'false'
+      run: pip install pytest-xdist
+
+    - name: Install dependencies requirements
+      if: ${{ inputs.requirements-file != '' && steps.check-poetry-file.outputs.files_exists == 'false' }} 
+      run: pip install -r "${{ inputs.requirements-file }}"
+    
+    - name: Show dependencies
+      run: pip list
+
+    - name: Run tests using Poetry
+      if: steps.check-poetry-file.outputs.files_exists == 'true'
+      run: poetry run pytest
+
+    - name: Run tests
+      if: steps.check-poetry-file.outputs.files_exists == 'false'
+      run: | 
+        args="-n auto "
+        if [ -n "${{ inputs.test-dir }}" ];then
+          args+="${{ inputs.test-dir }} "
+        fi
+        if [ -n "${{ inputs.test-ignore-dir }}" ]; then
+          args+="--ignore ${{ inputs.test-ignore-dir }} "
+        fi
+
+        echo "Args: ${args}"
+        pytest $args
+        

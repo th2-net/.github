@@ -1,0 +1,54 @@
+name: Get package_version from package_info.json
+
+on:
+  workflow_call:
+    inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+    outputs:
+      version:
+        description: "package_version from package_info.json"
+        value: ${{ jobs.get-package-version.outputs.version }}
+
+jobs:
+  get-package-version:
+    name: 'Get package_version'
+    runs-on: ${{ inputs.runsOn }}
+    outputs:
+      version: ${{ steps.show-version.outputs.paskage-version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check Poetry file existence
+        id: check-poetry-file
+        uses: andstor/file-existence-action@v3
+        with:
+          files: "pyproject.toml"
+      - name: Install Poetry
+        if: steps.check-poetry-file.outputs.files_exists == 'true'
+        uses: snok/install-poetry@v1
+      - name: Get package_version value from package_info.json
+        if: steps.check-poetry-file.outputs.files_exists == 'false'
+        id: package-version-from-package-info
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: package_info.json
+          prop_path: package_version
+      - name: Get package_version value from Poetry
+        if: steps.check-poetry-file.outputs.files_exists == 'true'
+        id: package-version-from-poetry
+        run: echo "paskage-version=$(poetry version -s)" >> $GITHUB_OUTPUT
+      - name: Show package_version value 
+        id: show-version
+        run: |
+          if [[ "${{ steps.check-poetry-file.outputs.files_exists }}" == 'true' ]]; then
+            echo "From Poetry"
+            echo "paskage-version=${{ steps.package-version-from-poetry.outputs.paskage-version }}" >> $GITHUB_OUTPUT
+            echo ${{ steps.package-version-from-poetry.outputs.paskage-version }}
+          else
+            echo "From package_info.json"
+            echo "paskage-version=${{ steps.package-version-from-package-info.outputs.prop }}" >> $GITHUB_OUTPUT
+            echo ${{ steps.package-version-from-package-info.outputs.prop }}
+          fi
