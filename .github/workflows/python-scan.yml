@@ -65,4 +65,4 @@ jobs:
         run: pip install --upgrade pip && pip install safety
 
       - name: Run Vulnerability check
-        run: safety check -r file_to_check.txt
+        run: safety check -r file_to_check.txt ${{ inputs.safety-args }} --policy-file .safety-policy.yaml
