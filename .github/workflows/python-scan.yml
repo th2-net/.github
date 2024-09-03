@@ -45,14 +45,13 @@ jobs:
           pip install virtualenv
           python -m venv venv
           source venv/bin/activate
-          pip list
 
       - name: Generate requirements.txt from Poetry
         if: steps.check-poetry-file.outputs.files_exists == 'true'
         run: poetry export -f requirements.txt --output requirements.txt
 
       - name: Store requirements in other file 
-        run: pip freeze > file_to_check.txt
+        run: pip freeze --local > file_to_check.txt
 
       - name: Display file_to_check.txt before installing requirements
         run: cat file_to_check.txt
@@ -61,7 +60,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Store requirements in other file
-        run: pip freeze > file_to_check.txt
+        run: pip freeze --local > file_to_check.txt
 
       - name: Display file_to_check.txt after installing requirements
         run: cat file_to_check.txt
