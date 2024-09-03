@@ -58,8 +58,7 @@ jobs:
         
       - name: Download safety-policy
         run: |
-          # FIXME: change to main
-          wget -q -O .safety-policy.yaml https://raw.githubusercontent.com/th2-net/.github/python-workflow/vulnerability-compliance/python-safety-check/.safety-policy.yaml
+          wget -q -O .safety-policy.yaml https://raw.githubusercontent.com/th2-net/.github/main/vulnerability-compliance/python-safety-check/.safety-policy.yaml
       
       - name: Install safety
         run: pip install --upgrade pip && pip install safety
