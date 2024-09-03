@@ -80,7 +80,7 @@ jobs:
   
   get-version:
     name: Get version
-    uses: th2-net/.github/.github/workflows/python-get-version.yml@python-workflow # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/python-get-version.yml@main
     with:
       runsOn: ${{ inputs.runsOn }}
 
@@ -125,7 +125,7 @@ jobs:
   matrix-test:
     name: Matrix test Job
     if: ${{ inputs.test-enabled }}
-    uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@python-workflow # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@main
     with:
       test-dir: ${{ inputs.test-dir }}
       test-ignore-dir: ${{ inputs.test-ignore-dir }}
@@ -134,13 +134,13 @@ jobs:
   
   vulnerability-scan:
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/python-scan.yml@python-workflow # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/python-scan.yml@main
     with:
       safety-args: ${{ inputs.scan-safety-args }}
 
   license-check:
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/compound-python-matrix-licenses-check.yml@python-workflow # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-licenses-check.yml@main
     needs: [build-custom-version]
     with:
       version: ${{ needs.build-custom-version.outputs.release-version }}
@@ -148,7 +148,7 @@ jobs:
 
   style-check:
     if: inputs.style-check-enabled
-    uses: th2-net/.github/.github/workflows/compound-python-matrix-style-check.yml@python-workflow # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-style-check.yml@main
     with:
       matrix-python-versions: ${{ inputs.python-check-versions }}
       runsOn: ${{ inputs.runsOn }}
@@ -157,7 +157,7 @@ jobs:
     name: Publish to PyPi
     needs: [build-custom-version, license-check, vulnerability-scan, matrix-test, style-check]
     if: (inputs.strict-scanner && !failure() || !inputs.strict-scanner) && (inputs.strict-style-check && !failure() || !inputs.strict-style-check)
-    uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@python-workflow # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@main
     with:
       version: ${{ needs.build-custom-version.outputs.release-version }}
     secrets:

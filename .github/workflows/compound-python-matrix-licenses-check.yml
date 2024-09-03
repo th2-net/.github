@@ -26,7 +26,7 @@ jobs:
       matrix:
         python-version: ${{ fromJson(inputs.matrix-python-versions) }}
         os: ${{ fromJson(inputs.matrix-os) }}
-    uses: th2-net/.github/.github/workflows/python-license-check.yml@python-workflow # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/python-license-check.yml@main
     with:
       version: ${{ inputs.version }}
       python-version: ${{ matrix.python-version }}

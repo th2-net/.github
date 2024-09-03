@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         python-version: ${{ fromJson(inputs.matrix-python-versions) }}
-    uses: th2-net/.github/.github/workflows/python-style-check-mypy.yml@python-workflow # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/python-style-check-mypy.yml@main
     with:
       python-version: ${{ matrix.python-version }}
       runsOn: ${{ inputs.runsOn }}
@@ -30,7 +30,7 @@ jobs:
     strategy:
       matrix:
         python-version: ${{ fromJson(inputs.matrix-python-versions) }}
-    uses: th2-net/.github/.github/workflows/python-style-check-flake8.yml@python-workflow # FIXME: change to main
+    uses: th2-net/.github/.github/workflows/python-style-check-flake8.yml@main
     with:
       python-version: ${{ matrix.python-version }}
       runsOn: ${{ inputs.runsOn }}
