@@ -52,7 +52,7 @@ jobs:
         files: "pyproject.toml"
 
     - name: Setup python ${{ inputs.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
 
