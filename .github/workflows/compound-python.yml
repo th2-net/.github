@@ -125,7 +125,7 @@ jobs:
   matrix-test:
     name: Matrix test Job
     if: ${{ inputs.test-enabled }}
-    uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@add_requirements_files_for_test_workflow
+    uses: th2-net/.github/.github/workflows/compound-python-matrix-test.yml@main
     with:
       test-dir: ${{ inputs.test-dir }}
       test-ignore-dir: ${{ inputs.test-ignore-dir }}

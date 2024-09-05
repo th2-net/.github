@@ -41,7 +41,7 @@ jobs:
       matrix:
         python-version: ${{ fromJson(inputs.matrix-python-versions) }}
         os: ${{ fromJson(inputs.matrix-os) }}
-    uses: th2-net/.github/.github/workflows/python-test.yml@add_requirements_files_for_test_workflow
+    uses: th2-net/.github/.github/workflows/python-test.yml@main
     with:
       python-version: ${{ matrix.python-version }}
       test-dir: ${{ inputs.test-dir }}
