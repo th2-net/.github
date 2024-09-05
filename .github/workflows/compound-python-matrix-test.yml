@@ -14,11 +14,11 @@ on:
         type: string
         default: ''
         description: 'Python version'
-      test-requirements-file:
+      test-requirements-files:
         required: false
         type: string
         default: 'requirements.txt'
-        description: 'Path to requirements'
+        description: 'Path to requirements file(s), comma-separated for multiple files'
       matrix-python-versions:
         required: false
         type: string
@@ -41,10 +41,10 @@ jobs:
       matrix:
         python-version: ${{ fromJson(inputs.matrix-python-versions) }}
         os: ${{ fromJson(inputs.matrix-os) }}
-    uses: th2-net/.github/.github/workflows/python-test.yml@main
+    uses: th2-net/.github/.github/workflows/python-test.yml@add_requirements_files_for_test_workflow
     with:
       python-version: ${{ matrix.python-version }}
       test-dir: ${{ inputs.test-dir }}
       test-ignore-dir: ${{ inputs.test-ignore-dir }}
-      requirements-file: ${{ inputs.test-requirements-file }}
+      requirements-files: ${{ inputs.test-requirements-files }}
       runsOn: ${{ matrix.os }}

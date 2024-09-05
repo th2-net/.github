@@ -14,11 +14,11 @@ on:
         type: string
         default: ''
         description: 'Python version'
-      requirements-file:
+      requirements-files:
         required: false
         type: string
         default: 'requirements.txt'
-        description: 'Path to requirements'
+        description: 'Path to requirements file(s), comma-separated for multiple files'
       python-version:
         required: false
         type: string
@@ -78,8 +78,14 @@ jobs:
       run: pip install pytest-xdist
 
     - name: Install dependencies requirements
-      if: ${{ inputs.requirements-file != '' && steps.check-poetry-file.outputs.files_exists == 'false' }} 
-      run: pip install -r "${{ inputs.requirements-file }}"
+      if: ${{ inputs.requirements-files != '' && steps.check-poetry-file.outputs.files_exists == 'false' }}
+      run: |
+        IFS=',' read -ra REQ_FILES <<< "${{ inputs.requirements-files }}"
+        PIP_COMMAND="pip install"
+        for file in "${REQ_FILES[@]}"; do
+          PIP_COMMAND+=" -r ${file}"
+        done
+        $PIP_COMMAND
     
     - name: Show dependencies
       run: pip list
