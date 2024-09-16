@@ -61,11 +61,11 @@ on:
         type: string
         default: ''
         description: 'Python version'
-      test-requirements-file:
+      test-requirements-files:
         required: false
         type: string
         default: 'requirements.txt'
-        description: 'Path to requirements'
+        description: 'Path to requirements file(s), comma-separated for multiple files'
       scan-safety-args:
         required: false
         type: string
@@ -129,7 +129,7 @@ jobs:
     with:
       test-dir: ${{ inputs.test-dir }}
       test-ignore-dir: ${{ inputs.test-ignore-dir }}
-      test-requirements-file: ${{ inputs.test-requirements-file }}
+      test-requirements-files: ${{ inputs.test-requirements-files }}
       matrix-python-versions: ${{ inputs.python-check-versions }}
   
   vulnerability-scan:
