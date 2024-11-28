@@ -39,6 +39,8 @@ jobs:
         with:
           gradle-version: wrapper
           gradle-home-cache-includes: |
+            caches
+            notifications
             dependency-check-data
       - name: Run OWASP single-project scanning
         # continue-on-error: true
