@@ -69,7 +69,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatypeSigningKey }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
       - name: Dev Build with Gradle
-        if: ${{ !inputs.closeAndRelease }}
+        if: !inputs.closeAndRelease && github.actor != 'dependabot[bot]'
         run: ./gradlew -p ${{ inputs.projectPath }} --info clean build -Prelease_version=${{ format('{0}-SNAPSHOT', inputs.version) }} publish
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
@@ -78,7 +78,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
+        if: always() && github.actor != 'dependabot[bot]'
         with:
           files: |
             ${{ inputs.projectPath }}/build/test-results/**/*.xml
