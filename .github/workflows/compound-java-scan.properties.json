@@ -1,0 +1,5 @@
+{
+    "name": "Compound Java Scan",
+    "description": "Scan licenses and vulnerabilities in java project",
+    "iconName": "example-icon"
+  }
