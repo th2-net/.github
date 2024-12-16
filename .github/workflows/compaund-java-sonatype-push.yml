@@ -60,17 +60,23 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: wrapper
-      - name: Release Build with Gradle
+      - name: Build release with Gradle
         if: ${{ inputs.closeAndRelease }}
-        run: ./gradlew -p ${{ inputs.projectPath }} --info clean build -Prelease_version=${{ inputs.version }} publish closeAndReleaseSonatypeStagingRepository
+        run: ./gradlew -p ${{ inputs.projectPath }} --info clean build -Prelease_version=${{ inputs.version }}
+      - name: Publish release with Gradle
+        if: ${{ inputs.closeAndRelease }}
+        run: ./gradlew -p ${{ inputs.projectPath }} --info -Prelease_version=${{ inputs.version }} publish closeAndReleaseSonatypeStagingRepository
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatypeSigningKey }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
-      - name: Dev Build with Gradle
+      - name: Build snapshot with Gradle
         if: ${{ !inputs.closeAndRelease }}
-        run: ./gradlew -p ${{ inputs.projectPath }} --info clean build -Prelease_version=${{ format('{0}-SNAPSHOT', inputs.version) }} publish
+        run: ./gradlew -p ${{ inputs.projectPath }} --info clean build -Prelease_version=${{ format('{0}-SNAPSHOT', inputs.version) }}
+      - name: Publish snapshot with Gradle
+        if: ${{ !inputs.closeAndRelease && github.actor != 'dependabot[bot]' }}
+        run: ./gradlew -p ${{ inputs.projectPath }} --info -Prelease_version=${{ format('{0}-SNAPSHOT', inputs.version) }} publish
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
@@ -78,7 +84,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
+        if: always() && github.actor != 'dependabot[bot]'
         with:
           files: |
             ${{ inputs.projectPath }}/build/test-results/**/*.xml
