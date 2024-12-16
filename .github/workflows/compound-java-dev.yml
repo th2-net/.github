@@ -52,6 +52,21 @@ on:
         type: boolean
         default: false
         description: 'false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
+      integration-test-enabled:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether integration test is enabled'
+      integration-test-projects:
+        required: false
+        type: string
+        default: "['.']"
+        description: 'list of projects for running integration tests'
+      integration-test-task:
+        required: false
+        type: string
+        default: 'integrationTest'
+        description: "Gradle task name to run integration test"
 
     outputs:
       version:
@@ -83,7 +98,7 @@ jobs:
   docker-push:
     name: Build Docker image and push to ghcr.io
     if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && (inputs.strict-scanner && success() || !inputs.strict-scanner)
-    needs: [prebuild-job, owasp-scan, license-check]
+    needs: [prebuild-job, owasp-scan, license-check, integration-test]
     uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
       docker-username: ${{ inputs.docker-username }}
@@ -108,7 +123,7 @@ jobs:
   sonatype-push:
     if: (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && (inputs.strict-scanner && success() || !inputs.strict-scanner )
     name: Build and Push Jar to Sonatype
-    needs: [ prebuild-job, owasp-scan, license-check ]
+    needs: [ prebuild-job, owasp-scan, license-check, integration-test ]
     uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
     with:
       runsOn: ${{ inputs.runsOn }}
@@ -138,3 +153,16 @@ jobs:
     needs: [prebuild-job]
     with:
       version: ${{ needs.prebuild-job.outputs.version }}
+
+  integration-test:
+    if: inputs.integration-test-enabled
+    strategy:
+      matrix:
+        integration-test-project: ${{ fromJson(inputs.integration-test-projects) }}
+    uses: th2-net/.github/.github/workflows/java-integration-test.yml@integration-tests # FIXME: switch to main branch
+    with:
+      runsOn: ${{ inputs.runsOn }}
+      javaVersion: ${{ inputs.javaVersion }}
+      javaVendor: ${{ inputs.javaVendor }}
+      projectPath: ${{ matrix.integration-test-project }}
+      integrationTestTask: ${{ inputs.integration-test-task }}
