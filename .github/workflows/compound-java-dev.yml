@@ -98,6 +98,7 @@ jobs:
   docker-push:
     name: Build Docker image and push to ghcr.io
     if: |
+      always() &&
       (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && 
       (inputs.strict-scanner && success() || !inputs.strict-scanner) &&
       (inputs.integration-test-enabled && success() || !inputs.integration-test-enabled)
@@ -125,6 +126,7 @@ jobs:
 # if Sonatype
   sonatype-push:
     if: |
+      always() &&
       (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && 
       (inputs.strict-scanner && success() || !inputs.strict-scanner) &&
       (inputs.integration-test-enabled && success() || !inputs.integration-test-enabled)
