@@ -1,0 +1,48 @@
+name: Java integration test
+
+on:
+  workflow_call:
+    inputs:
+      javaVersion:
+        required: false
+        type: string
+        default: '11'
+      javaVendor:
+        required: false
+        type: string
+        default: 'zulu'
+      integrationTestTask:
+        required: false
+        type: string
+        default: 'integrationTest'
+        description: "Gradle task name to run integration test"
+      projectPath:
+        required: false
+        type: string
+        default: '.'
+        description: "path to the Gradle module. Root directory by default"
+
+jobs:
+  owasp-scan-job:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ inputs.javaVendor }}
+          java-version: ${{ inputs.javaVersion }}
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: wrapper
+      - name: Run 
+        run: ./gradlew -p ${{ inputs.projectPath }} --info clean ${{ inputs.integrationTestTask }}
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: integration-test-results
+          path: ${{ inputs.projectPath }}/build/reports/tests/${{ inputs.integrationTestTask }}/
