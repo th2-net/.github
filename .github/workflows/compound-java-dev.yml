@@ -55,7 +55,7 @@ on:
       integration-test-enabled:
         required: false
         type: boolean
-        default: true
+        default: false
         description: 'Whether integration test is enabled'
       integration-test-projects:
         required: false
