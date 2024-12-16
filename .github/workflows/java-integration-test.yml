@@ -23,7 +23,7 @@ on:
         description: "path to the Gradle module. Root directory by default"
 
 jobs:
-  owasp-scan-job:
+  integration-test:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
