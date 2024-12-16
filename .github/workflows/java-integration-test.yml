@@ -28,6 +28,7 @@ on:
 
 jobs:
   integration-test:
+    name: "Integration test, project: ${{ inputs.projectPath }} task: ${{ inputs.integrationTestTask }}"
     runs-on: ${{ inputs.runsOn }}
     steps:
       - name: Checkout code
