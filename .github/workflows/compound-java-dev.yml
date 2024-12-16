@@ -97,7 +97,10 @@ jobs:
   # if Docker
   docker-push:
     name: Build Docker image and push to ghcr.io
-    if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && (inputs.strict-scanner && success() || !inputs.strict-scanner)
+    if: |
+      (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && 
+      (inputs.strict-scanner && success() || !inputs.strict-scanner) &&
+      (inputs.integration-test-enabled && success() || !inputs.integration-test-enabled)
     needs: [prebuild-job, owasp-scan, license-check, integration-test]
     uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
@@ -121,7 +124,10 @@ jobs:
 
 # if Sonatype
   sonatype-push:
-    if: (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && (inputs.strict-scanner && success() || !inputs.strict-scanner )
+    if: |
+      (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && 
+      (inputs.strict-scanner && success() || !inputs.strict-scanner) &&
+      (inputs.integration-test-enabled && success() || !inputs.integration-test-enabled)
     name: Build and Push Jar to Sonatype
     needs: [ prebuild-job, owasp-scan, license-check, integration-test ]
     uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
