@@ -3,6 +3,10 @@ name: Java integration test
 on:
   workflow_call:
     inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
       javaVersion:
         required: false
         type: string
@@ -24,7 +28,7 @@ on:
 
 jobs:
   integration-test:
-    runs-on: ubuntu-20.04
+    runs-on: ${{ inputs.runsOn }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
