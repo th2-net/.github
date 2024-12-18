@@ -134,7 +134,7 @@ jobs:
   
   vulnerability-scan:
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/python-scan.yml@main
+    uses: th2-net/.github/.github/workflows/python-scan.yml@davitmamrikishvili-patch-1
     with:
       safety-args: ${{ inputs.scan-safety-args }}
 
