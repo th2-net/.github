@@ -86,9 +86,6 @@ on:
       nvd-api-key:
         required: false
         description: 'API key to access NVD database'
-      test-secret:
-        required: false
-
 
 jobs:
   prebuild-job:
@@ -98,26 +95,22 @@ jobs:
       runsOn: ${{ inputs.runsOn }}
 
   java-check:
-    runs-on: ${{ inputs.runsOn }}
     name: 'Java check'
     needs: [prebuild-job]
-    steps:
-      - uses: th2-net/.github/.github/workflows/compound-java-check.yml@integration-tests # FIXME: switch to main branch
-        id: java-check
-        with:
-          runs-on: ${{ inputs.runsOn }}
-          app-version: ${{ needs.prebuild-job.outputs.version }}
-          java-version: ${{ inputs.javaVersion }}
-          java-vendor: ${{ inputs.javaVendor }}
-          scanner-enabled: ${{ inputs.scanner-enabled }}
-          strict-scanner: ${{ inputs.strict-scanner }}
-          multi-project: ${{ inputs.multiproject }}
-          integration-test-enabled: ${{ inputs.integration-test-enabled }}
-          integration-test-projects: ${{ inputs.integration-test-projects }}
-          integration-test-task: ${{ inputs.integration-test-task }}
-          nvd-api-key: ${{ secrets.test-secret }}
-      - run: |
-          echo ::set-output name=my-status::${{ steps.java-check.outputs.aggregated-status }}
+    uses: th2-net/.github/.github/workflows/compound-java-check.yml@integration-tests # FIXME: switch to main branch
+    with:
+      runs-on: ${{ inputs.runsOn }}
+      app-version: ${{ needs.prebuild-job.outputs.version }}
+      java-version: ${{ inputs.javaVersion }}
+      java-vendor: ${{ inputs.javaVendor }}
+      scanner-enabled: ${{ inputs.scanner-enabled }}
+      strict-scanner: ${{ inputs.strict-scanner }}
+      multi-project: ${{ inputs.multiproject }}
+      integration-test-enabled: ${{ inputs.integration-test-enabled }}
+      integration-test-projects: ${{ inputs.integration-test-projects }}
+      integration-test-task: ${{ inputs.integration-test-task }}
+    secrets:
+      nvd-api-key: ${{ secrets.nvd-api-key }}
 
   test-job:
     if: always()
@@ -133,7 +126,7 @@ jobs:
   # if Docker
   docker-push:
     name: Build Docker image and push to ghcr.io
-    if: ${{ (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.my-status == 'true' }}
+    if: ${{ (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true' }}
     needs: [prebuild-job, java-check]
     uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
