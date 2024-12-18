@@ -64,12 +64,12 @@ jobs:
     if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@integration-tests # FIXME: switch to main branch
     with:
-        runsOn: ${{ inputs.runs-on }}
-        multiproject: ${{ inputs.multi-project }}
-        javaVersion: ${{ inputs.java-version }}
-        javaVendor: ${{ inputs.java-vendor }}
+      runsOn: ${{ inputs.runs-on }}
+      multiproject: ${{ inputs.multi-project }}
+      javaVersion: ${{ inputs.java-version }}
+      javaVendor: ${{ inputs.java-vendor }}
     secrets:
-        nvd-api-key: ${{ secrets.nvd-api-key }}
+      nvd-api-key: ${{ secrets.nvd-api-key }}
 
   license-check:
     name: 'License check'
