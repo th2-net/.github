@@ -61,7 +61,7 @@ jobs:
           wget -q -O .safety-policy.yaml https://raw.githubusercontent.com/th2-net/.github/main/vulnerability-compliance/python-safety-check/.safety-policy.yaml
       
       - name: Install safety
-        run: pip install --upgrade pip && pip install safety
+        run: pip install --upgrade pip && pip install safety==3.2.11
 
       - name: Run Vulnerability check
         run: safety check -r file_to_check.txt ${{ inputs.safety-args }} --policy-file .safety-policy.yaml
