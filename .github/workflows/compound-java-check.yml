@@ -79,7 +79,7 @@ jobs:
     if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/license_check.yml@main
     with:
-      runOn: ${{ inputs.runs-on }}
+      runsOn: ${{ inputs.runs-on }}
       version: ${{ inputs.app-version }}
 
   integration-test:
