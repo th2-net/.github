@@ -125,9 +125,7 @@ jobs:
   # if Docker
   docker-push:
     name: Build Docker image and push to ghcr.io
-    if: |
-      (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() &&
-      needs.java-check.outputs.status == 'true'
+    if: ${{ (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.status == 'true' }}
     needs: [prebuild-job, java-check]
     uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
