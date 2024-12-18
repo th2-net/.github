@@ -60,7 +60,7 @@ on:
         value: ${{ (inputs.strict-scanner && jobs.license-check.result == 'success' || !inputs.strict-scanner) }}
       integration-test:
         value: ${{ (inputs.integration-test-enabled && jobs.integration-test == 'success' || !inputs.integration-test-enabled) }}
-      status:
+      aggregated-status:
         description: "Aggregated status"
         value: > 
           ${{ 
