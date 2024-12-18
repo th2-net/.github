@@ -3,6 +3,10 @@ name: OWASP scan GitHub
 on:
   workflow_call:
     inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
       multiproject:
         required: false
         type: boolean
@@ -23,7 +27,7 @@ on:
 
 jobs:
   owasp-scan-job:
-    runs-on: ubuntu-20.04
+    runs-on: ${{ inputs.runsOn }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

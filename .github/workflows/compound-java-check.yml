@@ -67,9 +67,10 @@ jobs:
     if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@main
     with:
+        runOn: ${{ inputs.runs-on }}
         multiproject: ${{ inputs.multi-project }}
-        java-version: ${{ inputs.java-version }}
-        java-vendor: ${{ inputs.java-vendor }}
+        javaVersion: ${{ inputs.java-version }}
+        javaVendor: ${{ inputs.java-vendor }}
     secrets:
         nvd-api-key: ${{ secrets.nvd-api-key }}
 
@@ -78,6 +79,7 @@ jobs:
     if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/license_check.yml@main
     with:
+      runOn: ${{ inputs.runs-on }}
       version: ${{ inputs.app-version }}
 
   integration-test:
@@ -91,5 +93,5 @@ jobs:
       runs-on: ${{ inputs.runs-on }}
       java-version: ${{ inputs.java-version }}
       java-vendor: ${{ inputs.java-vendor }}
-      projectPath: ${{ matrix.integration-test-project }}
-      integrationTestTask: ${{ inputs.integration-test-task }}
+      project-path: ${{ matrix.integration-test-project }}
+      integration-test-task: ${{ inputs.integration-test-task }}
