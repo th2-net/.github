@@ -105,14 +105,31 @@ jobs:
       runsOn: ${{ inputs.runsOn }}
       devRelease: ${{ inputs.devRelease }}
 
+  java-check:
+    name: 'Java check'
+    needs: [prebuild-job]
+    uses: th2-net/.github/.github/workflows/compound-java-check.yml@integration-tests # FIXME: switch to main branch
+    with:
+      runs-on: ${{ inputs.runsOn }}
+      app-version: ${{ needs.prebuild-job.outputs.version }}
+      java-version: ${{ inputs.javaVersion }}
+      java-vendor: ${{ inputs.javaVendor }}
+      scanner-enabled: ${{ inputs.scanner-enabled }}
+      strict-scanner: ${{ inputs.strict-scanner }}
+      multi-project: ${{ inputs.multiproject }}
+      integration-test-enabled: ${{ inputs.integration-test-enabled }}
+      integration-test-projects: ${{ inputs.integration-test-projects }}
+      integration-test-task: ${{ inputs.integration-test-task }}
+    secrets:
+      nvd-api-key: ${{ secrets.nvd-api-key }}
+
 # if Docker
   docker-push:
     name: Build Docker image and push to ghcr.io
     if: |
-      (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() &&
-      (inputs.strict-scanner && needs.license-check.result == 'success' && needs.owasp-scan.result == 'success' || !inputs.strict-scanner) &&
-      (inputs.integration-test-enabled && needs.integration-test.result == 'success' || !inputs.integration-test-enabled)
-    needs: [prebuild-job, owasp-scan, license-check, integration-test ]
+      (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) &&
+      needs.java-check.outputs.status == 'true'
+    needs: [prebuild-job, java-check ]
     uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
       docker-username: ${{ inputs.docker-username }}
@@ -135,11 +152,10 @@ jobs:
 # if Sonatype
   sonatype-push:
     if: |
-      (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && !cancelled() &&
-      (inputs.strict-scanner && needs.license-check.result == 'success' && needs.owasp-scan.result == 'success' || !inputs.strict-scanner) &&
-      (inputs.integration-test-enabled && needs.integration-test.result == 'success' || !inputs.integration-test-enabled)
+      (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) &&
+      needs.java-check.outputs.status == 'true'
     name: Build and Push Jar to Sonatype
-    needs: [ prebuild-job, owasp-scan, license-check, integration-test ]
+    needs: [ prebuild-job, java-check ]
     uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
     with:
       runsOn: ${{ inputs.runsOn }}
@@ -153,16 +169,6 @@ jobs:
       sonatypeSigningKey: ${{ secrets.sonatypeSigningKey }}
       sonatypeSigningPassword: ${{ secrets.sonatypeSigningPassword }}
 
-  owasp-scan:
-    if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@main
-    with:
-      multiproject: ${{ inputs.multiproject }}
-      javaVersion: ${{ inputs.javaVersion }}
-      javaVendor: ${{ inputs.javaVendor }}
-    secrets:
-      nvd-api-key: ${{ secrets.nvd-api-key }}
-
   create-tag:
     if: inputs.createTag && !cancelled() && (needs.docker-push.result == 'success' || needs.sonatype-push.result == 'success')
     name: Create and push tag
@@ -171,23 +177,3 @@ jobs:
     with:
       runsOn: ${{ inputs.runsOn }}
       tagName: ${{ needs.prebuild-job.outputs.version }}
-
-  license-check:
-    if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/license_check.yml@main
-    needs: [prebuild-job]
-    with:
-      version: ${{ needs.prebuild-job.outputs.version }}
-
-  integration-test:
-    if: inputs.integration-test-enabled
-    strategy:
-      matrix:
-        integration-test-project: ${{ fromJson(inputs.integration-test-projects) }}
-    uses: th2-net/.github/.github/workflows/java-integration-test.yml@integration-tests # FIXME: switch to main branch
-    with:
-      runsOn: ${{ inputs.runsOn }}
-      javaVersion: ${{ inputs.javaVersion }}
-      javaVendor: ${{ inputs.javaVendor }}
-      projectPath: ${{ matrix.integration-test-project }}
-      integrationTestTask: ${{ inputs.integration-test-task }}
