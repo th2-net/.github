@@ -67,7 +67,7 @@ jobs:
     if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@integration-tests # FIXME: switch to main branch
     with:
-        runOn: ${{ inputs.runs-on }}
+        runsOn: ${{ inputs.runs-on }}
         multiproject: ${{ inputs.multi-project }}
         javaVersion: ${{ inputs.java-version }}
         javaVendor: ${{ inputs.java-vendor }}
