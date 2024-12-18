@@ -56,12 +56,7 @@ on:
     outputs:
       status:
         description: "Aggregated status"
-        value: >
-          ${{ 
-            (inputs.strict-scanner && jobs.owasp-scan.result == 'success' || !inputs.strict-scanner) &&
-            (inputs.strict-scanner && jobs.license-check.result == 'success' || !inputs.strict-scanner) && 
-            (inputs.integration-test-enabled && jobs.integration-test == 'success' || !inputs.integration-test-enabled) 
-          }}
+        value: ${{ (inputs.strict-scanner && jobs.owasp-scan.result == 'success' || !inputs.strict-scanner) && (inputs.strict-scanner && jobs.license-check.result == 'success' || !inputs.strict-scanner) && (inputs.integration-test-enabled && jobs.integration-test == 'success' || !inputs.integration-test-enabled) }}
 
 jobs:
   owasp-scan:
