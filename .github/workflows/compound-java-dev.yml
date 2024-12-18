@@ -99,7 +99,7 @@ jobs:
     name: Build Docker image and push to ghcr.io
     if: |
       (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() &&
-      (inputs.strict-scanner && success() || !inputs.strict-scanner)
+      (inputs.strict-scanner && needs.license-check.result == 'success' && needs.owasp-scan.result == 'success' || !inputs.strict-scanner)
 #  &&
 # (inputs.integration-test-enabled && needs.integration-test.result == 'success' || !inputs.integration-test-enabled)
     needs: [prebuild-job, owasp-scan, license-check, integration-test]
@@ -127,7 +127,7 @@ jobs:
   sonatype-push:
     if: |
       (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && !cancelled() &&
-      (inputs.strict-scanner && success() || !inputs.strict-scanner)
+      (inputs.strict-scanner && needs.license-check.result == 'success' && needs.owasp-scan.result == 'success' || !inputs.strict-scanner)
   #  &&
   # (inputs.integration-test-enabled && needs.integration-test.result == 'success' || !inputs.integration-test-enabled)
     name: Build and Push Jar to Sonatype
