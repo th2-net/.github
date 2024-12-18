@@ -119,7 +119,6 @@ jobs:
     needs: [java-check]
     steps:
       - run: |
-          echo "outputs: '${{ needs.java-check.outputs }}'"
           echo "status: '${{ needs.java-check.outputs.aggregated-status }}'"
           echo "owasp-scan: '${{ needs.java-check.outputs.owasp-scan }}'"
           echo "license-check: '${{ needs.java-check.outputs.license-check }}'"
