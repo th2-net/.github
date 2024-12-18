@@ -114,7 +114,7 @@ jobs:
 
   trivy-docker-scan:
     name: Scan Docker image for vulnerabilities
-    if: inputs.scanner-enabled
+    if: inputs.scanner-enabled && needs.docker-push.result == 'success'
     needs: [docker-push, prebuild-job]
     uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@main
     with:
