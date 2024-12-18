@@ -112,6 +112,17 @@ jobs:
     secrets:
       nvd-api-key: ${{ secrets.nvd-api-key }}
 
+  test-job:
+    if: always()
+    runs-on: ${{ inputs.runsOn }}
+    needs: [java-check]
+    steps:
+      - run: |
+          echo "status: ${{ needs.java-check.outputs.status }}"
+          echo "owasp-scan: ${{ needs.java-check.outputs.owasp-scan }}"
+          echo "license-check: ${{ needs.java-check.outputs.license-check }}"
+          echo "integration-test: ${{ needs.java-check.outputs.integration-test }}"
+
   # if Docker
   docker-push:
     name: Build Docker image and push to ghcr.io
