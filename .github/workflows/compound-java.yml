@@ -123,10 +123,22 @@ jobs:
     secrets:
       nvd-api-key: ${{ secrets.nvd-api-key }}
 
+  show-java-check-status:
+    name: 'Java check status'
+    if: always()
+    runs-on: ${{ inputs.runsOn }}
+    needs: [java-check]
+    steps:
+      - run: |
+          echo "status: '${{ needs.java-check.outputs.aggregated-status }}'"
+          echo "owasp-scan: '${{ needs.java-check.outputs.owasp-scan }}'"
+          echo "license-check: '${{ needs.java-check.outputs.license-check }}'"
+          echo "integration-test: '${{ needs.java-check.outputs.integration-test }}'"
+
 # if Docker
   docker-push:
     name: Build Docker image and push to ghcr.io
-    if: ${{ (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.status }}
+    if: ${{ (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true' }}
     needs: [prebuild-job, java-check ]
     uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
@@ -149,7 +161,7 @@ jobs:
 
 # if Sonatype
   sonatype-push:
-    if: ${{ (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && !cancelled() && needs.java-check.outputs.status }}
+    if: ${{ (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true' }}
     name: Build and Push Jar to Sonatype
     needs: [ prebuild-job, java-check ]
     uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
