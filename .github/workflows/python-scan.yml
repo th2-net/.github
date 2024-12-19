@@ -50,6 +50,12 @@ jobs:
         if: steps.check-poetry-file.outputs.files_exists == 'true'
         run: poetry export -f requirements.txt --output requirements.txt
 
+      - name: Store requirements before installing
+        run: pip freeze --local > file_before.txt
+
+      - name: Output the file contents before installing
+        run: cat file_before.txt  
+        
       - name: Install requirements
         run: pip install -r requirements.txt
 
