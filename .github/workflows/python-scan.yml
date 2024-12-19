@@ -43,8 +43,8 @@ jobs:
       - name: Install modules
         run: |
           pip install virtualenv
-          virtualenv venv
-          source venv/bin/activate
+          virtualenv vvenv
+          source vvenv/bin/activate
 
       - name: Generate requirements.txt from Poetry
         if: steps.check-poetry-file.outputs.files_exists == 'true'
