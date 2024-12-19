@@ -98,14 +98,3 @@ jobs:
       java-vendor: ${{ inputs.java-vendor }}
       project-path: ${{ matrix.integration-test-project }}
       integration-test-task: ${{ inputs.integration-test-task }}
-
-  show-java-check-status:
-    name: 'Java check status'
-    if: always()
-    runs-on: ${{ inputs.runs-on }}
-    needs: [owasp-scan, license-check, integration-test]
-    steps:
-      - run: |
-          echo "owasp-scan: '${{ needs.owasp-scan.result }}'"
-          echo "license-check: '${{ needs.license-check.result }}'"
-          echo "integration-test: '${{ needs.integration-test.result }}'"
