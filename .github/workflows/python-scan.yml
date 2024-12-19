@@ -42,8 +42,8 @@ jobs:
 
       - name: Install modules
         run: |
+          pip freeze | xargs pip uninstall -y
           pip install virtualenv
-          rm -rf venv
           virtualenv my_venv -p python3
           source my_venv/bin/activate
 
