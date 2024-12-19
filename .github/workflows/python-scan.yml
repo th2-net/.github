@@ -43,7 +43,7 @@ jobs:
       - name: Install modules
         run: |
           pip install virtualenv
-          virtualenv my_venv
+          virtualenv my_venv -p python3
           source my_venv/bin/activate
 
       - name: Generate requirements.txt from Poetry
