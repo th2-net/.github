@@ -42,9 +42,9 @@ jobs:
 
       - name: Install modules
         run: |
-          pip freeze | xargs pip uninstall -y
+          python -m pip install --upgrade pip
           pip install virtualenv
-          virtualenv my_venv -p python3
+          virtualenv my_venv -p python3 --no-download --clear
           source my_venv/bin/activate
 
       - name: Generate requirements.txt from Poetry
