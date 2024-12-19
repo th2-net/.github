@@ -42,9 +42,8 @@ jobs:
 
       - name: Install modules
         run: |
-          rm -rf venv
           pip install virtualenv
-          python -m venv venv
+          virtualenv venv
           source venv/bin/activate
 
       - name: Generate requirements.txt from Poetry
