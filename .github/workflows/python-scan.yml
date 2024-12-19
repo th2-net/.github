@@ -42,19 +42,29 @@ jobs:
 
       - name: Install modules
         run: |
+          python -m pip install --upgrade pip
           pip install virtualenv
-          python -m venv venv
-          source venv/bin/activate
+          virtualenv my_venv -p python3 --no-download --clear
+          source my_venv/bin/activate
 
       - name: Generate requirements.txt from Poetry
         if: steps.check-poetry-file.outputs.files_exists == 'true'
         run: poetry export -f requirements.txt --output requirements.txt
 
+      - name: Store requirements before installing
+        run: pip freeze > file_before.txt
+
+      - name: Output the file contents before installing
+        run: cat file_before.txt  
+        
       - name: Install requirements
         run: pip install -r requirements.txt
 
       - name: Store requirements in other file
-        run: pip freeze --local > file_to_check.txt
+        run: pip freeze > file_to_check.txt
+
+      - name: Output the file contents
+        run: cat file_to_check.txt  
         
       - name: Download safety-policy
         run: |
