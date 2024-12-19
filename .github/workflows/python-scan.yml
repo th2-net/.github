@@ -43,6 +43,8 @@ jobs:
       - name: Install modules
         run: |
           pip install virtualenv
+          deactivate
+          rm -rf venv
           virtualenv my_venv -p python3
           source my_venv/bin/activate
 
