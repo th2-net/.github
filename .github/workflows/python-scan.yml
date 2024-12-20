@@ -60,7 +60,7 @@ jobs:
         run: cat after.txt  
 
       - name: Output the file contents
-        run: diff -a --suppress-common-lines -y before.txt after.txt > diff.txt
+        run: diff before.txt after.txt | grep '^>' | sed 's/^> //' > diff.txt
 
       - name: Output diff file contents
         run: cat diff.txt 
