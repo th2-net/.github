@@ -51,6 +51,7 @@ jobs:
           pip install virtualenv
           virtualenv my_venv
           source my_venv/bin/activate
+          pip freeze | xargs pip uninstall -y
 
       - name: after virtualenv
         run: |
