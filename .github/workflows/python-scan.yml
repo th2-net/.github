@@ -40,42 +40,30 @@ jobs:
           version: ${{ inputs.poetry-version }}
           virtualenvs-create: false
 
-      - name: before virtualenv
-        run: |
-          which python
-          which pip
+      - name: Store pip packages
+        run: pip freeze > before.txt
+
+      - name: Output before file contents
+        run: cat before.txt  
         
-      - name: Install modules
-        run: |
-          python -m pip install --upgrade pip
-          pip install virtualenv
-          virtualenv my_venv
-          source my_venv/bin/activate
-          pip freeze --exclude-editable | xargs pip uninstall -y
-
-      - name: after virtualenv
-        run: |
-          which python
-          which pip
-
       - name: Generate requirements.txt from Poetry
         if: steps.check-poetry-file.outputs.files_exists == 'true'
         run: poetry export -f requirements.txt --output requirements.txt
 
-      - name: Store requirements before installing
-        run: pip freeze > file_before.txt
-
-      - name: Output the file contents before installing
-        run: cat file_before.txt  
-        
       - name: Install requirements
         run: pip install -r requirements.txt
 
       - name: Store requirements in other file
-        run: pip freeze > file_to_check.txt
+        run: pip freeze > after.txt
+
+      - name: Output after file contents
+        run: cat after.txt  
 
       - name: Output the file contents
-        run: cat file_to_check.txt  
+        run: diff -a --suppress-common-lines -y before.txt after.txt > diff.txt
+
+      - name: Output diff file contents
+        run: cat diff.txt 
         
       - name: Download safety-policy
         run: |
@@ -85,4 +73,4 @@ jobs:
         run: pip install --upgrade pip && pip install safety
 
       - name: Run Vulnerability check
-        run: safety check -r file_to_check.txt ${{ inputs.safety-args }} --policy-file .safety-policy.yaml
+        run: safety check -r diff.txt ${{ inputs.safety-args }} --policy-file .safety-policy.yaml
