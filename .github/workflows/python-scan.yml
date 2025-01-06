@@ -40,11 +40,8 @@ jobs:
           version: ${{ inputs.poetry-version }}
           virtualenvs-create: false
 
-      - name: Install modules
-        run: |
-          pip install virtualenv
-          python -m venv venv
-          source venv/bin/activate
+      - name: Store packages in a file
+        run: pip freeze > before.txt
 
       - name: Generate requirements.txt from Poetry
         if: steps.check-poetry-file.outputs.files_exists == 'true'
@@ -53,9 +50,15 @@ jobs:
       - name: Install requirements
         run: pip install -r requirements.txt
 
-      - name: Store requirements in other file
-        run: pip freeze --local > file_to_check.txt
-        
+      - name: Store updated list of packages in another file
+        run: pip freeze > after.txt
+
+      - name: Get only the project dependencies
+        run: diff before.txt after.txt | grep '^>' | sed 's/^> //' > diff.txt
+
+      - name: Output the list of packages to be checked
+        run: cat diff.txt
+
       - name: Download safety-policy
         run: |
           wget -q -O .safety-policy.yaml https://raw.githubusercontent.com/th2-net/.github/main/vulnerability-compliance/python-safety-check/.safety-policy.yaml
@@ -64,4 +67,4 @@ jobs:
         run: pip install --upgrade pip && pip install safety
 
       - name: Run Vulnerability check
-        run: safety check -r file_to_check.txt ${{ inputs.safety-args }} --policy-file .safety-policy.yaml
+        run: safety check -r diff.txt ${{ inputs.safety-args }} --policy-file .safety-policy.yaml
