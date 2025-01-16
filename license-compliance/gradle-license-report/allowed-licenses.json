@@ -521,6 +521,9 @@
       "moduleLicense": "^Apache-2\\.0 OR BSD-2-Clause$"
     },
     {
+      "moduleLicense": "^Apache-2\\.0 OR LGPL-2\\.1-or-later$"
+    },
+    {
       "moduleLicense": "^EPL-1\\.0 OR LGPL-2\\.1$"
     },
     {
