@@ -52,6 +52,11 @@ on:
         type: boolean
         default: false
         description: 'false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
+      pico-test-enabled:
+        required: false
+        type: boolean
+        default: false
+        description: 'Whether run th2-pico-test'
 
     outputs:
       version:
@@ -138,3 +143,12 @@ jobs:
     needs: [prebuild-job]
     with:
       version: ${{ needs.prebuild-job.outputs.version }}
+
+  pico-test:
+    if: inputs.pico-test-enabled
+    uses: peter-evans/repository-dispatch@v3
+    with:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      repository: th2-net/th2-pico-test
+      event-type: run-pico-test-workflow
+      client-payload: '{"component-image": "${{ github.repository }}", "component-image-version": "${{ jobs.prebuild-job.outputs.version }}"}'
