@@ -146,11 +146,9 @@ jobs:
 
   pico-test:
     if: inputs.pico-test-enabled
-    runs-on: ubuntu-latest
-    steps:
-    - uses: peter-evans/repository-dispatch@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        repository: th2-net/th2-pico-test
-        event-type: run-pico-test-workflow
-        client-payload: '{"component-image": "${{ github.repository }}", "component-image-version": "${{ needs.prebuild-job.outputs.version }}"}'
+    uses: peter-evans/repository-dispatch@v3
+    with:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      repository: th2-net/th2-pico-test
+      event-type: run-pico-test-workflow
+      client-payload: '{"component-image": "${{ github.repository }}", "component-image-version": "${{ jobs.prebuild-job.outputs.version }}"}'
