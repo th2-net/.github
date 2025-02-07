@@ -155,4 +155,4 @@ jobs:
         token: ${{ secrets.PUSH_PAT }}
         repository: th2-net/th2-pico-test
         event-type: run-pico-test-workflow
-        client-payload: '{"component-image": "th2-mstore", "${{ needs.prebuild-job.outputs.version }}"}'
+        client-payload: '{"component-image": "th2-mstore", "component-image-version": "${{ needs.prebuild-job.outputs.version }}"}'
