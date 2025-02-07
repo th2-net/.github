@@ -151,6 +151,6 @@ jobs:
     - uses: peter-evans/repository-dispatch@v3
       with:
         token: ${{ secrets.PUSH_PAT }}
-        repository: th2-net/th2-pico-test
+        repository: exactpro-th2/th2-pico-test
         event-type: run-pico-test-workflow
         client-payload: '{"component-image": "${{ github.repository }}", "component-image-version": "${{ needs.prebuild-job.outputs.version }}"}'
