@@ -76,7 +76,9 @@ on:
       nvd-api-key:
         required: false
         description: 'API key to access NVD database'
-
+      PUSH_PAT:
+        required: false
+        description: Token with rights to call a workflow
 jobs:
   prebuild-job:
     name: Prebuild Job
