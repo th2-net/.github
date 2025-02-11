@@ -89,7 +89,7 @@ jobs:
   docker-push:
     name: Build Docker image and push to ghcr.io
     if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && (inputs.strict-scanner && success() || !inputs.strict-scanner)
-    needs: [prebuild-job, owasp-scan, license-check]
+    needs: [prebuild-job, license-check]
     uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
       docker-username: ${{ inputs.docker-username }}
@@ -114,7 +114,7 @@ jobs:
   sonatype-push:
     if: (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && (inputs.strict-scanner && success() || !inputs.strict-scanner )
     name: Build and Push Jar to Sonatype
-    needs: [ prebuild-job, owasp-scan, license-check ]
+    needs: [ prebuild-job, license-check ]
     uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
     with:
       runsOn: ${{ inputs.runsOn }}
@@ -129,7 +129,7 @@ jobs:
       sonatypeSigningPassword: ${{ secrets.sonatypeSigningPassword }}
 
   owasp-scan:
-    if: false
+    if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@main
     with:
       multiproject: ${{ inputs.multiproject }}
