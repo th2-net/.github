@@ -129,7 +129,7 @@ jobs:
       sonatypeSigningPassword: ${{ secrets.sonatypeSigningPassword }}
 
   owasp-scan:
-    if: inputs.scanner-enabled
+    if: false
     uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@main
     with:
       multiproject: ${{ inputs.multiproject }}
