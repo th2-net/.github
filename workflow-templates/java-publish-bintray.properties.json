@@ -1,5 +1,0 @@
-{
-    "name": "Publish java artifacts to Bintray",
-    "description": "Publish java artifacts to Bintray from master branch",
-    "iconName": "example-icon"
-}
