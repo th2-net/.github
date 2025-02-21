@@ -69,7 +69,7 @@ jobs:
           clean
           build
           -Prelease_version=${{ inputs.version }}
-          ${{ github.actor == 'dependabot[bot]' && '' || 'publish closeAndReleaseSonatypeStagingRepository' }}
+          ${{ github.actor != 'dependabot[bot]' && 'publish closeAndReleaseSonatypeStagingRepository' || '' }}
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
@@ -84,7 +84,7 @@ jobs:
           clean
           build
           -Prelease_version=${{ format('{0}-SNAPSHOT', inputs.version) }}
-          ${{ github.actor == 'dependabot[bot]' && '' || 'publish' }}
+          ${{ github.actor != 'dependabot[bot]' && 'publish' || '' }}
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}
