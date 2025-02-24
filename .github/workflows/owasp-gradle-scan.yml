@@ -49,11 +49,11 @@ jobs:
       - name: Run OWASP single-project scanning
         # continue-on-error: true
         if: ${{ !inputs.multiproject }}
-        run: ./gradlew dependencyCheckAnalyze -PnvdApiKey=${{ secrets.nvd-api-key }}
+        run: ./gradlew dependencyCheckAnalyze -PnvdApiKey=${{ secrets.nvd-api-key }} --info
       - name: Run OWASP multi-project scanning
         # continue-on-error: true
         if: ${{ inputs.multiproject }}
-        run: ./gradlew dependencyCheckAggregate -PnvdApiKey=${{ secrets.nvd-api-key }}
+        run: ./gradlew dependencyCheckAggregate -PnvdApiKey=${{ secrets.nvd-api-key }} --info
       - name: Upload OWASP scan results to GitHub Security tab
         # dependabot does not have write access to publish scanning results (in any case we don't want that from temporal branches)
         if: (success() || failure()) && github.actor != 'dependabot[bot]'

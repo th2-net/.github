@@ -148,7 +148,7 @@ case $1 in
 	java|JAVA|Java)
 	echo "`log_date_time`: Using java mode"
 	echo "`log_date_time`: Running gradle plugins"
-	./gradlew checkLicense generateLicenseReport
+	./gradlew checkLicense generateLicenseReport --info
 	if [ $? -ne 0 ]; then
 		echo "`log_date_time`: ERROR: check license by gradle plugin failure"
 		exit 2

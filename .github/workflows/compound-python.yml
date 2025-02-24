@@ -160,6 +160,7 @@ jobs:
     uses: th2-net/.github/.github/workflows/python-pypi-publish.yml@main
     with:
       version: ${{ needs.build-custom-version.outputs.release-version }}
+      python-version: ${{ inputs.pythonVersion }}
     secrets:
       pypi-password: ${{ secrets.pypi-password }}
   

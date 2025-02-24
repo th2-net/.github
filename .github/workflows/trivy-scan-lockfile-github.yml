@@ -37,7 +37,7 @@ jobs:
         with:
          gradle-version: wrapper
       - name: Generate lockfile
-        run: ./gradlew dependencies --write-locks
+        run: ./gradlew dependencies --write-locks --info
       - name: Show gradle version
         run: echo ${{ inputs.gradleVersion }}
       - name: Move lockfile if Gradle version less than 7
