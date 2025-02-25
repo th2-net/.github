@@ -7,7 +7,9 @@ on:
         required: false
         type: boolean
         default: false
-        description: 'false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
+        description: |
+          false for dependencyCheckAnalyze, true for dependencyCheckAggregate.
+          Deprecated: any projects are checked by dependencyCheckAggregate gradle task.
       javaVersion:
         required: false
         type: string
@@ -20,10 +22,21 @@ on:
       nvd-api-key:
         required: false
         description: 'API key to access NVD database'
+      cisa-domain:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency domain'
+      cisa-user:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency user'
+      cisa-password:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency password'
 
 jobs:
   owasp-scan-job:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    env:
+      CISA_DOMAIN: ${{ secrets.cisa-domain }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -42,14 +55,22 @@ jobs:
             caches
             notifications
             dependency-check-data
-      - name: Run OWASP single-project scanning
+      - name: Run OWASP project scanning (NVD API key only)
         # continue-on-error: true
-        if: ${{ !inputs.multiproject }}
-        run: ./gradlew dependencyCheckAnalyze -PnvdApiKey=${{ secrets.nvd-api-key }} --info
-      - name: Run OWASP multi-project scanning
-        # continue-on-error: true
-        if: ${{ inputs.multiproject }}
+        if: ${{ env.CISA_DOMAIN == '' }}
         run: ./gradlew dependencyCheckAggregate -PnvdApiKey=${{ secrets.nvd-api-key }} --info
+      - name: Run OWASP project scanning (NVD API key with CISA URL)
+        # continue-on-error: true
+        if: ${{ env.CISA_DOMAIN != '' }}
+        run: > 
+          ./gradlew dependencyCheckAggregate --info 
+          -PnvdApiKey=${{ secrets.nvd-api-key }} 
+          -PnvdDatafeedUrl=https://${{ secrets.cisa-domain }} 
+          -PnvdDatafeedUser=${{ secrets.cisa-user }} 
+          -PnvdDatafeedPassword=${{ secrets.cisa-password }} 
+          -PanalyzersKnownExploitedURL=https://${{ secrets.cisa-domain }}/sites/default/files/feeds/known_exploited_vulnerabilities.json 
+          -PanalyzersKnownExploitedUser=${{ secrets.cisa-user }} 
+          -PanalyzersKnownExploitedPassword=${{ secrets.cisa-password }} 
       - name: Upload OWASP scan results to GitHub Security tab
         # dependabot does not have write access to publish scanning results (in any case we don't want that from temporal branches)
         if: (success() || failure()) && github.actor != 'dependabot[bot]'
