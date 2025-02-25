@@ -143,7 +143,7 @@ jobs:
 
   owasp-scan:
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@rm-86764 # FIXME: revert to main 
+    uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@main
     with:
       multiproject: ${{ inputs.multiproject }}
       javaVersion: ${{ inputs.javaVersion }}
