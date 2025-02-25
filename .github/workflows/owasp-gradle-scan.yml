@@ -7,7 +7,9 @@ on:
         required: false
         type: boolean
         default: false
-        description: 'Deprecated: false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
+        description: |
+          false for dependencyCheckAnalyze, true for dependencyCheckAggregate.
+          Deprecated: any projects are checked by dependencyCheckAggregate gradle task.
       javaVersion:
         required: false
         type: string
