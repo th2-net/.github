@@ -7,7 +7,7 @@ on:
         required: false
         type: boolean
         default: false
-        description: 'false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
+        description: 'Deprecated: false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
       javaVersion:
         required: false
         type: string
@@ -20,10 +20,15 @@ on:
       nvd-api-key:
         required: false
         description: 'API key to access NVD database'
+      cisa-url:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency URL'
 
 jobs:
   owasp-scan-job:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    env:
+      CISA_URL: ${{ secrets.cisa-url }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -42,14 +47,14 @@ jobs:
             caches
             notifications
             dependency-check-data
-      - name: Run OWASP single-project scanning
+      - name: Run OWASP project scanning (NVD API key only)
         # continue-on-error: true
-        if: ${{ !inputs.multiproject }}
-        run: ./gradlew dependencyCheckAnalyze -PnvdApiKey=${{ secrets.nvd-api-key }} --info
-      - name: Run OWASP multi-project scanning
-        # continue-on-error: true
-        if: ${{ inputs.multiproject }}
+        if: ${{ env.CISA_URL == '' }}
         run: ./gradlew dependencyCheckAggregate -PnvdApiKey=${{ secrets.nvd-api-key }} --info
+      - name: Run OWASP project scanning (NVD API key with CISA URL)
+        # continue-on-error: true
+        if: ${{ env.CISA_URL != '' }}
+        run: ./gradlew dependencyCheckAggregate -PnvdApiKey=${{ secrets.nvd-api-key }} -PnvdDatafeedUrl=https://${{ secrets.cisa-url }} -PanalyzersKnownExploitedURL=https://${{ secrets.cisa-url }}/sites/default/files/feeds/known_exploited_vulnerabilities.json --info   
       - name: Upload OWASP scan results to GitHub Security tab
         # dependabot does not have write access to publish scanning results (in any case we don't want that from temporal branches)
         if: (success() || failure()) && github.actor != 'dependabot[bot]'
