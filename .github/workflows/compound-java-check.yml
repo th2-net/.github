@@ -53,6 +53,15 @@ on:
       nvd-api-key:
         required: false
         description: 'API key to access NVD database'
+      cisa-domain:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency domain'
+      cisa-user:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency user'
+      cisa-password:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency password'
     outputs:
       owasp-scan:
         value: ${{ (inputs.strict-scanner && jobs.owasp-scan.result == 'success' || !inputs.strict-scanner) }}
@@ -76,6 +85,9 @@ jobs:
       javaVendor: ${{ inputs.java-vendor }}
     secrets:
         nvd-api-key: ${{ secrets.nvd-api-key }}
+        cisa-domain: ${{ secrets.cisa-domain }}
+        cisa-user: ${{ secrets.cisa-user }}
+        cisa-password: ${{ secrets.cisa-password }}
 
   license-check:
     name: 'License check'
