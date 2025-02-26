@@ -89,14 +89,6 @@ jobs:
         cisa-user: ${{ secrets.cisa-user }}
         cisa-password: ${{ secrets.cisa-password }}
 
-  show-owasp-scan-status:
-    name: 'Show OWASP scan status'
-    runs-on: ${{ inputs.runs-on }}
-    if: always()
-    needs: owasp-scan
-    steps:
-      - run: echo "${{ needs.owasp-scan.result }}"
-
   license-check:
     name: 'License check'
     if: inputs.scanner-enabled
@@ -104,14 +96,6 @@ jobs:
     with:
       runsOn: ${{ inputs.runs-on }}
       version: ${{ inputs.app-version }}
-
-  show-license-check-status:
-    name: 'Show License check status'
-    runs-on: ${{ inputs.runs-on }}
-    if: always()
-    needs: license-check
-    steps:
-      - run: echo "${{ needs.license-check.result }}"
 
   integration-test:
     name: 'Integration tests'
@@ -127,10 +111,19 @@ jobs:
       project-path: ${{ matrix.integration-test-project }}
       integration-test-task: ${{ inputs.integration-test-task }}
 
-  show-integration-test-status:
-    name: 'Show Integration tests status'
+  show-statuses:
+    name: 'Show statuses'
     runs-on: ${{ inputs.runs-on }}
     if: always()
-    needs: integration-test
+    needs: 
+      - owasp-scan
+      - license-check
+      - integration-test
     steps:
-      - run: echo "${{ needs.integration-test.result }}"
+      - run: |
+          echo "owasp-scan:result - ${{ needs.owasp-scan.result }}"
+          echo "license-check:result - ${{ needs.license-check.result }}"
+          echo "integration-test:result - ${{ needs.integration-test.result }}"
+          echo "owasp-scan:status - ${{ (inputs.strict-scanner && needs.owasp-scan.result == 'success' || !inputs.strict-scanner) }}"
+          echo "license-check:status - ${{ (inputs.strict-scanner && needs.license-check.result == 'success' || !inputs.strict-scanner) }}"
+          echo "integration-test:status - ${{ (inputs.integration-test-enabled && needs.integration-test.result == 'success' || !inputs.integration-test-enabled) }}"
