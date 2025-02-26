@@ -1,5 +1,8 @@
 name: Compound Java checks
 
+# This workflow can propagate failed or skipped status. 
+# Please use '... !canceled() ...' condition in jobs depended on it
+
 on:
   workflow_call:
     inputs:
@@ -29,11 +32,6 @@ on:
         type: boolean
         default: true
         description: 'Whether vulnerabilities and license scanning executions are strict'
-      multi-project:
-        required: false
-        type: boolean
-        default: false
-        description: 'false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
       integration-test-enabled:
         required: false
         type: boolean
@@ -80,7 +78,6 @@ jobs:
     uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@integration-tests # FIXME: switch to main branch
     with:
       runsOn: ${{ inputs.runs-on }}
-      multiproject: ${{ inputs.multi-project }}
       javaVersion: ${{ inputs.java-version }}
       javaVendor: ${{ inputs.java-vendor }}
     secrets:

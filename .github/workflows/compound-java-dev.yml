@@ -51,7 +51,9 @@ on:
         required: false
         type: boolean
         default: false
-        description: 'false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
+        description: |
+          false for dependencyCheckAnalyze, true for dependencyCheckAggregate.
+          Deprecated: any projects are checked by dependencyCheckAggregate gradle task.
       integration-test-enabled:
         required: false
         type: boolean
@@ -114,7 +116,6 @@ jobs:
       java-vendor: ${{ inputs.javaVendor }}
       scanner-enabled: ${{ inputs.scanner-enabled }}
       strict-scanner: ${{ inputs.strict-scanner }}
-      multi-project: ${{ inputs.multiproject }}
       integration-test-enabled: ${{ inputs.integration-test-enabled }}
       integration-test-projects: ${{ inputs.integration-test-projects }}
       integration-test-task: ${{ inputs.integration-test-task }}
@@ -123,18 +124,6 @@ jobs:
       cisa-domain: ${{ secrets.cisa-domain }}
       cisa-user: ${{ secrets.cisa-user }}
       cisa-password: ${{ secrets.cisa-password }}
-
-  show-java-check-status:
-    name: 'Java check status'
-    if: always()
-    runs-on: ${{ inputs.runsOn }}
-    needs: [java-check]
-    steps:
-      - run: |
-          echo "status: '${{ needs.java-check.outputs.aggregated-status }}'"
-          echo "owasp-scan: '${{ needs.java-check.outputs.owasp-scan-status }}'"
-          echo "license-check: '${{ needs.java-check.outputs.license-check-status }}'"
-          echo "integration-test: '${{ needs.java-check.outputs.integration-test-status }}'"
 
   # if Docker
   docker-push:
