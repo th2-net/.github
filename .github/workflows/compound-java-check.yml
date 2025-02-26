@@ -63,11 +63,11 @@ on:
         required: false
         description: 'Cybersecurity and Infrastructure Security Agency password'
     outputs:
-      owasp-scan:
+      owasp-scan-status:
         value: ${{ (inputs.strict-scanner && jobs.owasp-scan.result == 'success' || !inputs.strict-scanner) }}
-      license-check:
+      license-check-status:
         value: ${{ (inputs.strict-scanner && jobs.license-check.result == 'success' || !inputs.strict-scanner) }}
-      integration-test:
+      integration-test-status:
         value: ${{ (inputs.integration-test-enabled && jobs.integration-test.result == 'success' || !inputs.integration-test-enabled) }}
       aggregated-status:
         description: "Aggregated status"

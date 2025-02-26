@@ -143,9 +143,9 @@ jobs:
     steps:
       - run: |
           echo "status: '${{ needs.java-check.outputs.aggregated-status }}'"
-          echo "owasp-scan: '${{ needs.java-check.outputs.owasp-scan }}'"
-          echo "license-check: '${{ needs.java-check.outputs.license-check }}'"
-          echo "integration-test: '${{ needs.java-check.outputs.integration-test }}'"
+          echo "owasp-scan: '${{ needs.java-check.outputs.owasp-scan-status }}'"
+          echo "license-check: '${{ needs.java-check.outputs.license-check-status }}'"
+          echo "integration-test: '${{ needs.java-check.outputs.integration-test-status }}'"
 
 # if Docker
   docker-push:
