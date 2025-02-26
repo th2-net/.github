@@ -64,14 +64,14 @@ on:
         description: 'Cybersecurity and Infrastructure Security Agency password'
     outputs:
       owasp-scan-status:
-        value: ${{ (inputs.strict-scanner && jobs.owasp-scan.result == 'success' || !inputs.strict-scanner) }}
+        value: ${{ jobs.calculate-statuses.outputs.owasp-check-status }}
       license-check-status:
-        value: ${{ (inputs.strict-scanner && jobs.license-check.result == 'success' || !inputs.strict-scanner) }}
+        value: ${{ jobs.calculate-statuses.outputs.license-check-status }}
       integration-test-status:
-        value: ${{ (inputs.integration-test-enabled && jobs.integration-test.result == 'success' || !inputs.integration-test-enabled) }}
+        value: ${{ jobs.calculate-statuses.outputs.integration-test-status }}
       aggregated-status:
         description: "Aggregated status"
-        value: ${{ (inputs.strict-scanner && jobs.owasp-scan.result == 'success' || !inputs.strict-scanner) && (inputs.strict-scanner && jobs.license-check.result == 'success' || !inputs.strict-scanner) && (inputs.integration-test-enabled && jobs.integration-test.result == 'success' || !inputs.integration-test-enabled) }}
+        value: ${{ jobs.calculate-statuses.outputs.aggregated-status }}
 
 jobs:
   owasp-scan:
@@ -111,19 +111,40 @@ jobs:
       project-path: ${{ matrix.integration-test-project }}
       integration-test-task: ${{ inputs.integration-test-task }}
 
-  show-statuses:
-    name: 'Show statuses'
+  calculate-statuses:
+    name: 'Calculate statuses'
     runs-on: ${{ inputs.runs-on }}
     if: always()
     needs: 
       - owasp-scan
       - license-check
       - integration-test
+    outputs:
+      owasp-check-status: ${{ steps.owasp-check-status.outputs.value }}
+      license-check-status: ${{ steps.license-check-status.outputs.value }}
+      integration-test-status: ${{ steps.integration-test-status.outputs.value }}
+      aggregated-status: ${{ steps.aggregated-status.outputs.value }}
     steps:
-      - run: |
-          echo "owasp-scan:result - ${{ needs.owasp-scan.result }}"
-          echo "license-check:result - ${{ needs.license-check.result }}"
-          echo "integration-test:result - ${{ needs.integration-test.result }}"
-          echo "owasp-scan:status - ${{ (inputs.strict-scanner && needs.owasp-scan.result == 'success' || !inputs.strict-scanner) }}"
-          echo "license-check:status - ${{ (inputs.strict-scanner && needs.license-check.result == 'success' || !inputs.strict-scanner) }}"
-          echo "integration-test:status - ${{ (inputs.integration-test-enabled && needs.integration-test.result == 'success' || !inputs.integration-test-enabled) }}"
+      - name: Prepare OWASP check status
+        id: owasp-check-status
+        run: echo "value=${{ inputs.strict-scanner && needs.owasp-scan.result == 'success' || !inputs.strict-scanner }}" >> $GITHUB_OUTPUT
+      - name: Prepare license check status
+        id: license-check-status
+        run: echo "value=${{ inputs.strict-scanner && needs.license-check.result == 'success' || !inputs.strict-scanner }}" >> $GITHUB_OUTPUT
+      - name: Prepare integration test status
+        id: integration-test-status
+        run: echo "value=${{ inputs.integration-test-enabled && needs.integration-test.result == 'success' || !inputs.integration-test-enabled }}" >> $GITHUB_OUTPUT
+      - name: Prepare aggregated status
+        id: aggregated-status
+        run: echo "value=${{ steps.owasp-check-status.outputs.value && steps.license-check-status.outputs.value && steps.integration-test-status.outputs.value }}" >> $GITHUB_OUTPUT
+
+
+      - name: Show OWASP check status
+        run: echo "${{ steps.owasp-check-status.outputs.value }}"
+      - name: Show license check status
+        run: echo "${{ steps.license-check-status.outputs.value }}"
+      - name: Show integration test status
+        run: echo "${{ steps.integration-test-status.outputs.value }}"
+      - name: Show aggregated status
+        run: echo "${{ steps.aggregated-status.outputs.value }}"
+
