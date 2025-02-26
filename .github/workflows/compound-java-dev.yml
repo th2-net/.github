@@ -86,6 +86,15 @@ on:
       nvd-api-key:
         required: false
         description: 'API key to access NVD database'
+      cisa-domain:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency domain'
+      cisa-user:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency user'
+      cisa-password:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency password'
 
 jobs:
   prebuild-job:
@@ -111,6 +120,9 @@ jobs:
       integration-test-task: ${{ inputs.integration-test-task }}
     secrets:
       nvd-api-key: ${{ secrets.nvd-api-key }}
+      cisa-domain: ${{ secrets.cisa-domain }}
+      cisa-user: ${{ secrets.cisa-user }}
+      cisa-password: ${{ secrets.cisa-password }}
 
   show-java-check-status:
     name: 'Java check status'
