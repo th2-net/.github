@@ -133,7 +133,7 @@ jobs:
         run: echo "value=${{ inputs.integration-test-enabled && needs.integration-test.result == 'success' || !inputs.integration-test-enabled }}" >> $GITHUB_OUTPUT
       - name: Prepare aggregated status
         id: aggregated-status
-        run: echo "value=${{ steps.owasp-check-status.outputs.value && steps.license-check-status.outputs.value && steps.integration-test-status.outputs.value }}" >> $GITHUB_OUTPUT
+        run: echo "value=${{ steps.owasp-check-status.outputs.value == 'true' && steps.license-check-status.outputs.value == 'true' && steps.integration-test-status.outputs.value == 'true' }}" >> $GITHUB_OUTPUT
 
 
       - name: Show OWASP check status
