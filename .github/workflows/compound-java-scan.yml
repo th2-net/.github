@@ -25,7 +25,9 @@ on:
         required: false
         type: boolean
         default: false
-        description: 'false for dependencyCheckAnalyze, true for dependencyCheckAggregate'
+        description: |
+          false for dependencyCheckAnalyze, true for dependencyCheckAggregate.
+          Deprecated: any projects are checked by dependencyCheckAggregate gradle task.
     secrets:
       nvd-api-key:
         required: false
@@ -47,22 +49,18 @@ jobs:
     with:
         runsOn: ${{ inputs.runsOn }}
 
-  owasp-scan:
-    if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@main
+  java-check:
+    name: 'Java check'
+    needs: [prebuild-job]
+    uses: th2-net/.github/.github/workflows/compound-java-check.yml@integration-tests # FIXME: switch to main branch
     with:
-      multiproject: ${{ inputs.multiproject }}
-      javaVersion: ${{ inputs.javaVersion }}
-      javaVendor: ${{ inputs.javaVendor }}
+      runs-on: ${{ inputs.runsOn }}
+      app-version: ${{ needs.prebuild-job.outputs.version }}
+      java-version: ${{ inputs.javaVersion }}
+      java-vendor: ${{ inputs.javaVendor }}
+      scanner-enabled: ${{ inputs.scanner-enabled }}
     secrets:
       nvd-api-key: ${{ secrets.nvd-api-key }}
       cisa-domain: ${{ secrets.cisa-domain }}
       cisa-user: ${{ secrets.cisa-user }}
       cisa-password: ${{ secrets.cisa-password }}
-
-  license-check:
-    if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/license_check.yml@main
-    needs: [prebuild-job]
-    with:
-      version: ${{ needs.prebuild-job.outputs.version }}
