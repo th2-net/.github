@@ -139,7 +139,7 @@ jobs:
 # if Docker
   docker-push:
     name: Build Docker image and push to ghcr.io
-    if: ${{ (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true' }}
+    if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true'
     needs: [prebuild-job, java-check ]
     uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
@@ -162,7 +162,7 @@ jobs:
 
 # if Sonatype
   sonatype-push:
-    if: ${{ (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true' }}
+    if: (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true'
     name: Build and Push Jar to Sonatype
     needs: [ prebuild-job, java-check ]
     uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main

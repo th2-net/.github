@@ -111,7 +111,7 @@ jobs:
   calculate-statuses:
     name: 'Calculate statuses'
     runs-on: ${{ inputs.runs-on }}
-    if: always()
+    if: ${{ !cancelled() }}
     needs: 
       - owasp-scan
       - license-check
@@ -124,13 +124,13 @@ jobs:
     steps:
       - name: Prepare OWASP check status
         id: owasp-check-status
-        run: echo "value=${{ inputs.strict-scanner && needs.owasp-scan.result == 'success' || !inputs.strict-scanner }}" >> $GITHUB_OUTPUT
+        run: echo "value=${{ !inputs.strict-scanner || needs.owasp-scan.result == 'success' }}" >> $GITHUB_OUTPUT
       - name: Prepare license check status
         id: license-check-status
-        run: echo "value=${{ inputs.strict-scanner && needs.license-check.result == 'success' || !inputs.strict-scanner }}" >> $GITHUB_OUTPUT
+        run: echo "value=${{ !inputs.strict-scanner || needs.license-check.result == 'success' }}" >> $GITHUB_OUTPUT
       - name: Prepare integration test status
         id: integration-test-status
-        run: echo "value=${{ inputs.integration-test-enabled && needs.integration-test.result == 'success' || !inputs.integration-test-enabled }}" >> $GITHUB_OUTPUT
+        run: echo "value=${{ !inputs.integration-test-enabled || needs.integration-test.result == 'success' }}" >> $GITHUB_OUTPUT
       - name: Prepare aggregated status
         id: aggregated-status
         run: echo "value=${{ steps.owasp-check-status.outputs.value == 'true' && steps.license-check-status.outputs.value == 'true' && steps.integration-test-status.outputs.value == 'true' }}" >> $GITHUB_OUTPUT
