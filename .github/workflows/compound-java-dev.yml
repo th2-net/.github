@@ -110,7 +110,6 @@ jobs:
     needs: [prebuild-job]
     uses: th2-net/.github/.github/workflows/compound-java-check.yml@main
     with:
-      runs-on: ${{ inputs.runsOn }}
       app-version: ${{ needs.prebuild-job.outputs.version }}
       java-version: ${{ inputs.javaVersion }}
       java-vendor: ${{ inputs.javaVendor }}
