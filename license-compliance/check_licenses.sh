@@ -227,11 +227,14 @@ for main in `cat $temp_res | tr ' ' ';'`
 					# trim ; (former space) from start and end of the item
 					item=${item#;}
 					item=${item%;}
-					if [[ $lic == "" ]]
+					if [[ $item != '""' ]]
 					then
+						if [[ $lic == "" ]]
+						then
 						lic=$item
-					else
+						else
 						lic=$lic" | "$item
+						fi
 					fi
 				fi
 			done
