@@ -38,7 +38,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Get branch name
         id: branch
-        run: echo "branch_name=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+        # '#refs/*/' is used to remove prefix like `refs/heads/`
+        # 'sed 's#/#_#g' is used to replace '/' by '_'. This transformation is required because '/' char isn't allowed in Docker image tag
+        run: echo "branch_name=$(echo "${GITHUB_REF#refs/*/}" | sed 's#/#_#g')" >> $GITHUB_OUTPUT
       - name: Get SHA of the commit
         id: sha
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
