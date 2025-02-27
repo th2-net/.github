@@ -1,0 +1,5 @@
+{
+  "name": "Compound Java checks",
+  "description": "Combine vulnerability, license, integration test checks",
+  "iconName": "example-icon"
+}

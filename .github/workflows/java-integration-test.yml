@@ -1,0 +1,49 @@
+name: Java integration test
+
+on:
+  workflow_call:
+    inputs:
+      java-version:
+        required: false
+        type: string
+        default: '11'
+      java-vendor:
+        required: false
+        type: string
+        default: 'zulu'
+      integration-test-task:
+        required: false
+        type: string
+        default: 'integrationTest'
+        description: "Gradle task name to run integration test"
+      project-path:
+        required: false
+        type: string
+        default: '.'
+        description: "path to the Gradle module. Root directory by default"
+
+jobs:
+  integration-test:
+    name: "Integration test, project: ${{ inputs.project-path }} task: ${{ inputs.integration-test-task }}"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up JDK ${{ inputs.java-vendor }} ${{ inputs.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ inputs.java-vendor }}
+          java-version: ${{ inputs.java-version }}
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: wrapper
+      - name: "Run integration test, project: ${{ inputs.project-path }} task: ${{ inputs.integration-test-task }}"
+        run: ./gradlew -p ${{ inputs.project-path }} --info clean ${{ inputs.integration-test-task }}
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: integration-test-results
+          path: ${{ inputs.project-path }}/build/reports/tests/${{ inputs.integration-test-task }}/

@@ -3,6 +3,10 @@ name: OWASP scan GitHub
 on:
   workflow_call:
     inputs:
+      runsOn:
+        required: false
+        type: string
+        default: 'ubuntu-latest'
       multiproject:
         required: false
         type: boolean
@@ -34,7 +38,7 @@ on:
 
 jobs:
   owasp-scan-job:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runsOn }}
     env:
       CISA_DOMAIN: ${{ secrets.cisa-domain }}
     steps:

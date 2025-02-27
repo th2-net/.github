@@ -1,0 +1,5 @@
+{
+  "name": "Java integration test",
+  "description": "Run Java integration test and publish results if tests failure",
+  "iconName": "example-icon"
+}
