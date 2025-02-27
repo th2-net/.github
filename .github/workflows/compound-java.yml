@@ -119,7 +119,7 @@ jobs:
   java-check:
     name: 'Java check'
     needs: [prebuild-job]
-    uses: th2-net/.github/.github/workflows/compound-java-check.yml@integration-tests # FIXME: switch to main branch
+    uses: th2-net/.github/.github/workflows/compound-java-check.yml@main
     with:
       runs-on: ${{ inputs.runsOn }}
       app-version: ${{ needs.prebuild-job.outputs.version }}

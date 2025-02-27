@@ -75,7 +75,7 @@ jobs:
   owasp-scan:
     name: 'OWASP scan'
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@integration-tests # FIXME: switch to main branch
+    uses: th2-net/.github/.github/workflows/owasp-gradle-scan.yml@main
     with:
       runsOn: ${{ inputs.runs-on }}
       javaVersion: ${{ inputs.java-version }}
@@ -100,7 +100,7 @@ jobs:
     strategy:
       matrix:
        integration-test-project: ${{ fromJson(inputs.integration-test-projects) }}
-    uses: th2-net/.github/.github/workflows/java-integration-test.yml@integration-tests # FIXME: switch to main branch
+    uses: th2-net/.github/.github/workflows/java-integration-test.yml@main
     with:
       runs-on: ${{ inputs.runs-on }}
       java-version: ${{ inputs.java-version }}
