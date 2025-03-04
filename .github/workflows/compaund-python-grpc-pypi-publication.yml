@@ -24,7 +24,7 @@ on:
       python-version:
         required: false
         type: string
-        default: '3.7'
+        default: '3.8'
     secrets:
       pypi_password:
         required: true

@@ -38,10 +38,10 @@ jobs:
         key: 'package_version'
         value: ${{ steps.release_ver.outputs.value }}
 # Build and publish
-    - name: Set up Python 3.7
+    - name: Set up Python 8
       uses: actions/setup-python@v1
       with:
-        python-version: 3.7
+        python-version: 3.8
     - name: Create output folder
       run: mkdir -p src/gen/main/python/${{steps.pack_name.outputs.prop}}
     - name: Run codegen
