@@ -10,13 +10,13 @@ on:
 jobs:
   build-n-publish:
     name: Build and Python distributions to PyPI
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Get package version
       id: version
       uses: notiz-dev/github-action-json-property@release
-      with: 
+      with:
         path: package_info.json
         prop_path: package_name
     - name: Set up Python 3.7

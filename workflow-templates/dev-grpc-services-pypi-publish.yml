@@ -10,14 +10,14 @@ on:
 jobs:
   build-n-publish:
     name: Dev build and Python distributions to PyPI
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
 # Prepare custom build version
     - name: Get package version
       id: pack_ver
       uses: notiz-dev/github-action-json-property@release
-      with: 
+      with:
         path: package_info.json
         prop_path: package_version
     - name: Get package name

@@ -7,7 +7,7 @@ on:
       runsOn:
         required: false
         type: string
-        default: 'ubuntu-20.04'
+        default: 'ubuntu-latest'
       project-path:
         required: false
         type: string
