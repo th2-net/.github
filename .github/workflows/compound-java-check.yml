@@ -1,6 +1,6 @@
 name: Compound Java checks
 
-# This workflow can propagate failed or skipped status. 
+# This workflow can propagate failed or skipped status.
 # Please use '... !canceled() ...' condition in jobs depended on it
 
 on:
@@ -87,6 +87,8 @@ jobs:
     uses: th2-net/.github/.github/workflows/license_check.yml@main
     with:
       version: ${{ inputs.app-version }}
+      java-version: ${{ inputs.java-version }}
+      java-vendor: ${{ inputs.java-vendor }}
 
   integration-test:
     name: 'Integration tests'
@@ -105,7 +107,7 @@ jobs:
     name: 'Calculate statuses'
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
-    needs: 
+    needs:
       - owasp-scan
       - license-check
       - integration-test
