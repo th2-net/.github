@@ -5,11 +5,11 @@ on:
     branches:
     - master
     # paths:
-    # - package.json  
+    # - package.json
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Docker Buildx
@@ -24,7 +24,7 @@ jobs:
     - name: Get package version
       id: version
       uses: notiz-dev/github-action-json-property@release
-      with: 
+      with:
         path: package.json
         prop_path: version
     - name: Build and push

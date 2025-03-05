@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   LicenseFinder:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
 # Python setup
@@ -17,7 +17,7 @@ jobs:
         pip install pip==20.0.2
         echo "Python version: $(python -c "import sys; print(sys.version)")"
         echo "Pip version: $(pip3 -V)"
-# Node JS setup 
+# Node JS setup
     - uses: actions/setup-node@v2
       with:
         node-version: '12'

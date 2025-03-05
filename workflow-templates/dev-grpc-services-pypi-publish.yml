@@ -10,14 +10,14 @@ on:
 jobs:
   build-n-publish:
     name: Dev build and Python distributions to PyPI
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
 # Prepare custom build version
     - name: Get package version
       id: pack_ver
       uses: notiz-dev/github-action-json-property@release
-      with: 
+      with:
         path: package_info.json
         prop_path: package_version
     - name: Get package name
@@ -38,10 +38,10 @@ jobs:
         key: 'package_version'
         value: ${{ steps.release_ver.outputs.value }}
 # Build and publish
-    - name: Set up Python 3.7
+    - name: Set up Python 3.8
       uses: actions/setup-python@v1
       with:
-        python-version: 3.7
+        python-version: 3.8
     - name: Create output folder
       run: mkdir -p src/gen/main/python/${{steps.pack_name.outputs.prop}}
     - name: Run codegen

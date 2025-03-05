@@ -14,7 +14,7 @@ on:
 
 jobs:
   trivy-scan-job:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Show scanning target
         run: echo ${{ inputs.image-path }}
