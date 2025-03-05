@@ -33,6 +33,14 @@ on:
         type: string
         description: 'List of Gradle parameters in JSON format to execute before building docker image'
         default: '[]'
+      javaVersion:
+        required: false
+        type: string
+        default: '11'
+      javaVendor:
+        required: false
+        type: string
+        default: 'zulu'
     secrets:
       docker-password:
         required: true
@@ -48,6 +56,12 @@ jobs:
         if: inputs.dockerContext != '{{defaultContext}}'
       - name: Validate Gradle Wrapper
         uses: gradle/actions/wrapper-validation@v4
+      - name: Setup java ${{ inputs.javaVersion }}
+        if: inputs.gradleParameters != '[]'
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ inputs.javaVendor }}
+          java-version: ${{ inputs.javaVersion }}
       - name: Setup Gradle
         if: inputs.gradleParameters != '[]'
         uses: gradle/actions/setup-gradle@v4

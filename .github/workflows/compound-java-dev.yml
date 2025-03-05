@@ -135,6 +135,8 @@ jobs:
       runsOn: ${{ inputs.runsOn }}
       version: ${{ needs.prebuild-job.outputs.version }}
       versionNumber: ${{ needs.prebuild-job.outputs.versionNumber }}
+      javaVersion: ${{ inputs.javaVersion }}
+      javaVendor: ${{ inputs.javaVendor }}
     secrets:
       docker-password: ${{ secrets.docker-password }}
 

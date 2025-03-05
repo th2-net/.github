@@ -1,6 +1,6 @@
 name: Check licenses
 
-on: 
+on:
   workflow_call:
     inputs:
       version:
@@ -11,6 +11,14 @@ on:
         required: false
         type: string
         default: 'ubuntu-latest'
+      java-version:
+        required: false
+        type: string
+        default: '11'
+      java-vendor:
+        required: false
+        type: string
+        default: 'zulu'
 
 jobs:
   check_licenses:
@@ -21,6 +29,12 @@ jobs:
     - name: checkout actions
       uses: actions/checkout@v4
 
+    - name: Set up JDK ${{ inputs.java-vendor }} ${{ inputs.java-version }}
+      uses: actions/setup-java@v4
+      with:
+        distribution: ${{ inputs.java-vendor }}
+        java-version: ${{ inputs.java-version }}
+
     - name: Install jq env
       run: |
         sudo apt-get update
@@ -29,7 +43,7 @@ jobs:
       run: |
         wget -q -O check_licenses.sh https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/check_licenses.sh
         chmod +x ./check_licenses.sh
-    
+
     - name: Run check_licenses script
       id: run_script
       run: |
