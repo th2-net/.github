@@ -10,7 +10,7 @@ on:
       javaVersion:
         required: false
         type: string
-        default: '11'
+        default: '21'
       javaVendor:
         required: false
         type: string
@@ -41,7 +41,7 @@ on:
       cisa-password:
         required: false
         description: 'Cybersecurity and Infrastructure Security Agency password'
-        
+
 jobs:
   prebuild-job:
     name: Prebuild Job

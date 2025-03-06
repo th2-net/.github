@@ -17,7 +17,7 @@ on:
       javaVersion:
         required: false
         type: string
-        default: '11'
+        default: '21'
       javaVendor:
         required: false
         type: string
@@ -66,15 +66,15 @@ jobs:
       - name: Run OWASP project scanning (NVD API key with CISA URL)
         # continue-on-error: true
         if: ${{ env.CISA_DOMAIN != '' }}
-        run: > 
-          ./gradlew dependencyCheckAggregate --info 
-          -PnvdApiKey=${{ secrets.nvd-api-key }} 
-          -PnvdDatafeedUrl=https://${{ secrets.cisa-domain }} 
-          -PnvdDatafeedUser=${{ secrets.cisa-user }} 
-          -PnvdDatafeedPassword=${{ secrets.cisa-password }} 
-          -PanalyzersKnownExploitedURL=https://${{ secrets.cisa-domain }}/sites/default/files/feeds/known_exploited_vulnerabilities.json 
-          -PanalyzersKnownExploitedUser=${{ secrets.cisa-user }} 
-          -PanalyzersKnownExploitedPassword=${{ secrets.cisa-password }} 
+        run: >
+          ./gradlew dependencyCheckAggregate --info
+          -PnvdApiKey=${{ secrets.nvd-api-key }}
+          -PnvdDatafeedUrl=https://${{ secrets.cisa-domain }}
+          -PnvdDatafeedUser=${{ secrets.cisa-user }}
+          -PnvdDatafeedPassword=${{ secrets.cisa-password }}
+          -PanalyzersKnownExploitedURL=https://${{ secrets.cisa-domain }}/sites/default/files/feeds/known_exploited_vulnerabilities.json
+          -PanalyzersKnownExploitedUser=${{ secrets.cisa-user }}
+          -PanalyzersKnownExploitedPassword=${{ secrets.cisa-password }}
       - name: Upload OWASP scan results to GitHub Security tab
         # dependabot does not have write access to publish scanning results (in any case we don't want that from temporal branches)
         if: (success() || failure()) && github.actor != 'dependabot[bot]'
