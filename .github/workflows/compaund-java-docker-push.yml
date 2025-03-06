@@ -36,7 +36,7 @@ on:
       javaVersion:
         required: false
         type: string
-        default: '11'
+        default: '21'
       javaVendor:
         required: false
         type: string
