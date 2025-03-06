@@ -11,7 +11,7 @@ jobs:
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.11
     - name: Change pip and display versions
       run: |
         pip install pip==20.0.2
