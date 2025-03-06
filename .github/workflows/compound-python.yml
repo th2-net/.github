@@ -19,7 +19,7 @@ on:
       python-check-versions:
         required: false
         type: string
-        default: "['3.8', '3.9', '3.10', '3.11', '3.12']"
+        default: "['3.9', '3.10', '3.11']"
         description: 'list of python versions for different check in JSON format'
       create-tag:
         required: false
