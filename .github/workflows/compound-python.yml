@@ -15,7 +15,7 @@ on:
       pythonVersion:
         required: false
         type: string
-        default: '3.8'
+        default: '3.11'
       python-check-versions:
         required: false
         type: string

@@ -11,7 +11,7 @@ on:
       matrix-python-versions:
         required: false
         type: string
-        default: "['3.8', '3.9']"
+        default: "['3.8', '3.9', '3.10', '3.11']"
         description: 'list of python versions in JSON format'
       matrix-os:
         required: false

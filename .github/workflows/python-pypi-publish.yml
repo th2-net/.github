@@ -11,7 +11,7 @@ on:
       python-version:
         required: false
         type: string
-        default: '3.8'
+        default: '3.11'
         description: "Required python version"
       pypi-url:
         required: false
