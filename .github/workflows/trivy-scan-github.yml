@@ -1,4 +1,4 @@
-name: Trivy scan Docker image for vulnerable dependencies and publish results to secutity tab
+name: Trivy scan Docker image for vulnerable dependencies and publish results to security tab
 
 on:
   workflow_call:
@@ -30,6 +30,8 @@ on:
 jobs:
   trivy-scan-job:
     runs-on: ubuntu-latest
+    # dependabot doesn't publish artifacts than docker image can't be verified by trivy
+    if: github.actor != 'dependabot[bot]'
     steps:
       - name: Show scanning target
         run: echo ${{ inputs.image-path }}
@@ -45,7 +47,6 @@ jobs:
           vuln-type: ${{ inputs.target }}
           timeout: 20m0s
       - name: Upload Trivy scan results to GitHub Security tab
-        if: github.actor != 'dependabot[bot]'
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-results.sarif'
