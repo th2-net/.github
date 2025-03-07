@@ -356,6 +356,11 @@
       "mvnRepositoryLicense": "Apache-2.0"
     },
     {
+      "moduleName": "attrs",
+      "moduleVersion": "^25\\.1\\.0$",
+      "mvnRepositoryLicense": "MIT"
+    },
+    {
       "moduleLicense": "^MIT$"
     },
     {
@@ -588,6 +593,9 @@
     },
     {
       "moduleLicense": "^Bouncy Castle License$"
+    },
+    {
+      "moduleLicense": "^MIT-CMU$"
     }
   ]
 }

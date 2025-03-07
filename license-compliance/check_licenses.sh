@@ -289,7 +289,7 @@ do
         ORchange=`echo $license | sed 's/"//g'`
         mod_license=`echo $ORchange | sed 's/ | / OR /g'`
 
-	if [[ "$mod_license" != "null" ]]; then
+	if [[ "$mod_license" != "null" && "$mod_license" != "UNKNOWN" ]]; then
 		while IFS= read -r exp
 		do
 		exp=`echo $exp | sed 's/|/\\\|/g'` #escape vertical line in expression
