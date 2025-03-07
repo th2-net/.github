@@ -214,6 +214,11 @@
       "bundleName": "bouncy-castle",
       "licenseName": "Bouncy Castle License",
       "licenseUrl": "https://www.bouncycastle.org/about/license/"
+    },
+    {
+      "bundleName": "mit-cmu",
+      "licenseName": "MIT-CMU",
+      "licenseUrl": "https://spdx.org/licenses/MIT-CMU.html"
     }
   ],
   "transformationRules": [
@@ -624,6 +629,10 @@
     {
       "bundleName": "bouncy-castle",
       "licenseNamePattern": "^Bouncy Castle Licence$"
+    },
+    {
+      "bundleName": "mit-cmu",
+      "licenseNamePattern": "^CMU License \\(MIT-CMU\\)$"
     }
   ]
 }

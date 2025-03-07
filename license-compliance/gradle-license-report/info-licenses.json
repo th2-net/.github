@@ -179,6 +179,12 @@
       "licenseName": "Bouncy Castle License",
       "licenseUrl": "https://www.bouncycastle.org/about/license/",
       "licenseCategory": "Permissive"
+    },
+    {
+      "bundleName": "mit-cmu",
+      "licenseName": "MIT-CMU",
+      "licenseUrl": "https://spdx.org/licenses/MIT-CMU.html",
+      "licenseCategory": "Permissive"
     }
   ]
 }
