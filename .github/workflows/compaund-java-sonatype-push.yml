@@ -92,7 +92,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatypeSigningPassword }}
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
+        if: always() && github.actor != 'dependabot[bot]'
         with:
           files: |
             ${{ inputs.projectPath }}/build/test-results/**/*.xml
