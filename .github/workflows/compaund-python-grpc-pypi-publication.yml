@@ -67,6 +67,7 @@ jobs:
           python setup.py sdist
       - name: Publish distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        if: github.actor != 'dependabot[bot]'
         with:
           user: __token__
           password: ${{ secrets.pypi_password }}
