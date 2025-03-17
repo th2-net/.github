@@ -56,7 +56,7 @@ jobs:
       - name: Get branch name
         if: ${{ !inputs.release }}
         id: branch
-        run: echo "branch_name=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+        run: echo "branch_name=$(echo "${GITHUB_REF#refs/*/}" | sed 's#/#_#g')" >> $GITHUB_OUTPUT
       - name: Get SHA of the commit
         if: ${{ !inputs.release }}
         id: sha
