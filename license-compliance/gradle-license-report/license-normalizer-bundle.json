@@ -503,6 +503,10 @@
       "licenseNamePattern": "^Eclipse Public License, Version 1\\.0$"
     },
     {
+      "bundleName": "epl1.0",
+      "licenseNamePattern": "^Eclipse Public License - v 1\\.0$"
+    },
+    {
       "bundleName": "bsd-0",
       "licenseNamePattern": "^BSD Zero Clause License$"
     },
