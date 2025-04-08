@@ -4,6 +4,11 @@ name: Python vulnerabilities scanning
 on:
   workflow_call:
     inputs:
+      python-version:
+        required: false
+        type: string
+        default: '3.11'
+        description: "Required python version"
       poetry-version:
         required: false
         type: string
@@ -25,6 +30,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup python ${{ inputs.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
 
       - name: Check Poetry file existence
         id: check-poetry-file
