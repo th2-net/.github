@@ -5,6 +5,7 @@ on:
   workflow_call:
     inputs:
       build-mode:
+        required: false
         type: string
         default: snapshot
         description: "one of build modes: snapshot, dev-release, release"
