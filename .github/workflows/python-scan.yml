@@ -19,6 +19,11 @@ on:
         type: string
         default: ''
         description: 'Arguments for the python safety check'
+      project-path:
+        required: false
+        type: string
+        default: '.'
+        description: 'relative path to the project'
 
 env:
   DEP_PATH: requirements.txt
@@ -40,7 +45,7 @@ jobs:
         id: check-poetry-file
         uses: andstor/file-existence-action@v3
         with:
-          files: "pyproject.toml"
+          files: ${{ inputs.project-path }}/pyproject.toml
       
       - name: Install Poetry ${{ inputs.poetry-version }}
         if: steps.check-poetry-file.outputs.files_exists == 'true'
@@ -51,23 +56,23 @@ jobs:
           virtualenvs-create: false
 
       - name: Store packages in a file
-        run: pip freeze > before.txt
+        run: pip freeze > ${{ inputs.project-path }}/before.txt
 
-      - name: Generate requirements.txt from Poetry
+      - name: Generate ${{ inputs.project-path }}/requirements.txt from Poetry
         if: steps.check-poetry-file.outputs.files_exists == 'true'
-        run: poetry export -f requirements.txt --output requirements.txt
+        run: poetry export -f ${{ inputs.project-path }}/requirements.txt --output ${{ inputs.project-path }}/requirements.txt
 
       - name: Install requirements
-        run: pip install -r requirements.txt
+        run: pip install -r ${{ inputs.project-path }}/requirements.txt
 
       - name: Store updated list of packages in another file
-        run: pip freeze > after.txt
+        run: pip freeze > ${{ inputs.project-path }}/after.txt
 
       - name: Get only the project dependencies
-        run: diff before.txt after.txt | grep '^>' | sed 's/^> //' > diff.txt
+        run: diff ${{ inputs.project-path }}/before.txt ${{ inputs.project-path }}/after.txt | grep '^>' | sed 's/^> //' > diff.txt
 
       - name: Output the list of packages to be checked
-        run: cat diff.txt
+        run: cat ${{ inputs.project-path }}/diff.txt
 
       - name: Download safety-policy
         run: |
@@ -77,4 +82,4 @@ jobs:
         run: pip install --upgrade pip && pip install safety
 
       - name: Run Vulnerability check
-        run: safety check -r diff.txt ${{ inputs.safety-args }} --policy-file .safety-policy.yaml
+        run: safety check -r ${{ inputs.project-path }}/diff.txt ${{ inputs.safety-args }} --policy-file ${{ inputs.project-path }}/.safety-policy.yaml
