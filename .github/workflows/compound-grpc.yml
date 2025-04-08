@@ -117,6 +117,7 @@ jobs:
       - prepare-python-version
       - check-java
       - check-python
+    if: needs.check-java.outputs.aggregated-status == 'true' && needs.check-python.outputs.aggregated-status == 'true' && !cancelled()
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -148,7 +149,7 @@ jobs:
         with:
           filename: "${{ inputs.project-path }}/package_info.json"
           key: 'package_version'
-          value: ${{ needs.prepare-java-version.outputs.version }}
+          value: ${{ needs.prepare-python-version.outputs.version }}
       - name: Build Python package
         working-directory: ${{ inputs.project-path }}
         run: |
