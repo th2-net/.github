@@ -1,0 +1,5 @@
+{
+  "name": "Compound Python checks",
+  "description": "Combine vulnerability, license checks",
+  "iconName": "example-icon"
+}
