@@ -52,7 +52,7 @@ jobs:
               echo "value=${{ steps.original-version.outputs.release_version }}-dev" >> $GITHUB_OUTPUT
               ;;
             release)
-              echo "value"${{ steps.original-version.outputs.release_version }}" >> $GITHUB_OUTPUT
+              echo "value=${{ steps.original-version.outputs.release_version }}" >> $GITHUB_OUTPUT
               ;;
             *)
               echo "Unknown release type '${{ inputs.release-type }}'"

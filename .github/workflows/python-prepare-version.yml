@@ -50,7 +50,7 @@ jobs:
               echo "value=${{ needs.get-python-version.outputs.version }}rc${{ github.run_id }}" >> $GITHUB_OUTPUT
               ;;
             release)
-              echo "value"${{ needs.get-python-version.outputs.version }}" >> $GITHUB_OUTPUT
+              echo "value=${{ needs.get-python-version.outputs.version }}" >> $GITHUB_OUTPUT
               ;;
             *)
               echo "Unknown release type '${{ inputs.release-type }}'"
