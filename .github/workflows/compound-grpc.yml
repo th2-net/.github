@@ -8,6 +8,11 @@ on:
         type: string
         default: snapshot
         description: "one of build modes: snapshot, dev-release, release"
+      project-path:
+        required: false
+        type: string
+        default: '.'
+        description: 'relative path to the project to extract version'
 
 
 #       docker-username:
@@ -93,15 +98,24 @@ jobs:
     uses: th2-net/.github/.github/workflows/java-prepare-version.yml@compound-grpc # FIXME: revert to main
     with:
       release-type: ${{ inputs.build-mode }}
+      project-path: ${{ inputs.project-path }}
   prepare-python-version:
     # runs-on: ubuntu-latest
     uses: th2-net/.github/.github/workflows/python-prepare-version.yml@compound-grpc # FIXME: revert to main
     with:
       release-type: ${{ inputs.build-mode }}
+      project-path: ${{ inputs.project-path }}
   compare-versions:
     name: "Compare '${{ needs.prepare-java-version.outputs.original-version }}' java and '${{ needs.prepare-python-version.outputs.original-version }}' python project versions"
     runs-on: ubuntu-latest
     needs: [ prepare-java-version, prepare-python-version ]
+    steps:
+      - name: Compare
+        run: |
+          if [[ "${{ needs.prepare-java-version.outputs.original-version }}" != "${{ needs.prepare-python-version.outputs.original-version }}" ]]; then
+            echo "Java version from ${{ inputs.project-path }}/gradle.properties file isn't matched to Python version from ${{ inputs.project-path }}/pyproject.toml or ${{ inputs.project-path }}/package_info.json file"
+            exit 1
+          fi
 #   java-license-check:
 #   java-vulnerability-check:
 #   python-vulnerability-check:
