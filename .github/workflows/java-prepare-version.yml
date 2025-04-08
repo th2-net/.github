@@ -44,15 +44,19 @@ jobs:
       - name: Prepare version
         id: prepared-version
         run: |
-          case "${{ inputs.release-type }}"
-            'snapshot')
+          case "${{ inputs.release-type }}" in
+            snapshot)
               echo "value=${{ steps.original-version.outputs.release_version }}-SNAPSHOT" >> $GITHUB_OUTPUT
-            'dev-release')
+              ;;
+            dev-release)
               echo "value=${{ steps.original-version.outputs.release_version }}-dev" >> $GITHUB_OUTPUT
-            'release')
+              ;;
+            release)
               echo "value"${{ steps.original-version.outputs.release_version }}" >> $GITHUB_OUTPUT
+              ;;
             *)
               echo "Unknown release type '${{ inputs.release-type }}'"
+              ;;
           esac
       - name: Show prepared version
         run: echo ${{ steps.prepared-version.outputs.value }}

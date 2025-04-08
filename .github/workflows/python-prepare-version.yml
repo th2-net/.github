@@ -42,15 +42,19 @@ jobs:
       - name: Prepare version
         id: prepared-version
         run: |
-          case "${{ inputs.release-type }}"
-            'snapshot')
+          case "${{ inputs.release-type }}" in
+            snapshot)
               echo "value=${{ needs.get-python-version.outputs.version }}.dev${{ github.run_id }}" >> $GITHUB_OUTPUT
-            'dev-release')
+              ;;
+            dev-release)
               echo "value=${{ needs.get-python-version.outputs.version }}rc${{ github.run_id }}" >> $GITHUB_OUTPUT
-            'release')
+              ;;
+            release)
               echo "value"${{ needs.get-python-version.outputs.version }}" >> $GITHUB_OUTPUT
+              ;;
             *)
               echo "Unknown release type '${{ inputs.release-type }}'"
+              ;;
           esac
       - name: Show prepared version
         run: echo ${{ steps.prepared-version.outputs.value }}
