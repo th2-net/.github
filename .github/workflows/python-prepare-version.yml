@@ -35,6 +35,8 @@ jobs:
       - name: Read version
         id: original-version
         uses: th2-net/.github/.github/workflows/python-get-version.yml@main
+        with:
+          project-path: ${{ inputs.project-path }}
       - name: Show original version
         run: echo "${{ steps.original-version.outputs.version }}"
       - name: Prepare version
