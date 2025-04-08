@@ -41,73 +41,15 @@ on:
         default: true
         description: 'Whether vulnerabilities and license scanning executions are strict'
 
-#       docker-username:
-#         required: false
-#         type: string
-#       build-target:
-#         required: true
-#         type: string
-#         description: 'Use values Docker or Sonatype or both'
-#       runsOn:
-#         required: false
-#         type: string
-#         default: 'ubuntu-latest'
-#       gradleVersion:
-#         required: false
-#         type: string
-#         default: '7'
-#       javaVersion:
-#         required: false
-#         type: string
-#         default: '21'
-#       javaVendor:
-#         required: false
-#         type: string
-#         default: 'zulu'
-#       devRelease:
-#         required: false
-#         type: boolean
-#         default: false
-# # Vulnerability scanning
-#       scanner-enabled:
-#         required: false
-#         type: boolean
-#         default: true
-#         description: 'Whether vulnerabilities and license scanning are enabled'
-#       strict-scanner:
-#         required: false
-#         type: boolean
-#         default: true
-#         description: 'Whether vulnerabilities and license scanning executions are strict'
-#       trivy-target:
-#         required: false
-#         type: string
-#         default: 'os,library'
-#         description: 'What Trivy will scan: image, library or both'
-#       trivy-sensitivity:
-#         required: false
-#         type: string
-#         default: 'CRITICAL,HIGH,MEDIUM'
-#         description: 'Adjusting the Trivy Scanner Sensitivity'
-
-    # outputs:
-    #   version:
-    #     description: "Generated version of the image"
-    #     value: ${{ jobs.prebuild-job.outputs.version }}
     secrets:
-    #   docker-password:
-    #     required: false
-    #   sonatypeUsername:
-    #     required: false
-    #   sonatypePassword:
-    #     required: false
-    #   sonatypeSigningKey:
-    #     required: false
-    #   sonatypeSigningPassword:
-    #     required: false
-    #   nvd-api-key:
-    #     required: false
-    #     description: 'API key to access NVD database'
+      sonatype-username:
+        required: false
+      sonatype-password:
+        required: false
+      sonatype-signing-key:
+        required: false
+      sonatype-signing-password:
+        required: false
       cisa-domain:
         required: false
         description: 'Cybersecurity and Infrastructure Security Agency domain'
@@ -167,87 +109,70 @@ jobs:
       app-version: ${{ needs.prepare-python-version.outputs.version }}
       python-version: ${{ inputs.python-version }}
 
-#   java-license-check:
-#   java-vulnerability-check:
-#   python-vulnerability-check:
-  
-  
+  build:
+    name: Build and publish Java / Python artifacts
+    runs-on: ubuntu-latest
+    needs: 
+      - prepare-java-version
+      - prepare-python-version
+      - check-java
+      - check-python
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-#   prebuild-job:
-#     name: Prebuild Job
-#     uses: th2-net/.github/.github/workflows/compound-prebuild-java-workflow.yml@main
-#     with:
-#       runsOn: ${{ inputs.runsOn }}
-#       devRelease: ${{ inputs.devRelease }}
+      - name: Set up JDK ${{ inputs.java-vendor }} ${{ inputs.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ inputs.java-vendor }}
+          java-version: ${{ inputs.java-version }}
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: wrapper
+      - name: Build Java artifact
+        run: >
+          ./gradlew 
+          -p ${{ inputs.project-path }}
+          -Prelease_version=${{ needs.prepare-java-version.outputs.version }}
+          clean build
 
-#   java-check:
-#     name: 'Java check'
-#     needs: [prebuild-job]
-#     uses: th2-net/.github/.github/workflows/compound-java-check.yml@main
-#     with:
-#       app-version: ${{ needs.prebuild-job.outputs.version }}
-#       java-version: ${{ inputs.javaVersion }}
-#       java-vendor: ${{ inputs.javaVendor }}
-#       scanner-enabled: ${{ inputs.scanner-enabled }}
-#       strict-scanner: ${{ inputs.strict-scanner }}
-#       integration-test-enabled: ${{ inputs.integration-test-enabled }}
-#       integration-test-projects: ${{ inputs.integration-test-projects }}
-#       integration-test-task: ${{ inputs.integration-test-task }}
-#     secrets:
-#       nvd-api-key: ${{ secrets.nvd-api-key }}
-#       cisa-domain: ${{ secrets.cisa-domain }}
-#       cisa-user: ${{ secrets.cisa-user }}
-#       cisa-password: ${{ secrets.cisa-password }}
+      - name: Set up Python ${{ inputs.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+      - name: Set version for current build into ${{ inputs.project-path }}/package_info.json
+        uses: MerthinTechnologies/edit-json-action@v1
+        with:
+          filename: "${{ inputs.project-path }}/package_info.json"
+          key: 'package_version'
+          value: ${{ needs.prepare-java-version.outputs.version }}
+      - name: Build Python package
+        working-directory: ${{ inputs.project-path }}
+        run: |
+          pip install -r requirements.txt
+          python setup.py generate -s
+          python setup.py sdist
 
-# # if Docker
-#   docker-push:
-#     name: Build Docker image and push to ghcr.io
-#     if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true'
-#     needs: [prebuild-job, java-check ]
-#     uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
-#     with:
-#       docker-username: ${{ inputs.docker-username }}
-#       runsOn: ${{ inputs.runsOn }}
-#       version: ${{ needs.prebuild-job.outputs.version }}
-#       versionNumber: ${{ needs.prebuild-job.outputs.version }}
-#       javaVersion: ${{ inputs.javaVersion }}
-#       javaVendor: ${{ inputs.javaVendor }}
-#     secrets:
-#       docker-password: ${{ secrets.docker-password }}
-#   trivy-docker-scan:
-#     name: Scan Docker image for vulnerabilities
-#     if: inputs.scanner-enabled && !cancelled() && needs.docker-push.result == 'success'
-#     needs: [docker-push, prebuild-job]
-#     uses: th2-net/.github/.github/workflows/trivy-scan-github.yml@main
-#     with:
-#       image-path: ghcr.io/${{ github.repository }}:${{ needs.prebuild-job.outputs.version }}
-#       target: ${{ inputs.trivy-target }}
-#       sensitivity: ${{ inputs.trivy-sensitivity }}
-
-
-# # if Sonatype
-#   sonatype-push:
-#     if: (contains(inputs.build-target, 'Sonatype') || contains(inputs.build-target, 'sonatype')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true'
-#     name: Build and Push Jar to Sonatype
-#     needs: [ prebuild-job, java-check ]
-#     uses: th2-net/.github/.github/workflows/compaund-java-sonatype-push.yml@main
-#     with:
-#       runsOn: ${{ inputs.runsOn }}
-#       closeAndRelease: true
-#       version: ${{ needs.prebuild-job.outputs.version }}
-#       javaVersion: ${{ inputs.javaVersion }}
-#       javaVendor: ${{ inputs.javaVendor }}
-#     secrets:
-#       sonatypeUsername: ${{ secrets.sonatypeUsername }}
-#       sonatypePassword: ${{ secrets.sonatypePassword }}
-#       sonatypeSigningKey: ${{ secrets.sonatypeSigningKey }}
-#       sonatypeSigningPassword: ${{ secrets.sonatypeSigningPassword }}
-
-#   create-tag:
-#     if: inputs.createTag && !cancelled() && (needs.docker-push.result == 'success' || needs.sonatype-push.result == 'success')
-#     name: Create and push tag
-#     needs: [ prebuild-job, sonatype-push, docker-push ]
-#     uses: th2-net/.github/.github/workflows/compaund-git-tag-push.yml@main
-#     with:
-#       runsOn: ${{ inputs.runsOn }}
-#       tagName: ${{ needs.prebuild-job.outputs.version }}
+      - name: Publish Java artifact
+        run: >
+          ./gradlew
+          -p ${{ inputs.project-path }}
+          -Prelease_version=${{ needs.prepare-java-version.outputs.version }}
+          ${{ (github.actor != 'dependabot[bot]' && inputs.build-mode == 'snapshot' ) && 'publish' || '' }}
+          ${{ (github.actor != 'dependabot[bot]' && inputs.build-mode != 'snapshot' ) && 'publish closeAndReleaseSonatypeStagingRepository' || '' }}
+        env:
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatype-username }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatype-password }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatype-signing-key }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatype-signing-password }}
+      - name: Publish Python package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        if: github.actor != 'dependabot[bot]'
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_password }}
+          repository-url: https://upload.pypi.org/legacy/
+          packages-dir: ${{ inputs.project-path }}/dist/
