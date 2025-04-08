@@ -13,8 +13,33 @@ on:
         required: false
         type: string
         default: '.'
-        description: 'relative path to the project to extract version'
+        description: 'relative path to the project'
 
+      java-version:
+        required: false
+        type: string
+        default: '21'
+      java-vendor:
+        required: false
+        type: string
+        default: 'zulu'
+
+      python-version:
+        required: false
+        type: string
+        default: '3.11'
+        description: "Required python version"
+
+      scanner-enabled:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether vulnerabilities and license scanning are enabled'
+      strict-scanner:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether vulnerabilities and license scanning executions are strict'
 
 #       docker-username:
 #         required: false
@@ -69,7 +94,7 @@ on:
     #   version:
     #     description: "Generated version of the image"
     #     value: ${{ jobs.prebuild-job.outputs.version }}
-    # secrets:
+    secrets:
     #   docker-password:
     #     required: false
     #   sonatypeUsername:
@@ -83,15 +108,15 @@ on:
     #   nvd-api-key:
     #     required: false
     #     description: 'API key to access NVD database'
-    #   cisa-domain:
-    #     required: false
-    #     description: 'Cybersecurity and Infrastructure Security Agency domain'
-    #   cisa-user:
-    #     required: false
-    #     description: 'Cybersecurity and Infrastructure Security Agency user'
-    #   cisa-password:
-    #     required: false
-    #     description: 'Cybersecurity and Infrastructure Security Agency password'
+      cisa-domain:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency domain'
+      cisa-user:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency user'
+      cisa-password:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency password'
 
 jobs:
   prepare-java-version:
@@ -100,12 +125,14 @@ jobs:
     with:
       release-type: ${{ inputs.build-mode }}
       project-path: ${{ inputs.project-path }}
+
   prepare-python-version:
     # runs-on: ubuntu-latest
     uses: th2-net/.github/.github/workflows/python-prepare-version.yml@compound-grpc # FIXME: revert to main
     with:
       release-type: ${{ inputs.build-mode }}
       project-path: ${{ inputs.project-path }}
+
   compare-versions:
     name: "Compare '${{ needs.prepare-java-version.outputs.original-version }}' java and '${{ needs.prepare-python-version.outputs.original-version }}' python project versions"
     runs-on: ubuntu-latest
@@ -117,6 +144,28 @@ jobs:
             echo "Java version from ${{ inputs.project-path }}/gradle.properties file isn't matched to Python version from ${{ inputs.project-path }}/pyproject.toml or ${{ inputs.project-path }}/package_info.json file"
             exit 1
           fi
+
+  check-java:
+    name: Complex java check
+    needs: [ prepare-java-version ]
+    uses: th2-net/.github/.github/workflows/compound-java-check.yml@main
+    with:
+      app-version: ${{ needs.prepare-java-version.outputs.version }}
+      java-version: ${{ inputs.java-version }}
+      java-vendor: ${{ inputs.java-vendor }}
+      scanner-enabled: ${{ inputs.scanner-enabled }}
+      strict-scanner: ${{ inputs.strict-scanner }}
+    secrets:
+      cisa-domain: ${{ secrets.cisa-domain }}
+      cisa-user: ${{ secrets.cisa-user }}
+      cisa-password: ${{ secrets.cisa-password }}
+  
+  check-python:
+    name: Vulnerabilities python check
+    uses: th2-net/.github/.github/workflows/python-scan.yml@compound-grpc # FIXME: revert to main branch
+    with:
+      python-version: ${{ inputs.python-version }}
+
 #   java-license-check:
 #   java-vulnerability-check:
 #   python-vulnerability-check:
