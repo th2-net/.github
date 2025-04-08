@@ -23,32 +23,32 @@ on:
         value: ${{ jobs.prepare-python-version.outputs.version }}
 
 jobs:
+  get-python-version:
+    name: Get python version for ${{ inputs.project-path }} project
+    uses: th2-net/.github/.github/workflows/python-get-version.yml@compound-grpc # FIXME: revert to main
+    with:
+      project-path: ${{ inputs.project-path }}
+
   prepare-python-version:
     name: Prepare python version (${{ inputs.release-type }}) for ${{ inputs.project-path }} project
+    needs: [ get-python-version ]
     runs-on: ubuntu-latest
     outputs:
-      original-version: ${{ steps.original-version.outputs.version }}
+      original-version: ${{ needs.get-python-version.outputs.version }}
       version: ${{ steps.prepared-version.outputs.value }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Read version
-        id: original-version
-        uses: th2-net/.github/.github/workflows/python-get-version.yml@main
-        with:
-          project-path: ${{ inputs.project-path }}
       - name: Show original version
-        run: echo "${{ steps.original-version.outputs.version }}"
+        run: echo "${{ needs.get-python-version.outputs.version }}"
       - name: Prepare version
         id: prepared-version
         run: |
           case "${{ inputs.release-type }}"
             'snapshot')
-              echo "value=${{ steps.original-version.outputs.version }}.dev${{ github.run_id }}" >> $GITHUB_OUTPUT
+              echo "value=${{ needs.get-python-version.outputs.version }}.dev${{ github.run_id }}" >> $GITHUB_OUTPUT
             'dev-release')
-              echo "value=${{ steps.original-version.outputs.version }}rc${{ github.run_id }}" >> $GITHUB_OUTPUT
+              echo "value=${{ needs.get-python-version.outputs.version }}rc${{ github.run_id }}" >> $GITHUB_OUTPUT
             'release')
-              echo "value"${{ steps.original-version.outputs.version }}" >> $GITHUB_OUTPUT
+              echo "value"${{ needs.get-python-version.outputs.version }}" >> $GITHUB_OUTPUT
             *)
               echo "Unknown release type '${{ inputs.release-type }}'"
           esac
