@@ -43,13 +43,15 @@ on:
 
     secrets:
       sonatype-username:
-        required: false
+        required: true
       sonatype-password:
-        required: false
+        required: true
       sonatype-signing-key:
-        required: false
+        required: true
       sonatype-signing-password:
-        required: false
+        required: true
+      pypi-password:
+        required: true
       cisa-domain:
         required: false
         description: 'Cybersecurity and Infrastructure Security Agency domain'
@@ -62,14 +64,12 @@ on:
 
 jobs:
   prepare-java-version:
-    # runs-on: ubuntu-latest
     uses: th2-net/.github/.github/workflows/java-prepare-version.yml@compound-grpc # FIXME: revert to main
     with:
       release-type: ${{ inputs.build-mode }}
       project-path: ${{ inputs.project-path }}
 
   prepare-python-version:
-    # runs-on: ubuntu-latest
     uses: th2-net/.github/.github/workflows/python-prepare-version.yml@compound-grpc # FIXME: revert to main
     with:
       release-type: ${{ inputs.build-mode }}
@@ -158,22 +158,22 @@ jobs:
           python setup.py sdist
 
       - name: Publish Java artifact
+        if: github.actor != 'dependabot[bot]'
         run: >
           ./gradlew
           -p ${{ inputs.project-path }}
           -Prelease_version=${{ needs.prepare-java-version.outputs.version }}
-          ${{ (github.actor != 'dependabot[bot]' && inputs.build-mode == 'snapshot' ) && 'publish' || '' }}
-          ${{ (github.actor != 'dependabot[bot]' && inputs.build-mode != 'snapshot' ) && 'publish closeAndReleaseSonatypeStagingRepository' || '' }}
+          ${{ inputs.build-mode == 'snapshot' && 'publish' || 'closeAndReleaseSonatypeStagingRepository' }}
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatype-username }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatype-password }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatype-signing-key }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatype-signing-password }}
       - name: Publish Python package
-        uses: pypa/gh-action-pypi-publish@release/v1
         if: github.actor != 'dependabot[bot]'
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
-          password: ${{ secrets.pypi_password }}
+          password: ${{ secrets.pypi-password }}
           repository-url: https://upload.pypi.org/legacy/
           packages-dir: ${{ inputs.project-path }}/dist/
