@@ -61,6 +61,7 @@ jobs:
               ;;
             *)
               echo "Unknown release type '${{ inputs.release-type }}'"
+              exit 1
               ;;
           esac
       - name: Show prepared version

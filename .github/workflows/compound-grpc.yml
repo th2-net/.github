@@ -104,10 +104,13 @@ jobs:
   
   check-python:
     name: Vulnerabilities python check
+    needs: [ prepare-python-version ]
     uses: th2-net/.github/.github/workflows/compound-python-check.yml@compound-grpc # FIXME: revert to main branch
     with:
       app-version: ${{ needs.prepare-python-version.outputs.version }}
       python-version: ${{ inputs.python-version }}
+      scanner-enabled: ${{ inputs.scanner-enabled }}
+      strict-scanner: ${{ inputs.strict-scanner }}
 
   build:
     name: Build and publish Java / Python artifacts

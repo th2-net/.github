@@ -1,5 +1,5 @@
 {
   "name": "Prepare Python version",
-  "description": "Read package_version field from package_info.json file and append version suffix",
+  "description": "Read package_version field from package_info.json file and optionally append version suffix",
   "iconName": "example-icon"
 }

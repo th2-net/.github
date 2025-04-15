@@ -36,14 +36,14 @@ on:
 
 jobs:
   safety-scan:
-    name: 'Safety scan'
+    name: 'Safety scan (Python)'
     if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/python-scan.yml@compound-grpc # FIXME: revert to main branch
     with:
       python-version: ${{ inputs.python-version }}
 
   license-check:
-    name: 'License check'
+    name: 'License check (Python)'
     if: inputs.scanner-enabled
     uses: th2-net/.github/.github/workflows/python-license-check.yml@compound-grpc # FIXME: revert to main branch
     with:
@@ -51,7 +51,7 @@ jobs:
       python-version: ${{ inputs.python-version }}
 
   calculate-statuses:
-    name: 'Calculate statuses'
+    name: 'Calculate statuses (Python)'
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
     needs:

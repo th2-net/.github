@@ -104,7 +104,7 @@ jobs:
       integration-test-task: ${{ inputs.integration-test-task }}
 
   calculate-statuses:
-    name: 'Calculate statuses'
+    name: 'Calculate statuses (Java)'
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
     needs:
