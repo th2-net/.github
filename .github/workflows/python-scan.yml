@@ -60,7 +60,7 @@ jobs:
 
       - name: Generate ${{ inputs.project-path }}/requirements.txt from Poetry
         if: steps.check-poetry-file.outputs.files_exists == 'true'
-        run: poetry export -f ${{ inputs.project-path }}/requirements.txt --output ${{ inputs.project-path }}/requirements.txt
+        run: poetry export -f requirements.txt --output ${{ inputs.project-path }}/requirements.txt
 
       - name: Install requirements
         run: pip install -r ${{ inputs.project-path }}/requirements.txt
