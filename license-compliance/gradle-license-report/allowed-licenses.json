@@ -361,6 +361,11 @@
       "mvnRepositoryLicense": "MIT"
     },
     {
+      "moduleName": "types-protobuf",
+      "moduleVersion": "^5\\.29(\\.\\d+)+$",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
       "moduleLicense": "^MIT$"
     },
     {
