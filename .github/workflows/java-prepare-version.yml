@@ -33,6 +33,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Get branch name
+        id: branch
+        # '#refs/*/' is used to remove prefix like `refs/heads/`
+        # 'sed 's#/#_#g' is used to replace '/' by '_'. This transformation is required because '/' char isn't allowed in Docker image tag
+        run: echo "value=$(echo "${GITHUB_REF#refs/*/}" | sed 's#/#_#g')" >> $GITHUB_OUTPUT
       - name: Read version
         id: original-version
         uses: BrycensRanch/read-properties-action@v1.0.4
@@ -46,7 +51,7 @@ jobs:
         run: |
           case "${{ inputs.release-type }}" in
             snapshot)
-              echo "value=${{ steps.original-version.outputs.release_version }}-SNAPSHOT" >> $GITHUB_OUTPUT
+              echo "value=${{ steps.original-version.outputs.release_version }}-${{ steps.branch.outputs.value }}-SNAPSHOT" >> $GITHUB_OUTPUT
               ;;
             dev-release)
               echo "value=${{ steps.original-version.outputs.release_version }}-dev" >> $GITHUB_OUTPUT
