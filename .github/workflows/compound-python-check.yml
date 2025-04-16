@@ -38,14 +38,14 @@ jobs:
   safety-scan:
     name: 'Safety scan (Python)'
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/python-scan.yml@compound-grpc # FIXME: revert to main branch
+    uses: th2-net/.github/.github/workflows/python-scan.yml@main
     with:
       python-version: ${{ inputs.python-version }}
 
   license-check:
     name: 'License check (Python)'
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/python-license-check.yml@compound-grpc # FIXME: revert to main branch
+    uses: th2-net/.github/.github/workflows/python-license-check.yml@main
     with:
       version: ${{ inputs.app-version }}
       python-version: ${{ inputs.python-version }}

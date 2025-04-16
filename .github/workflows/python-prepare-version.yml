@@ -25,7 +25,7 @@ on:
 jobs:
   get-python-version:
     name: Get python version for ${{ inputs.project-path }} project
-    uses: th2-net/.github/.github/workflows/python-get-version.yml@compound-grpc # FIXME: revert to main
+    uses: th2-net/.github/.github/workflows/python-get-version.yml@main
     with:
       project-path: ${{ inputs.project-path }}
 
