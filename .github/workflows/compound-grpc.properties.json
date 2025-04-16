@@ -1,0 +1,5 @@
+{
+  "name": "Compound gRPC build",
+  "description": "Build, verify and publish gRPC artifacts",
+  "iconName": "example-icon"
+}

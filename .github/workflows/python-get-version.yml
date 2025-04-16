@@ -6,7 +6,12 @@ on:
       runsOn:
         required: false
         type: string
-        default: 'ubuntu-latest'
+        default: ubuntu-latest
+      project-path:
+        required: false
+        type: string
+        default: '.'
+        description: 'relative path to the project to extract version'
     outputs:
       version:
         description: "package_version from package_info.json"
@@ -17,7 +22,7 @@ jobs:
     name: 'Get package_version'
     runs-on: ${{ inputs.runsOn }}
     outputs:
-      version: ${{ steps.show-version.outputs.paskage-version }}
+      version: ${{ steps.show-version.outputs.package-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,7 +30,7 @@ jobs:
         id: check-poetry-file
         uses: andstor/file-existence-action@v3
         with:
-          files: "pyproject.toml"
+          files: ${{ inputs.project-path }}/pyproject.toml
       - name: Install Poetry
         if: steps.check-poetry-file.outputs.files_exists == 'true'
         uses: snok/install-poetry@v1
@@ -34,21 +39,21 @@ jobs:
         id: package-version-from-package-info
         uses: notiz-dev/github-action-json-property@release
         with:
-          path: package_info.json
+          path: ${{ inputs.project-path }}/package_info.json
           prop_path: package_version
       - name: Get package_version value from Poetry
         if: steps.check-poetry-file.outputs.files_exists == 'true'
         id: package-version-from-poetry
-        run: echo "paskage-version=$(poetry version -s)" >> $GITHUB_OUTPUT
+        run: echo "package-version=$(poetry -C ${{ inputs.project-path }} version -s)" >> $GITHUB_OUTPUT
       - name: Show package_version value 
         id: show-version
         run: |
           if [[ "${{ steps.check-poetry-file.outputs.files_exists }}" == 'true' ]]; then
             echo "From Poetry"
-            echo "paskage-version=${{ steps.package-version-from-poetry.outputs.paskage-version }}" >> $GITHUB_OUTPUT
-            echo ${{ steps.package-version-from-poetry.outputs.paskage-version }}
+            echo "package-version=${{ steps.package-version-from-poetry.outputs.package-version }}" >> $GITHUB_OUTPUT
+            echo ${{ steps.package-version-from-poetry.outputs.package-version }}
           else
             echo "From package_info.json"
-            echo "paskage-version=${{ steps.package-version-from-package-info.outputs.prop }}" >> $GITHUB_OUTPUT
+            echo "package-version=${{ steps.package-version-from-package-info.outputs.prop }}" >> $GITHUB_OUTPUT
             echo ${{ steps.package-version-from-package-info.outputs.prop }}
           fi

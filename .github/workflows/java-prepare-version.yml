@@ -1,0 +1,69 @@
+name: Prepare Java version
+
+
+on:
+  workflow_call:
+    inputs:
+      release-type:
+        required: false
+        type: string
+        default: snapshot
+        description: "one of build modes: snapshot, dev-release, release"
+      project-path:
+        required: false
+        type: string
+        default: '.'
+        description: 'relative path to the project to extract version'
+    outputs:
+      original-version:
+        description: "Original project version"
+        value: ${{ jobs.prepare-java-version.outputs.original-version }}
+      version:
+        description: "Prepared version"
+        value: ${{ jobs.prepare-java-version.outputs.version }}
+
+jobs:
+  prepare-java-version:
+    name: Prepare java version (${{ inputs.release-type }}) for ${{ inputs.project-path }} project
+    runs-on: ubuntu-latest
+    outputs:
+      original-version: ${{ steps.original-version.outputs.release_version }}
+      version: ${{ steps.prepared-version.outputs.value }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Get branch name
+        id: branch
+        # '#refs/*/' is used to remove prefix like `refs/heads/`
+        # 'sed 's#/#_#g' is used to replace '/' by '_'. This transformation is required because '/' char isn't allowed in Docker image tag
+        run: echo "value=$(echo "${GITHUB_REF#refs/*/}" | sed 's#/#_#g')" >> $GITHUB_OUTPUT
+      - name: Read version
+        id: original-version
+        uses: BrycensRanch/read-properties-action@v1.0.4
+        with:
+          file: ${{ inputs.project-path }}/gradle.properties
+          property: release_version
+      - name: Show original version
+        run: echo "${{ steps.original-version.outputs.release_version }}"
+      - name: Prepare version
+        id: prepared-version
+        run: |
+          case "${{ inputs.release-type }}" in
+            snapshot)
+              echo "value=${{ steps.original-version.outputs.release_version }}-${{ steps.branch.outputs.value }}-SNAPSHOT" >> $GITHUB_OUTPUT
+              ;;
+            dev-release)
+              echo "value=${{ steps.original-version.outputs.release_version }}-dev" >> $GITHUB_OUTPUT
+              ;;
+            release)
+              echo "value=${{ steps.original-version.outputs.release_version }}" >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "Unknown release type '${{ inputs.release-type }}'"
+              exit 1
+              ;;
+          esac
+      - name: Show prepared version
+        run: echo ${{ steps.prepared-version.outputs.value }}
+

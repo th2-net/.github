@@ -1,0 +1,62 @@
+name: Prepare Python version
+
+
+on:
+  workflow_call:
+    inputs:
+      release-type:
+        required: false
+        type: string
+        default: snapshot
+        description: "one of build modes: snapshot, dev-release, release"
+      project-path:
+        required: false
+        type: string
+        default: '.'
+        description: 'relative path to the project to extract version'
+    outputs:
+      original-version:
+        description: "Original project version"
+        value: ${{ jobs.prepare-python-version.outputs.original-version }}
+      version:
+        description: "Prepared version"
+        value: ${{ jobs.prepare-python-version.outputs.version }}
+
+jobs:
+  get-python-version:
+    name: Get python version for ${{ inputs.project-path }} project
+    uses: th2-net/.github/.github/workflows/python-get-version.yml@main
+    with:
+      project-path: ${{ inputs.project-path }}
+
+  prepare-python-version:
+    name: Prepare python version (${{ inputs.release-type }}) for ${{ inputs.project-path }} project
+    needs: [ get-python-version ]
+    runs-on: ubuntu-latest
+    outputs:
+      original-version: ${{ needs.get-python-version.outputs.version }}
+      version: ${{ steps.prepared-version.outputs.value }}
+    steps:
+      - name: Show original version
+        run: echo "${{ needs.get-python-version.outputs.version }}"
+      - name: Prepare version
+        id: prepared-version
+        run: |
+          case "${{ inputs.release-type }}" in
+            snapshot)
+              echo "value=${{ needs.get-python-version.outputs.version }}.dev${{ github.run_id }}" >> $GITHUB_OUTPUT
+              ;;
+            dev-release)
+              echo "value=${{ needs.get-python-version.outputs.version }}rc${{ github.run_id }}" >> $GITHUB_OUTPUT
+              ;;
+            release)
+              echo "value=${{ needs.get-python-version.outputs.version }}" >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "Unknown release type '${{ inputs.release-type }}'"
+              exit 1
+              ;;
+          esac
+      - name: Show prepared version
+        run: echo ${{ steps.prepared-version.outputs.value }}
+

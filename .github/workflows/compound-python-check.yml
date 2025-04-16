@@ -1,0 +1,83 @@
+name: Compound Python checks
+
+# This workflow can propagate failed or skipped status.
+# Please use '... !canceled() ...' condition in jobs depended on it
+
+on:
+  workflow_call:
+    inputs:
+      app-version:
+        required: false
+        type: string
+        default: '0.0.0'
+      python-version:
+        required: false
+        type: string
+        default: '3.11'
+        description: "Required python version"
+      scanner-enabled:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether vulnerabilities and license scanning are enabled'
+      strict-scanner:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether vulnerabilities and license scanning executions are strict'
+    outputs:
+      safety-scan-status:
+        value: ${{ jobs.calculate-statuses.outputs.safety-check-status }}
+      license-check-status:
+        value: ${{ jobs.calculate-statuses.outputs.license-check-status }}
+      aggregated-status:
+        description: "Aggregated status"
+        value: ${{ jobs.calculate-statuses.outputs.aggregated-status }}
+
+jobs:
+  safety-scan:
+    name: 'Safety scan (Python)'
+    if: inputs.scanner-enabled
+    uses: th2-net/.github/.github/workflows/python-scan.yml@main
+    with:
+      python-version: ${{ inputs.python-version }}
+
+  license-check:
+    name: 'License check (Python)'
+    if: inputs.scanner-enabled
+    uses: th2-net/.github/.github/workflows/python-license-check.yml@main
+    with:
+      version: ${{ inputs.app-version }}
+      python-version: ${{ inputs.python-version }}
+
+  calculate-statuses:
+    name: 'Calculate statuses (Python)'
+    runs-on: ubuntu-latest
+    if: ${{ !cancelled() }}
+    needs:
+      - safety-scan
+      - license-check
+    outputs:
+      safety-check-status: ${{ steps.safety-check-status.outputs.value }}
+      license-check-status: ${{ steps.license-check-status.outputs.value }}
+      integration-test-status: ${{ steps.integration-test-status.outputs.value }}
+      aggregated-status: ${{ steps.aggregated-status.outputs.value }}
+    steps:
+      - name: Prepare safety check status
+        id: safety-check-status
+        run: echo "value=${{ !inputs.strict-scanner || needs.safety-scan.result == 'success' }}" >> $GITHUB_OUTPUT
+      - name: Prepare license check status
+        id: license-check-status
+        run: echo "value=${{ !inputs.strict-scanner || needs.license-check.result == 'success' }}" >> $GITHUB_OUTPUT
+      - name: Prepare aggregated status
+        id: aggregated-status
+        run: echo "value=${{ steps.safety-check-status.outputs.value == 'true' && steps.license-check-status.outputs.value == 'true'}}" >> $GITHUB_OUTPUT
+
+
+      - name: Show safety check status
+        run: echo "${{ steps.safety-check-status.outputs.value }}"
+      - name: Show license check status
+        run: echo "${{ steps.license-check-status.outputs.value }}"
+      - name: Show aggregated status
+        run: echo "${{ steps.aggregated-status.outputs.value }}"
+

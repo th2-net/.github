@@ -1,0 +1,182 @@
+name: Compound gRPC build
+
+
+on:
+  workflow_call:
+    inputs:
+      build-mode:
+        required: false
+        type: string
+        default: snapshot
+        description: "one of build modes: snapshot, dev-release, release"
+      project-path:
+        required: false
+        type: string
+        default: '.'
+        description: 'relative path to the project'
+
+      java-version:
+        required: false
+        type: string
+        default: '21'
+      java-vendor:
+        required: false
+        type: string
+        default: 'zulu'
+
+      python-version:
+        required: false
+        type: string
+        default: '3.11'
+        description: "Required python version"
+
+      scanner-enabled:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether vulnerabilities and license scanning are enabled'
+      strict-scanner:
+        required: false
+        type: boolean
+        default: true
+        description: 'Whether vulnerabilities and license scanning executions are strict'
+
+    secrets:
+      sonatype-username:
+        required: true
+      sonatype-password:
+        required: true
+      sonatype-signing-key:
+        required: true
+      sonatype-signing-password:
+        required: true
+      pypi-password:
+        required: true
+      cisa-domain:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency domain'
+      cisa-user:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency user'
+      cisa-password:
+        required: false
+        description: 'Cybersecurity and Infrastructure Security Agency password'
+
+jobs:
+  prepare-java-version:
+    uses: th2-net/.github/.github/workflows/java-prepare-version.yml@main
+    with:
+      release-type: ${{ inputs.build-mode }}
+      project-path: ${{ inputs.project-path }}
+
+  prepare-python-version:
+    uses: th2-net/.github/.github/workflows/python-prepare-version.yml@main
+    with:
+      release-type: ${{ inputs.build-mode }}
+      project-path: ${{ inputs.project-path }}
+
+  compare-versions:
+    name: "Compare '${{ needs.prepare-java-version.outputs.original-version }}' java and '${{ needs.prepare-python-version.outputs.original-version }}' python project versions"
+    runs-on: ubuntu-latest
+    needs: [ prepare-java-version, prepare-python-version ]
+    steps:
+      - name: Compare
+        run: |
+          if [[ "${{ needs.prepare-java-version.outputs.original-version }}" != "${{ needs.prepare-python-version.outputs.original-version }}" ]]; then
+            echo "Java version from ${{ inputs.project-path }}/gradle.properties file isn't matched to Python version from ${{ inputs.project-path }}/pyproject.toml or ${{ inputs.project-path }}/package_info.json file"
+            exit 1
+          fi
+
+  check-java:
+    name: Complex java check
+    needs: [ prepare-java-version ]
+    uses: th2-net/.github/.github/workflows/compound-java-check.yml@main
+    with:
+      app-version: ${{ needs.prepare-java-version.outputs.version }}
+      java-version: ${{ inputs.java-version }}
+      java-vendor: ${{ inputs.java-vendor }}
+      scanner-enabled: ${{ inputs.scanner-enabled }}
+      strict-scanner: ${{ inputs.strict-scanner }}
+    secrets:
+      cisa-domain: ${{ secrets.cisa-domain }}
+      cisa-user: ${{ secrets.cisa-user }}
+      cisa-password: ${{ secrets.cisa-password }}
+  
+  check-python:
+    name: Vulnerabilities python check
+    needs: [ prepare-python-version ]
+    uses: th2-net/.github/.github/workflows/compound-python-check.yml@main
+    with:
+      app-version: ${{ needs.prepare-python-version.outputs.version }}
+      python-version: ${{ inputs.python-version }}
+      scanner-enabled: ${{ inputs.scanner-enabled }}
+      strict-scanner: ${{ inputs.strict-scanner }}
+
+  build:
+    name: Build and publish Java / Python artifacts
+    runs-on: ubuntu-latest
+    needs: 
+      - prepare-java-version
+      - prepare-python-version
+      - check-java
+      - check-python
+    if: needs.check-java.outputs.aggregated-status == 'true' && needs.check-python.outputs.aggregated-status == 'true' && !cancelled()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ inputs.java-vendor }} ${{ inputs.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ inputs.java-vendor }}
+          java-version: ${{ inputs.java-version }}
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: wrapper
+      - name: Build Java artifact
+        run: >
+          ./gradlew 
+          -p ${{ inputs.project-path }}
+          -Prelease_version=${{ needs.prepare-java-version.outputs.version }}
+          clean build
+
+      - name: Set up Python ${{ inputs.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+      - name: Set version for current build into ${{ inputs.project-path }}/package_info.json
+        uses: MerthinTechnologies/edit-json-action@v1
+        with:
+          filename: "${{ inputs.project-path }}/package_info.json"
+          key: 'package_version'
+          value: ${{ needs.prepare-python-version.outputs.version }}
+      - name: Build Python package
+        working-directory: ${{ inputs.project-path }}
+        run: |
+          pip install -r requirements.txt
+          python setup.py generate -s
+          python setup.py sdist
+
+      - name: Publish Java artifact
+        if: github.actor != 'dependabot[bot]'
+        run: >
+          ./gradlew
+          -p ${{ inputs.project-path }}
+          -Prelease_version=${{ needs.prepare-java-version.outputs.version }}
+          ${{ inputs.build-mode == 'snapshot' && 'publish' || 'closeAndReleaseSonatypeStagingRepository' }}
+        env:
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatype-username }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatype-password }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatype-signing-key }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatype-signing-password }}
+      - name: Publish Python package
+        if: github.actor != 'dependabot[bot]'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.pypi-password }}
+          repository-url: https://upload.pypi.org/legacy/
+          packages-dir: ${{ inputs.project-path }}/dist/

@@ -1,0 +1,5 @@
+{
+  "name": "Prepare Java version",
+  "description": "Read release_version property from gradle.properties file and optionally append version suffix",
+  "iconName": "example-icon"
+}
