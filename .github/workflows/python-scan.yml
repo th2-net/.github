@@ -81,6 +81,7 @@ jobs:
       - name: Install safety
         # pip install "marshmallow<4" is workaround to avoid the problem
         # Unhandled exception happened: post_dump() got an unexpected keyword argument 'pass_many'
+        # https://github.com/pyupio/safety/issues/711
         run: pip install --upgrade pip && pip install safety && pip install "marshmallow<4"
 
       - name: Run Vulnerability check
