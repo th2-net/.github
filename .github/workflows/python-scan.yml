@@ -79,7 +79,9 @@ jobs:
           wget -q -O .safety-policy.yaml https://raw.githubusercontent.com/th2-net/.github/main/vulnerability-compliance/python-safety-check/.safety-policy.yaml
       
       - name: Install safety
-        run: pip install --upgrade pip && pip install safety
+        # pip install "marshmallow<4" is workaround to avoid the problem
+        # Unhandled exception happened: post_dump() got an unexpected keyword argument 'pass_many'
+        run: pip install --upgrade pip && pip install safety && pip install "marshmallow<4"
 
       - name: Run Vulnerability check
         run: safety check -r ${{ inputs.project-path }}/diff.txt ${{ inputs.safety-args }} --policy-file ${{ inputs.project-path }}/.safety-policy.yaml
