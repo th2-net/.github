@@ -366,6 +366,11 @@
       "mvnRepositoryLicense": "Apache-2.0"
     },
     {
+      "moduleName": "net.jcip:jcip-annotations",
+      "moduleVersion": "^1\\.0$",
+      "mvnRepositoryLicense": "CC-BY-2.5"
+    },
+    {
       "moduleLicense": "^MIT$"
     },
     {
