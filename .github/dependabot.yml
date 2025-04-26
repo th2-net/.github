@@ -4,6 +4,5 @@ updates:
     directory: /
     assignees:
       - "Nikita-Smirnov-Exactpro"
-      - "OptimumCode"
     schedule:
       interval: daily
