@@ -37,6 +37,12 @@
       "licenseCategory": "Permissive"
     },
     {
+      "bundleName": "cc-by-2.5",
+      "licenseName": "CC-BY-2.5",
+      "licenseUrl": "http://creativecommons.org/licenses/by/2.5/",
+      "licenseCategory": "Permissive"
+    },
+    {
       "bundleName": "cc-by-3.0-mit",
       "licenseName": "CC-BY-3.0 OR MIT",
       "licenseUrl": "https://spdx.org/licenses/CC-BY-3.0.html OR https://spdx.org/licenses/MIT.html",
