@@ -396,6 +396,11 @@
       "mvnRepositoryLicense": "MIT"
     },
     {
+      "moduleName": "zipp",
+      "moduleVersion": "^3\\.23\\.0$",
+      "mvnRepositoryLicense": "MIT"
+    },
+    {
       "moduleName": "types-protobuf",
       "moduleVersion": "^5\\.29(\\.\\d+)+$",
       "mvnRepositoryLicense": "Apache-2.0"
