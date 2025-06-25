@@ -357,7 +357,42 @@
     },
     {
       "moduleName": "attrs",
-      "moduleVersion": "^25\\.1\\.0$",
+      "moduleVersion": "^25\\.[1-3]\\.0$",
+      "mvnRepositoryLicense": "MIT"
+    },
+        {
+      "moduleName": "click",
+      "moduleVersion": "^8\\.2\\.1$",
+      "mvnRepositoryLicense": "BSD-3-Clause"
+    },
+    {
+      "moduleName": "jsonschema",
+      "moduleVersion": "^4\\.24\\.0$",
+      "mvnRepositoryLicense": "MIT"
+    },
+    {
+      "moduleName": "jsonschema-specifications",
+      "moduleVersion": "^2025\\.4\\.1$",
+      "mvnRepositoryLicense": "MIT"
+    },
+    {
+      "moduleName": "jupyter_core",
+      "moduleVersion": "^5\\.8\\.1$",
+      "mvnRepositoryLicense": "BSD-3-Clause"
+    },
+    {
+      "moduleName": "referencing",
+      "moduleVersion": "^0\\.36\\.2$",
+      "mvnRepositoryLicense": "MIT"
+    },
+    {
+      "moduleName": "typing_extensions",
+      "moduleVersion": "^4\\.14\\.0$",
+      "mvnRepositoryLicense": "PSF-2.0"
+    },
+    {
+      "moduleName": "urllib3",
+      "moduleVersion": "^2\\.5\\.0$",
       "mvnRepositoryLicense": "MIT"
     },
     {
