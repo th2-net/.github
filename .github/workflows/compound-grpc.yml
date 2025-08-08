@@ -166,7 +166,7 @@ jobs:
           ./gradlew
           -p ${{ inputs.project-path }}
           -Prelease_version=${{ needs.prepare-java-version.outputs.version }}
-          ${{ inputs.build-mode == 'snapshot' && 'publish' || 'closeAndReleaseSonatypeStagingRepository' }}
+          ${{ inputs.build-mode == 'snapshot' && 'publish' || 'publish closeAndReleaseSonatypeStagingRepository' }}
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatype-username }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatype-password }}
@@ -180,3 +180,13 @@ jobs:
           password: ${{ secrets.pypi-password }}
           repository-url: https://upload.pypi.org/legacy/
           packages-dir: ${{ inputs.project-path }}/dist/
+
+  create-tag:
+    if: needs.build.result == 'success' && (inputs.build-mode == 'dev-release' || inputs.build-mode == 'release') && !cancelled()
+    name: Create and push tag
+    needs: 
+      - build
+      - prepare-java-version
+    uses: th2-net/.github/.github/workflows/compaund-git-tag-push.yml@main
+    with:
+      tagName: ${{ needs.prepare-java-version.outputs.version }}
