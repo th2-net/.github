@@ -402,6 +402,11 @@
     },
     {
       "moduleName": "types-protobuf",
+      "moduleVersion": "^6\\.30(\\.\\d+)+$",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
+      "moduleName": "types-protobuf",
       "moduleVersion": "^5\\.29(\\.\\d+)+$",
       "mvnRepositoryLicense": "Apache-2.0"
     },
