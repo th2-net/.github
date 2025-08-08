@@ -68,7 +68,6 @@ jobs:
         if: ${{ env.CISA_DOMAIN != '' }}
         run: >
           ./gradlew dependencyCheckAggregate --info
-          -PnvdApiKey=${{ secrets.nvd-api-key }}
           -PnvdDatafeedUrl=https://${{ secrets.cisa-domain }}
           -PnvdDatafeedUser=${{ secrets.cisa-user }}
           -PnvdDatafeedPassword=${{ secrets.cisa-password }}
