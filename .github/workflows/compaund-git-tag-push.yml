@@ -19,7 +19,7 @@ jobs:
   create-tag:
     runs-on: ${{ inputs.runsOn }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Show tag name
         run: |
           echo "tag ${{ inputs.tagName }}"

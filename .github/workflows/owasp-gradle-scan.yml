@@ -43,7 +43,7 @@ jobs:
       CISA_DOMAIN: ${{ secrets.cisa-domain }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up JDK ${{ inputs.javaVendor }} ${{ inputs.javaVersion }}
         uses: actions/setup-java@v4
         with:

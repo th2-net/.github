@@ -47,7 +47,7 @@ jobs:
   japi-compliance-check:
     runs-on: ${{ inputs.runsOn }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Get release_version
         id: ver

@@ -30,7 +30,7 @@ jobs:
       version: ${{ steps.devPostfix.outputs.value }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Get release_version
         id: ver
         uses: BrycensRanch/read-properties-action@v1.0.4

@@ -52,7 +52,7 @@ jobs:
     steps:
       - name: Show custom release version
         run: echo ${{ inputs.version }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: inputs.dockerContext != '{{defaultContext}}'
       - name: Validate Gradle Wrapper
         uses: gradle/actions/wrapper-validation@v4
