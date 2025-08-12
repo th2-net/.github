@@ -25,7 +25,7 @@ jobs:
       version: ${{ steps.show-version.outputs.package-version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Check Poetry file existence
         id: check-poetry-file
         uses: andstor/file-existence-action@v3
