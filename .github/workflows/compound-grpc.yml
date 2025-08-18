@@ -40,7 +40,10 @@ on:
         type: boolean
         default: true
         description: 'Whether vulnerabilities and license scanning executions are strict'
-
+      gradle-info:
+        required: false
+        type: boolean
+        default: false
     secrets:
       sonatype-username:
         required: true
@@ -97,6 +100,7 @@ jobs:
       java-vendor: ${{ inputs.java-vendor }}
       scanner-enabled: ${{ inputs.scanner-enabled }}
       strict-scanner: ${{ inputs.strict-scanner }}
+      gradle-info: ${{ inputs.gradle-info }}
     secrets:
       cisa-domain: ${{ secrets.cisa-domain }}
       cisa-user: ${{ secrets.cisa-user }}

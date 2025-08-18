@@ -52,6 +52,10 @@ on:
         type: string
         default: 'CRITICAL,HIGH,MEDIUM'
         description: 'Adjusting the Trivy Scanner Sensitivity'
+      gradle-info:
+        required: false
+        type: boolean
+        default: false
     secrets:
       docker-password:
         required: false
@@ -111,6 +115,7 @@ jobs:
       multiproject: true
       javaVersion: ${{ inputs.javaVersion }}
       javaVendor: ${{ inputs.javaVendor }}
+      gradleInfo: ${{ inputs.gradle-info }}
     secrets:
       nvd-api-key: ${{ secrets.nvd-api-key }}
 

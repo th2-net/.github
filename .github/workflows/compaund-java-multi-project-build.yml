@@ -30,6 +30,10 @@ on:
         type: string
         default: '[]'
         description: "list of additional tasks to execute in JSON format"
+      gradleInfo:
+        required: false
+        type: boolean
+        default: false
     secrets:
       sonatypeUsername:
         required: false
@@ -77,7 +81,7 @@ jobs:
         with:
           gradle-version: wrapper
       - name: Build with Gradle
-        run: ./gradlew -p ${{ inputs.projectPath }} --info -Pversion_suffix=${{ steps.suffix.outputs.value }} clean build ${{ join(fromJSON(inputs.additionalTasks), ' ') }} ${{ steps.close_release.outputs.task }}
+        run: ./gradlew -p ${{ inputs.projectPath }} ${{ inputs.gradleInfo && '--info' || '' }} -Pversion_suffix=${{ steps.suffix.outputs.value }} clean build ${{ join(fromJSON(inputs.additionalTasks), ' ') }} ${{ steps.close_release.outputs.task }}
         env:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatypeUsername }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatypePassword }}

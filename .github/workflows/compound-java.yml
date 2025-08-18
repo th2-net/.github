@@ -79,7 +79,10 @@ on:
         type: string
         default: 'integrationTest'
         description: "Gradle task name to run integration test"
-
+      gradle-info:
+        required: false
+        type: boolean
+        default: false
     outputs:
       version:
         description: "Generated version of the image"
@@ -129,6 +132,7 @@ jobs:
       integration-test-enabled: ${{ inputs.integration-test-enabled }}
       integration-test-projects: ${{ inputs.integration-test-projects }}
       integration-test-task: ${{ inputs.integration-test-task }}
+      gradle-info: ${{ inputs.gradle-info }}
     secrets:
       nvd-api-key: ${{ secrets.nvd-api-key }}
       cisa-domain: ${{ secrets.cisa-domain }}
@@ -173,6 +177,7 @@ jobs:
       version: ${{ needs.prebuild-job.outputs.version }}
       javaVersion: ${{ inputs.javaVersion }}
       javaVendor: ${{ inputs.javaVendor }}
+      gradleInfo: ${{ inputs.gradle-info }}
     secrets:
       sonatypeUsername: ${{ secrets.sonatypeUsername }}
       sonatypePassword: ${{ secrets.sonatypePassword }}

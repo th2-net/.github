@@ -22,6 +22,10 @@ on:
         required: false
         type: string
         default: 'zulu'
+      gradleInfo:
+        required: false
+        type: boolean
+        default: false
     secrets:
       nvd-api-key:
         required: false
@@ -62,12 +66,12 @@ jobs:
       - name: Run OWASP project scanning (NVD API key only)
         # continue-on-error: true
         if: ${{ env.CISA_DOMAIN == '' }}
-        run: ./gradlew dependencyCheckAggregate -PnvdApiKey=${{ secrets.nvd-api-key }} --info
+        run: ./gradlew dependencyCheckAggregate -PnvdApiKey=${{ secrets.nvd-api-key }} ${{ inputs.gradleInfo && '--info' || '' }}
       - name: Run OWASP project scanning (NVD API key with CISA URL)
         # continue-on-error: true
         if: ${{ env.CISA_DOMAIN != '' }}
         run: >
-          ./gradlew dependencyCheckAggregate --info
+          ./gradlew dependencyCheckAggregate ${{ inputs.gradleInfo && '--info' || '' }}
           -PnvdDatafeedUrl=https://${{ secrets.cisa-domain }}
           -PnvdDatafeedUser=${{ secrets.cisa-user }}
           -PnvdDatafeedPassword=${{ secrets.cisa-password }}

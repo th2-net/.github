@@ -25,6 +25,10 @@ on:
         required: false
         type: string
         default: '3.11'
+      gradle-info:
+        required: false
+        type: boolean
+        default: false
     secrets:
       pypi_password:
         required: true
@@ -58,7 +62,7 @@ jobs:
         with:
           gradle-version: wrapper
       - name: Build with Gradle
-        run: ./gradlew -p ${{ inputs.project-path }} --info clean build
+        run: ./gradlew -p ${{ inputs.project-path }} ${{ inputs.gradle-info && '--info' || '' }} clean build
       - name: Build package
         working-directory: ${{ inputs.project-path }}
         run: |

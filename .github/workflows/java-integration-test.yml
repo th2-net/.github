@@ -21,6 +21,10 @@ on:
         type: string
         default: '.'
         description: "path to the Gradle module. Root directory by default"
+      gradle-info:
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   integration-test:
@@ -41,7 +45,7 @@ jobs:
         with:
           gradle-version: wrapper
       - name: "Run integration test, project: ${{ inputs.project-path }} task: ${{ inputs.integration-test-task }}"
-        run: ./gradlew -p ${{ inputs.project-path }} --info clean ${{ inputs.integration-test-task }}
+        run: ./gradlew -p ${{ inputs.project-path }} ${{ inputs.gradle-info && '--info' || '' }} clean ${{ inputs.integration-test-task }}
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
