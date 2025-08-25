@@ -51,7 +51,7 @@ jobs:
         with:
           python-version: ${{ inputs.python-version }}
       - name: Set up JDK ${{ inputs.java-vendor }} ${{ inputs.java-version }}
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: ${{ inputs.java-vendor }}
           java-version: ${{ inputs.java-version }}
