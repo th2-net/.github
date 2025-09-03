@@ -367,7 +367,7 @@
     },
     {
       "moduleName": "jsonschema",
-      "moduleVersion": "^4\\.24\\.0$",
+      "moduleVersion": "^4\\.2[4-5]\\.\\d+$",
       "mvnRepositoryLicense": "MIT"
     },
     {
@@ -387,7 +387,7 @@
     },
     {
       "moduleName": "typing_extensions",
-      "moduleVersion": "^4\\.14\\.0$",
+      "moduleVersion": "^4\\.1[4-5]\\.\\d+$",
       "mvnRepositoryLicense": "PSF-2.0"
     },
     {
@@ -398,6 +398,11 @@
     {
       "moduleName": "zipp",
       "moduleVersion": "^3\\.23\\.0$",
+      "mvnRepositoryLicense": "MIT"
+    },
+    {
+      "moduleName": "rpds-py",
+      "moduleVersion": "^0\\.27\\.1$",
       "mvnRepositoryLicense": "MIT"
     },
     {
@@ -540,6 +545,9 @@
     },
     {
       "moduleLicense": "^Apache-2\\.0 OR MIT$"
+    },
+        {
+      "moduleLicense": "^Apache-2\\.0 AND MIT$"
     },
     {
       "moduleLicense": "^Apache-2\\.0 OR Public Domain$"
