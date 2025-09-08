@@ -372,7 +372,7 @@
     },
     {
       "moduleName": "jsonschema-specifications",
-      "moduleVersion": "^2025\\.4\\.1$",
+      "moduleVersion": "^2025\\.[4-9]\\.\\d+$",
       "mvnRepositoryLicense": "MIT"
     },
     {
