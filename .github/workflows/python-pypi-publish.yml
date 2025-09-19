@@ -61,7 +61,7 @@ jobs:
       - name: Show log
         if: steps.check-poetry-file.outputs.files_exists == 'true'
         continue-on-error: true
-        run: cat *.log
+        run: cat *.log || true
       
       - name: Set version ${{ inputs.version }} for current build in pyproject.toml
         if: steps.check-poetry-file.outputs.files_exists == 'true'

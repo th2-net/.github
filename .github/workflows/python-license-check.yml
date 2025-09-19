@@ -53,7 +53,7 @@ jobs:
     
     - name: Show log
       continue-on-error: true
-      run: cat *.log
+      run: cat *.log || true
 
     - name: Install modules
       run: |
