@@ -124,6 +124,7 @@ jobs:
       - prepare-python-version
       - check-java
       - check-python
+      - compare-versions
     if: needs.check-java.outputs.aggregated-status == 'true' && needs.check-python.outputs.aggregated-status == 'true' && !cancelled()
     steps:
       - name: Checkout code
