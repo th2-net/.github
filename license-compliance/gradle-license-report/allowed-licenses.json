@@ -387,7 +387,7 @@
     },
     {
       "moduleName": "typing_extensions",
-      "moduleVersion": "^4\\.1[4-5]\\.\\d+$",
+      "moduleVersion": "^4\\.1[3-5]\\.\\d+$",
       "mvnRepositoryLicense": "PSF-2.0"
     },
     {
