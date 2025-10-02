@@ -109,7 +109,7 @@ jobs:
       gradle-info: ${{ inputs.gradle-info }}
     secrets:
       oss-index-user: ${{ secrets.oss-index-user }}
-      oss-index-token: ${{ secrets.oss-index-oss-index-token }}
+      oss-index-token: ${{ secrets.oss-index-token }}
       cisa-domain: ${{ secrets.cisa-domain }}
       cisa-user: ${{ secrets.cisa-user }}
       cisa-password: ${{ secrets.cisa-password }}
