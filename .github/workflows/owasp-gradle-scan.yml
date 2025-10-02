@@ -30,6 +30,12 @@ on:
       nvd-api-key:
         required: false
         description: 'API key to access NVD database'
+      oss-index-user:
+        required: true
+        description: 'Oss index user name https://ossindex.sonatype.org/doc/auth-required'
+      oss-index-token:
+        required: true
+        description: 'Oss index token https://ossindex.sonatype.org/doc/auth-required'
       cisa-domain:
         required: false
         description: 'Cybersecurity and Infrastructure Security Agency domain'
@@ -75,6 +81,8 @@ jobs:
           -PnvdDatafeedUrl=https://${{ secrets.cisa-domain }}
           -PnvdDatafeedUser=${{ secrets.cisa-user }}
           -PnvdDatafeedPassword=${{ secrets.cisa-password }}
+          -PanalyzersOssIndexUser=${{ secrets.oss-index-user }}
+          -PanalyzersOssIndexToken=${{ secrets.oss-index-token }}
           -PanalyzersKnownExploitedURL=https://${{ secrets.cisa-domain }}/sites/default/files/feeds/known_exploited_vulnerabilities.json
           -PanalyzersKnownExploitedUser=${{ secrets.cisa-user }}
           -PanalyzersKnownExploitedPassword=${{ secrets.cisa-password }}
