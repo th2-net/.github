@@ -92,10 +92,10 @@ on:
         required: false
         description: 'API key to access NVD database'
       oss-index-user:
-        required: true
+        required: false
         description: 'Oss index user name https://ossindex.sonatype.org/doc/auth-required'
       oss-index-token:
-        required: true
+        required: false
         description: 'Oss index token https://ossindex.sonatype.org/doc/auth-required'
       cisa-domain:
         required: false
