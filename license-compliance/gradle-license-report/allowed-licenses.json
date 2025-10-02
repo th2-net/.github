@@ -391,6 +391,11 @@
       "mvnRepositoryLicense": "PSF-2.0"
     },
     {
+      "moduleName": "prometheus_client",
+      "moduleVersion": "^0\\.23\\.\\d+$",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
       "moduleName": "urllib3",
       "moduleVersion": "^2\\.5\\.0$",
       "mvnRepositoryLicense": "MIT"
