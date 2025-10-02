@@ -36,6 +36,12 @@ on:
       nvd-api-key:
         required: false
         description: 'API key to access NVD database'
+      oss-index-user:
+        required: true
+        description: 'Oss index user name https://ossindex.sonatype.org/doc/auth-required'
+      oss-index-token:
+        required: true
+        description: 'Oss index token https://ossindex.sonatype.org/doc/auth-required'
       cisa-domain:
         required: false
         description: 'Cybersecurity and Infrastructure Security Agency domain'
@@ -65,6 +71,8 @@ jobs:
       gradle-info: ${{ inputs.gradleInfo }}
     secrets:
       nvd-api-key: ${{ secrets.nvd-api-key }}
+      oss-index-user: ${{ secrets.oss-index-user }}
+      oss-index-token: ${{ secrets.oss-index-oss-index-token }}
       cisa-domain: ${{ secrets.cisa-domain }}
       cisa-user: ${{ secrets.cisa-user }}
       cisa-password: ${{ secrets.cisa-password }}
