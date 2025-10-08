@@ -357,10 +357,15 @@
     },
     {
       "moduleName": "attrs",
-      "moduleVersion": "^25\\.[1-3]\\.0$",
+      "moduleVersion": "^25\\.[1-4]\\.\\d+$",
       "mvnRepositoryLicense": "MIT"
     },
-        {
+    {
+      "moduleName": "MarkupSafe",
+      "moduleVersion": "^3\\.\\d+\\.\\d+$",
+      "mvnRepositoryLicense": "MIT"
+    },
+    {
       "moduleName": "click",
       "moduleVersion": "^8\\.2\\.1$",
       "mvnRepositoryLicense": "BSD-3-Clause"
