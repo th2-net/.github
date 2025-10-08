@@ -367,6 +367,7 @@
     },
     {
       "moduleName": "tabbyset",
+      "moduleVersion": "^\\d+\\.\\d+\\.\\d+$",
       "mvnRepositoryLicense": "Apache-2.0"
     },
     {
