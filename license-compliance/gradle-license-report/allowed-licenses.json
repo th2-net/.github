@@ -366,6 +366,10 @@
       "mvnRepositoryLicense": "BSD-3-Clause"
     },
     {
+      "moduleName": "tabbyset",
+      "mvnRepositoryLicense": "Apache-2.0"
+    },
+    {
       "moduleName": "click",
       "moduleVersion": "^8\\.2\\.1$",
       "mvnRepositoryLicense": "BSD-3-Clause"
