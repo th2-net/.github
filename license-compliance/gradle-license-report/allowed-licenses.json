@@ -363,7 +363,7 @@
     {
       "moduleName": "MarkupSafe",
       "moduleVersion": "^3\\.\\d+\\.\\d+$",
-      "mvnRepositoryLicense": "MIT"
+      "mvnRepositoryLicense": "BSD-3-Clause"
     },
     {
       "moduleName": "click",
