@@ -124,16 +124,14 @@ jobs:
       scanner-enabled: ${{ inputs.scanner-enabled }}
       strict-scanner: ${{ inputs.strict-scanner }}
 
-  build:
-    name: Build and publish Java / Python artifacts
+  build-java:
+    name: Build and publish Java artifacts
     runs-on: ubuntu-latest
     needs: 
       - prepare-java-version
-      - prepare-python-version
       - check-java
-      - check-python
       - compare-versions
-    if: needs.check-java.outputs.aggregated-status == 'true' && needs.check-python.outputs.aggregated-status == 'true' && !cancelled()
+    if: needs.check-java.outputs.aggregated-status == 'true' && !cancelled()
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -149,13 +147,43 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
         with:
           gradle-version: wrapper
-      - name: Build Java artifact
+
+      - name: Publish Java artifact
+        if: github.actor != 'dependabot[bot]'
         run: >
-          ./gradlew 
+          ./gradlew
           -p ${{ inputs.project-path }}
           -Prelease_version=${{ needs.prepare-java-version.outputs.version }}
-          clean build
+          ${{ inputs.build-mode == 'snapshot' && 'clean build publish' || 'clean build publish closeAndReleaseSonatypeStagingRepository' }}
+        env:
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatype-username }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatype-password }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatype-signing-key }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatype-signing-password }}
 
+  build-python:
+    name: Build and publish Python artifacts
+    runs-on: ubuntu-latest
+    needs: 
+      - prepare-python-version
+      - check-python
+      - compare-versions
+    if: needs.check-python.outputs.aggregated-status == 'true' && !cancelled()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up JDK ${{ inputs.java-vendor }} ${{ inputs.java-version }}
+        uses: actions/setup-java@v5
+        with:
+          distribution: ${{ inputs.java-vendor }}
+          java-version: ${{ inputs.java-version }}
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v5
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+        with:
+          gradle-version: wrapper
       - name: Set up Python ${{ inputs.python-version }}
         uses: actions/setup-python@v6
         with:
@@ -166,6 +194,11 @@ jobs:
           filename: "${{ inputs.project-path }}/package_info.json"
           key: 'package_version'
           value: ${{ needs.prepare-python-version.outputs.version }}
+      - name: Build gRPC
+        run: >
+          ./gradlew 
+          -p ${{ inputs.project-path }}
+          clean generateProto
       - name: Build Python package
         working-directory: ${{ inputs.project-path }}
         run: |
@@ -173,18 +206,6 @@ jobs:
           python setup.py generate -s
           python setup.py sdist
 
-      - name: Publish Java artifact
-        if: github.actor != 'dependabot[bot]'
-        run: >
-          ./gradlew
-          -p ${{ inputs.project-path }}
-          -Prelease_version=${{ needs.prepare-java-version.outputs.version }}
-          ${{ inputs.build-mode == 'snapshot' && 'publish' || 'publish closeAndReleaseSonatypeStagingRepository' }}
-        env:
-          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.sonatype-username }}
-          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.sonatype-password }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.sonatype-signing-key }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.sonatype-signing-password }}
       - name: Publish Python package
         if: github.actor != 'dependabot[bot]'
         uses: pypa/gh-action-pypi-publish@release/v1
@@ -195,10 +216,11 @@ jobs:
           packages-dir: ${{ inputs.project-path }}/dist/
 
   create-tag:
-    if: needs.build.result == 'success' && (inputs.build-mode == 'dev-release' || inputs.build-mode == 'release') && !cancelled()
+    if: needs.build-java.result == 'success' && needs.build-python.result == 'success' && (inputs.build-mode == 'dev-release' || inputs.build-mode == 'release') && !cancelled()
     name: Create and push tag
     needs: 
-      - build
+      - build-java
+      - build-python
       - prepare-java-version
     uses: th2-net/.github/.github/workflows/compaund-git-tag-push.yml@main
     with:
