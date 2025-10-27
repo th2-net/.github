@@ -561,8 +561,11 @@
     {
       "moduleLicense": "^Apache-2\\.0 OR MIT$"
     },
-        {
+    {
       "moduleLicense": "^Apache-2\\.0 AND MIT$"
+    },
+    {
+      "moduleLicense": "^Apache-2\\.0 AND BSD-2-Clause$"
     },
     {
       "moduleLicense": "^Apache-2\\.0 OR Public Domain$"
