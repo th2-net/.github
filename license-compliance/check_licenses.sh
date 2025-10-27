@@ -160,14 +160,32 @@ case $1 in
 	python|PYTHON|Python)
 	echo "`log_date_time`: Using python mode"
 	echo "`log_date_time`: Running pip-licenses"
-	pip install pip-licenses
-	pip-licenses --format=json --output-file=pyth_licenses.json
+	pip install 'pip-licenses>=5.5.0'
+	pip-licenses --format=json --from=all --output-file=pyth_licenses.json
 	#Reformat to common
-	cat pyth_licenses.json | sed 's/^\[/\{ "dependencies": \[/g' | sed 's/^\]/\] \}/g' > p_temp
-	cat p_temp | sed 's/"Name"/"moduleName"/g' | sed 's/"Version"/"moduleVersion"/g' | sed 's/\("License":\)\( ".*"\)/"moduleLicenses": \[ \{ "moduleLicense": \2 \} \]/g' > pyth_licenses.json
-	rm p_temp
-	mv pyth_licenses.json $lic_file
-	normalize "$lic_file"
+	jq '
+	{
+		dependencies: [
+		.[] |
+		{
+			moduleName: .Name,
+			moduleVersion: .Version,
+			moduleLicenses: [
+			{
+				moduleLicense:
+				(
+					(.["License-Classifier"] | select(. != "UNKNOWN" and . != "")) //
+					(.["License-Expression"] | select(. != "UNKNOWN" and . != "")) //
+					(.["License-Metadata"] | select(. != "UNKNOWN" and . != ""))
+				)
+			}
+			] | map(select(.moduleLicense != null))
+		}
+		]
+	}
+	' pyth_licenses.json > "${lic_file}"
+  	mv pyth_licenses.json "${dir}"
+	normalize "${lic_file}"
 	echo "`log_date_time`: Running pip-licenses - completed"
 	;;
 
