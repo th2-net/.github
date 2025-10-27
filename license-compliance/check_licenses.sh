@@ -160,7 +160,7 @@ case $1 in
 	python|PYTHON|Python)
 	echo "`log_date_time`: Using python mode"
 	echo "`log_date_time`: Running pip-licenses"
-	pip install pip-licenses>=5.0.0
+	pip install pip-licenses==5.0.0
 	pip-licenses --format=json --from=all --output-file=pyth_licenses.json
 	#Reformat to common
 	jq '
