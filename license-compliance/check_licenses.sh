@@ -176,7 +176,8 @@ case $1 in
 				(
 					(.["License-Classifier"] | select(. != "UNKNOWN" and . != "")) //
 					(.["License-Expression"] | select(. != "UNKNOWN" and . != "")) //
-					(.["License-Metadata"] | select(. != "UNKNOWN" and . != ""))
+					(.["License-Metadata"] | select(. != "UNKNOWN" and . != "")) //
+                	"UNKNOWN"
 				)
 			}
 			] | map(select(.moduleLicense != null))
