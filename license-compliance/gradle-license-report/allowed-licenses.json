@@ -421,6 +421,11 @@
       "mvnRepositoryLicense": "MIT"
     },
     {
+      "moduleName": "matplotlib-inline",
+      "moduleVersion": "^0\\.2\\.\\d+$",
+      "mvnRepositoryLicense": "BSD-3-Clause"
+    },
+    {
       "moduleName": "types-protobuf",
       "moduleVersion": "^6\\.3[0-2](\\.\\d+)+$",
       "mvnRepositoryLicense": "Apache-2.0"
