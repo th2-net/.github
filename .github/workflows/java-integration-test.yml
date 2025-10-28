@@ -46,7 +46,7 @@ jobs:
           gradle-version: wrapper
       - name: "Run integration test, project: ${{ inputs.project-path }} task: ${{ inputs.integration-test-task }}"
         run: ./gradlew -p ${{ inputs.project-path }} ${{ inputs.gradle-info && '--info' || '' }} clean ${{ inputs.integration-test-task }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: integration-test-results
