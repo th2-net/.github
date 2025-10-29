@@ -1,0 +1,5 @@
+{
+  "name": "Go govulncheck scan",
+  "description": "Go govulncheck tool scans project for vulnerable dependencies and publish results to security tab",
+  "iconName": "example-icon"
+}
