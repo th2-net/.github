@@ -4,6 +4,9 @@
 #DevOps Engineer
 #Andrei Shulika
 #andrey.shulika@exactprosystems.com
+#Dev	Engineer
+#Nikita Smirnov
+#nikita.smirnov@exactprosystems.com
 
 log_date_time(){
 	local dt=`date '+%Y-%m-%d %H:%M:%S'`
@@ -22,7 +25,6 @@ dir="$cur_loc/licenses_check"
 rm -rf $dir
 mkdir -p $dir
 lic_file="$dir/licenses.json"
-
 link_allowed_licenses="https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/gradle-license-report/allowed-licenses.json"
 link_license_normalizer_bundle="https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/gradle-license-report/license-normalizer-bundle.json"
 link_info_licenses="https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/gradle-license-report/info-licenses.json"
@@ -134,13 +136,13 @@ normalize(){
 }
 
 #Download allowed-licenses.json
-download_file "$link_allowed_licenses" "$allowed_licenses"
+download_file "$link_allowed_licenses" "${allowed_licenses}"
 
 #Download license-normalizer-bundle.json
-download_file "$link_license_normalizer_bundle" "$normalizer_file"
+download_file "$link_license_normalizer_bundle" "${normalizer_file}"
 
 #Download info-licenses.json
-download_file "$link_info_licenses" "$info_licenses_file"
+download_file "$link_info_licenses" "${info_licenses_file}"
 
 #Define mode and reformat files before checking
 case $1 in
@@ -188,6 +190,33 @@ case $1 in
   	mv pyth_licenses.json "${dir}"
 	normalize "${lic_file}"
 	echo "`log_date_time`: Running pip-licenses - completed"
+	;;
+
+	go|golang|GO|GOLANG)
+	echo "`log_date_time`: Using golang mode"
+	echo "`log_date_time`: Running go-licenses"
+	go install github.com/google/go-licenses/v2@latest
+	go-licenses csv ./... > licenses.csv
+	go_allowed_licenses=$(jq -r '.bundles[].licenseName' "${normalizer_file}" | paste -sd ',')
+	echo "`log_date_time`: allowed licenses [${go_allowed_licenses}]"
+	go-licenses check ./... --allowed_licenses="${go_allowed_licenses}"
+	if [ $? -ne 0 ]; then
+		echo "`log_date_time`: ERROR: check license by go-licenses tool failure"
+		exit 2
+	fi
+	jq -Rn '
+	[inputs | . / "\n" | map(select(length > 0))[] |
+		split(",") |
+		{
+		moduleLicenses: [{moduleLicense: .[2]}],
+		moduleName: .[0],
+		moduleVersion: (.[1] | capture("/blob/(?<v>[^/]+)/LICENSE").v)
+		}
+	] | {dependencies: .}
+	' < licenses.csv > "${lic_file}"
+	mv licenses.csv "${dir}"
+	normalize "${lic_file}"
+	echo "`log_date_time`: Running go-licenses - completed"
 	;;
 
 	*)

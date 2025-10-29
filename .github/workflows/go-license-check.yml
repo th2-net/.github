@@ -1,0 +1,67 @@
+name: Run Go license check
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: false
+        type: string
+        default: v0.0.0
+        description: 'Full version of distributive, with branch name etc.'
+      go-version:
+        required: false
+        type: string
+        default: 'stable'
+        description: 'Go version'
+
+jobs:
+  check-licenses:
+    name: "Check license Go"
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+
+    - name: Set up Go
+      uses: actions/setup-go@v6
+      with:
+        go-version: ${{ inputs.go-version }}
+
+    - name: Install jq env
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq
+    - name: Download script
+      run: |
+        wget -q -O check_licenses.sh https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/check_licenses.sh
+        chmod +x ./check_licenses.sh
+    
+    - name: Run check_licenses script
+      id: run_script
+      run: |
+        ./check_licenses.sh go
+        line_count=$(wc -l < ./licenses_check/failed_licenses.csv)
+        if [[ $line_count -ge 1 ]]; then
+                echo "FAILED due to unknown/failed licenses found"
+                exit 1
+        else
+                echo "PASSED: licenses check successful"
+                exit 0
+        fi
+
+    - name: Get repository name
+      if: ${{ !cancelled() }}
+      id: meta
+      run: |
+        REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $NF}')
+        name=$(echo -n "$REPOSITORY_NAME-${{ inputs.version }}-${{ inputs.go-version }}" | sed -e 's/[ \t:\/\\"<>|*?]/-/g' -e 's/--*/-/g')
+        echo "artifact-name=$name" >> $GITHUB_OUTPUT
+
+    - name: Uploading results
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v5
+      with:
+        name: licenses_check-${{ steps.meta.outputs.artifact-name }}
+        path: ./licenses_check/
+        overwrite: true

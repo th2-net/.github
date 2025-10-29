@@ -1,0 +1,5 @@
+{
+  "name": "Check Go transitive dependencies licenses",
+  "description": "Check Go transitive dependencies licenses",
+  "iconName": "example-icon"
+}
