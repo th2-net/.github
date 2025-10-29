@@ -4,8 +4,9 @@ on:
   workflow_call:
     inputs:
       version:
-        required: true
+        required: false
         type: string
+        default: v0.0.0
         description: 'Full version of distributive, with branch name etc.'
       go-version:
         required: false
