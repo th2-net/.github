@@ -7,6 +7,11 @@ on:
         required: true
         type: string
         description: 'Full version of distributive, with branch name etc.'
+      go-version:
+        required: false
+        type: string
+        default: 'stable'
+        description: 'Go version'
 
 jobs:
   check-licenses:
@@ -20,7 +25,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v6
       with:
-        go-version-file: go.mod
+        go-version: ${{ inputs.go-version }}
 
     - name: Install jq env
       run: |
@@ -49,7 +54,7 @@ jobs:
       id: meta
       run: |
         REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $NF}')
-        name=$(echo -n "$REPOSITORY_NAME-${{ inputs.version }}" | sed -e 's/[ \t:\/\\"<>|*?]/-/g' -e 's/--*/-/g')
+        name=$(echo -n "$REPOSITORY_NAME-${{ inputs.version }}-${{ inputs.go-version }}" | sed -e 's/[ \t:\/\\"<>|*?]/-/g' -e 's/--*/-/g')
         echo "artifact-name=$name" >> $GITHUB_OUTPUT
 
     - name: Uploading results
