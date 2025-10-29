@@ -27,7 +27,7 @@ on:
       matrix-os:
         required: false
         type: string
-        default: "['ubuntu-latest', 'windows-latest']"
+        default: "['ubuntu-latest', 'windows-latest', 'macos-latest']"
         description: 'list of operation systems JSON format'
       runsOn:
         required: false
