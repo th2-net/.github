@@ -56,6 +56,7 @@ jobs:
       run: cat *.log || true
 
     - name: Install modules
+      shell: bash
       run: |
         pip install virtualenv
         python -m venv venv
