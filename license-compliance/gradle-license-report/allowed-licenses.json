@@ -441,6 +441,11 @@
       "mvnRepositoryLicense": "CC-BY-2.5"
     },
     {
+      "moduleName": "wrapt",
+      "moduleVersion": "^2\\.0\\.0$",
+      "mvnRepositoryLicense": "BSD-2-Clause"
+    },
+    {
       "moduleLicense": "^MIT$"
     },
     {
