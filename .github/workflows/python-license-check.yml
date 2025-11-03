@@ -55,12 +55,19 @@ jobs:
       continue-on-error: true
       run: cat *.log || true
 
-    - name: Install modules
-      shell: bash
+    - name: Install modules (Linux/macOS)
+      if: runner.os != 'Windows'
       run: |
         pip install virtualenv
         python -m venv venv
         source venv/bin/activate
+
+    - name: Install modules (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        pip install virtualenv
+        python -m venv venv
+        .\venv\Scripts\Activate.ps1
 
     - name: Install dependencies from requirements
       if: steps.check-poetry-file.outputs.files_exists == 'false'
