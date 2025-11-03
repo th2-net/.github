@@ -176,10 +176,13 @@ case $1 in
 			{
 				moduleLicense:
 				(
+				  (
 					(.["License-Classifier"] | select(. != "UNKNOWN" and . != "")) //
 					(.["License-Expression"] | select(. != "UNKNOWN" and . != "")) //
 					(.["License-Metadata"] | select(. != "UNKNOWN" and . != "")) //
                 	"UNKNOWN"
+				  ) as $lic |
+					if ($lic | length) > 100 then "UNKNOWN" else $lic end
 				)
 			}
 			] | map(select(.moduleLicense != null))
