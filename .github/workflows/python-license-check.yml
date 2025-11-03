@@ -81,10 +81,22 @@ jobs:
       run: |
         pip list
 
-    - name: Install jq env
+    - name: Install jq tool (Linux)
+      if: runner.os == 'Linux'
       run: |
         sudo apt-get update
         sudo apt-get install -y jq
+
+    - name: Install jq tool (MacOS)
+      if: runner.os == 'macOS'
+      run: |
+        brew install jq
+
+    - name: Install jq tool (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        choco install jq
+
     - name: Download script
       run: |
         wget -q -O check_licenses.sh https://raw.githubusercontent.com/th2-net/.github/main/license-compliance/check_licenses.sh
