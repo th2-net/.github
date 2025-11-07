@@ -73,6 +73,11 @@ on:
         required: false
         type: boolean
         default: false
+      docker-multi-platform:
+        required: false
+        type: boolean
+        default: false
+        description: 'Produce multi-platform docker image if this parameter true and build-target included `Docker` value'
     outputs:
       version:
         description: "Generated version of the image"
@@ -149,6 +154,7 @@ jobs:
       versionNumber: ${{ needs.prebuild-job.outputs.versionNumber }}
       javaVersion: ${{ inputs.javaVersion }}
       javaVendor: ${{ inputs.javaVendor }}
+      multi-platform: ${{ inputs.docker-multi-platform }}
     secrets:
       docker-password: ${{ secrets.docker-password }}
 
