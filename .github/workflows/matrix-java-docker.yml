@@ -56,6 +56,11 @@ on:
         required: false
         type: boolean
         default: false
+      multi-platform:
+        required: false
+        type: boolean
+        default: false
+        description: 'Produce multi-platform docker image if true'
     secrets:
       docker-password:
         required: false
@@ -91,6 +96,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v6
         with:
+          platforms: ${{ inputs.multi-platform && 'linux/amd64,linux/arm64' || 'linux/amd64' }} 
           build-args: |
             project_name=${{ inputs.projectName }}
             release_version=${{ needs.prebuild-job.outputs.version }}

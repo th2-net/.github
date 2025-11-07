@@ -6,6 +6,11 @@ on:
       docker-username:
         required: true
         type: string
+      multi-platform:
+        required: false
+        type: boolean
+        default: false
+        description: 'Produce multi-platform docker image if true'
     outputs:
       version:
         description: "Generated version of the image"
@@ -53,6 +58,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v6
         with:
+          platforms: ${{ inputs.multi-platform && 'linux/amd64,linux/arm64' || 'linux/amd64' }} 
           push: true
           tags: ghcr.io/${{ github.repository }}:${{ steps.release_ver.outputs.value }}
           labels: com.exactpro.th2.${{ steps.meta.outputs.REPOSITORY_NAME }}=${{ steps.ver.outputs.value }}
