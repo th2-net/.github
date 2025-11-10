@@ -122,7 +122,7 @@ jobs:
   java-check:
     name: 'Java check'
     needs: [prebuild-job]
-    uses: th2-net/.github/.github/workflows/compound-java-check.yml@docker-multi-platform # FIXME: replace to mani after check
+    uses: th2-net/.github/.github/workflows/compound-java-check.yml@main
     with:
       app-version: ${{ needs.prebuild-job.outputs.version }}
       java-version: ${{ inputs.javaVersion }}
@@ -161,7 +161,7 @@ jobs:
     name: Build multi-platform docker image and push to ghcr.io
     if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true' && inputs.docker-multi-platform
     needs: [prebuild-job, java-check]
-    uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@docker-multi-platform # FIXME: replace to mani after check
+    uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
       docker-username: ${{ inputs.docker-username }}
       runsOn: ${{ inputs.runsOn }}

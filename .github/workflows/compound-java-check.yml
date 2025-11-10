@@ -97,7 +97,7 @@ jobs:
   license-check:
     name: 'License check'
     if: inputs.scanner-enabled
-    uses: th2-net/.github/.github/workflows/license_check.yml@docker-multi-platform # FIXME: replace to mani after check
+    uses: th2-net/.github/.github/workflows/license_check.yml@main
     with:
       version: ${{ inputs.app-version }}
       java-version: ${{ inputs.java-version }}
