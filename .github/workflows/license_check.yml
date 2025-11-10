@@ -34,7 +34,10 @@ jobs:
       with:
         distribution: ${{ inputs.java-vendor }}
         java-version: ${{ inputs.java-version }}
-
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v5
+      with:
+        gradle-version: wrapper
     - name: Install jq env
       run: |
         sudo apt-get update

@@ -122,7 +122,7 @@ jobs:
   java-check:
     name: 'Java check'
     needs: [prebuild-job]
-    uses: th2-net/.github/.github/workflows/compound-java-check.yml@main
+    uses: th2-net/.github/.github/workflows/compound-java-check.yml@docker-multi-platform # FIXME: replace to mani after check
     with:
       app-version: ${{ needs.prebuild-job.outputs.version }}
       java-version: ${{ inputs.javaVersion }}
