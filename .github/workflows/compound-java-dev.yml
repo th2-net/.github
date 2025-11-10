@@ -144,7 +144,7 @@ jobs:
   # if Docker
   docker-push:
     name: Build Docker image and push to ghcr.io
-    if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true'
+    if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true' && !inputs.docker-multi-platform
     needs: [prebuild-job, java-check]
     uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
     with:
@@ -154,7 +154,24 @@ jobs:
       versionNumber: ${{ needs.prebuild-job.outputs.versionNumber }}
       javaVersion: ${{ inputs.javaVersion }}
       javaVendor: ${{ inputs.javaVendor }}
-      multi-platform: ${{ inputs.docker-multi-platform }}
+    secrets:
+      docker-password: ${{ secrets.docker-password }}
+
+  multi-platform-docker-push:
+    name: Build multi-platform docker image and push to ghcr.io
+    if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true' && inputs.docker-multi-platform
+    needs: [prebuild-job, java-check]
+    uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
+    with:
+      docker-username: ${{ inputs.docker-username }}
+      runsOn: ${{ inputs.runsOn }}
+      version: ${{ needs.prebuild-job.outputs.version }}
+      versionNumber: ${{ needs.prebuild-job.outputs.versionNumber }}
+      javaVersion: ${{ inputs.javaVersion }}
+      javaVendor: ${{ inputs.javaVendor }}
+      dockerContext: './build/docker'
+      gradleParameters: '["clean", "build", "dockerPrepare"]'
+      multi-platform: true
     secrets:
       docker-password: ${{ secrets.docker-password }}
 
