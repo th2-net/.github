@@ -161,7 +161,7 @@ jobs:
     name: Build multi-platform docker image and push to ghcr.io
     if: (contains(inputs.build-target, 'Docker') || contains(inputs.build-target, 'docker')) && !cancelled() && needs.java-check.outputs.aggregated-status == 'true' && inputs.docker-multi-platform
     needs: [prebuild-job, java-check]
-    uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@main
+    uses: th2-net/.github/.github/workflows/compaund-java-docker-push.yml@docker-multi-platform # FIXME: replace to mani after check
     with:
       docker-username: ${{ inputs.docker-username }}
       runsOn: ${{ inputs.runsOn }}
@@ -169,7 +169,6 @@ jobs:
       versionNumber: ${{ needs.prebuild-job.outputs.versionNumber }}
       javaVersion: ${{ inputs.javaVersion }}
       javaVendor: ${{ inputs.javaVendor }}
-      dockerContext: './build/docker'
       gradleParameters: '["clean", "build", "dockerPrepare"]'
       multi-platform: true
     secrets:

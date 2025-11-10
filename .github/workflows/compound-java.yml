@@ -181,7 +181,6 @@ jobs:
       versionNumber: ${{ needs.prebuild-job.outputs.version }}
       javaVersion: ${{ inputs.javaVersion }}
       javaVendor: ${{ inputs.javaVendor }}
-      dockerContext: './build/docker'
       gradleParameters: '["clean", "build", "dockerPrepare"]'
       multi-platform: true
     secrets:
