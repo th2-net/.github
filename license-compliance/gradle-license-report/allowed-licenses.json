@@ -442,7 +442,7 @@
     },
     {
       "moduleName": "wrapt",
-      "moduleVersion": "^2\\.0\\.0$",
+      "moduleVersion": "^2\\.0\\.\\d+$",
       "mvnRepositoryLicense": "BSD-2-Clause"
     },
     {
