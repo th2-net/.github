@@ -25,7 +25,7 @@ jobs:
     outputs:
       version: ${{ steps.release_ver.outputs.value }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       # Prepare custom build version
       - name: Get branch name
         id: branch

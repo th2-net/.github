@@ -35,7 +35,7 @@ jobs:
       versionSuffix: ${{ steps.version_suffix.outputs.value }}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Get branch name
         id: branch
         # '#refs/*/' is used to remove prefix like `refs/heads/`
