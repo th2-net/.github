@@ -46,7 +46,7 @@ jobs:
   sonatype-push:
     runs-on: ${{ inputs.runsOn }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Show release version
         if: ${{ inputs.closeAndRelease }}
         run: echo ${{ inputs.version }}
