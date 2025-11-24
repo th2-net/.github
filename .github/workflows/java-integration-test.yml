@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Set up JDK ${{ inputs.java-vendor }} ${{ inputs.java-version }}
         uses: actions/setup-java@v5
         with:
