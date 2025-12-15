@@ -70,7 +70,7 @@ jobs:
 
     - name: Uploading results
       if: ${{ !cancelled() }}
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: licenses_check-${{ env.ARTIFACT_NAME }}
         path: ./licenses_check/
