@@ -31,6 +31,7 @@ jobs:
         run: osv-scanner scan --output ${{ env.report-file }} .
 
       - name: Show report
+        if: always()
         run: cat ${{ env.report-file }}
         
       - name: Collect report
