@@ -125,7 +125,7 @@ jobs:
 
     - name: Uploading results
       if: ${{ !cancelled() }}
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: licenses_check-${{ steps.meta.outputs.artifact-name }}
         path: ./licenses_check/
