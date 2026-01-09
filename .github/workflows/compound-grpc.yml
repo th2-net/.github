@@ -130,8 +130,9 @@ jobs:
     needs: 
       - prepare-java-version
       - check-java
+      - check-python
       - compare-versions
-    if: needs.check-java.outputs.aggregated-status == 'true' && !cancelled()
+    if: needs.check-java.outputs.aggregated-status == 'true' && needs.check-python.outputs.aggregated-status == 'true' && !cancelled()
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -166,9 +167,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: 
       - prepare-python-version
+      - check-java
       - check-python
       - compare-versions
-    if: needs.check-python.outputs.aggregated-status == 'true' && !cancelled()
+    if: needs.check-java.outputs.aggregated-status == 'true' && needs.check-python.outputs.aggregated-status == 'true' && !cancelled()
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
