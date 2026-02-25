@@ -572,6 +572,9 @@
       "moduleLicense": "^BSD-2-Clause OR CC0-1\\.0$"
     },
     {
+      "moduleLicense": "^MPL-2\\.0 AND MIT$"
+    },
+    {
       "moduleLicense": "^Apache-2\\.0 OR MIT$"
     },
     {
