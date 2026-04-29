@@ -575,6 +575,9 @@
       "moduleLicense": "^MPL-2\\.0 AND MIT$"
     },
     {
+      "moduleLicense": "^MPL-2\\.0 AND \\( Apache-2\\.0 OR MIT \\)$"
+    },
+    {
       "moduleLicense": "^Apache-2\\.0 OR MIT$"
     },
     {
