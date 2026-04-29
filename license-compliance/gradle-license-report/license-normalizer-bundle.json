@@ -211,6 +211,11 @@
       "licenseUrl": "http://www.opensource.org/licenses/mit-license.php; https://spdx.org/licenses/MPL-2.0.html"
     },
     {
+      "bundleName": "mpl-2.0-and-(apache2-or-mit)",
+      "licenseName": "MPL-2.0 AND ( Apache-2.0 OR MIT )",
+      "licenseUrl": "https://spdx.org/licenses/MPL-2.0.html; http://www.apache.org/licenses/LICENSE-2.0.txt; http://www.opensource.org/licenses/mit-license.php"
+    },
+    {
       "bundleName": "cddl-1.1-or-gpl-2-wce",
       "licenseName": "CDDL-1.1 OR GPL-2.0-with-classpath-exception",
       "licenseUrl": "https://oss.oracle.com/licenses/CDDL+GPL-1.1"
@@ -458,6 +463,10 @@
     {
       "bundleName": "mit",
       "licenseNamePattern": "^MIT$"
+    },
+    {
+      "bundleName": "mpl-2.0-and-(apache2-or-mit)",
+      "licenseNamePattern": "^Apache Software License; MIT License; Mozilla Public License 2\\.0 \\(MPL 2\\.0\\)$"
     },
     {
       "bundleName": "mpl1.1",
